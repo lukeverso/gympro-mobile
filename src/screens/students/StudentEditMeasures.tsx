@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
@@ -65,6 +65,14 @@ export function StudentEditMeasures() {
                                              placeholder='Ombro'
                                              className='border-b-[1px] mr-3 font-text text-base flex-1'
                                              onFocus={() => handleTextInputFocus('Shoulders')}
+                                        />
+                                        <Text className='font-text text-base'>cm</Text>
+                                   </View>
+                                   <View className='flex-row items-center mb-5'>
+                                        <TextInput
+                                             placeholder='Peito'
+                                             className='border-b-[1px] mr-3 font-text text-base flex-1'
+                                             onFocus={() => handleTextInputFocus('Chest')}
                                         />
                                         <Text className='font-text text-base'>cm</Text>
                                    </View>

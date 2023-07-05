@@ -23,6 +23,7 @@ export declare global {
                studentEditMeasures: undefined;
                notifications: undefined;
                faq: undefined;
+               settings: undefined;
           };
      };
 };

@@ -16,13 +16,14 @@ import { StudentEditData } from '../screens/students/StudentEditData';
 import { StudentEditMeasures } from '../screens/students/StudentEditMeasures';
 import { Notifications } from '../screens/Notifications';
 import { FAQ } from '../screens/FAQ';
+import { Settings } from '../screens/Settings';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
      return (
           <Navigator screenOptions={{ headerShown: false }}>
-               <Screen name='faq' component={FAQ} />
+               <Screen name='settings' component={Settings} />
                <Screen name='main' component={Main} />
                <Screen name='login' component={Login} />
                <Screen name='create' component={Create} />
@@ -38,6 +39,7 @@ export function AppRoutes() {
                <Screen name='studentEditData' component={StudentEditData} />
                <Screen name='studentEditMeasures' component={StudentEditMeasures} />
                <Screen name='notifications' component={Notifications} />
+               <Screen name='faq' component={FAQ} />
           </Navigator>
      );
 };

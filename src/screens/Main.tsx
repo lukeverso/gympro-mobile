@@ -7,6 +7,7 @@ import GymPro from '../assets/GymPro.svg';
 
 export function Main() {
      const { navigate } = useNavigation();
+
      return (
           <ImageBackground source={background} className='flex-1'>
                <View className='absolute bottom-12 left-8 flex gap-8'>
@@ -17,13 +18,13 @@ export function Main() {
                          praticidade{'\n'}
                          e eficiência
                     </Text>
-                    <TouchableOpacity onPress={() => navigate('login')} activeOpacity={0.8} className='py-3 bg-white flex-row items-center justify-center'>
+                    <TouchableOpacity onPress={() => navigate('login', { redirectButton: 'login' })} activeOpacity={0.8} className='py-3 bg-white flex-row items-center justify-center'>
                          <Text className='text-base font-title mr-3'>
                               Entrar no app
                          </Text>
                          <AntDesign name='arrowright' size={24} color='black' />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate('create')} activeOpacity={0.8} className='py-3 bg-white flex-row items-center justify-center'>
+                    <TouchableOpacity onPress={() => navigate('create', { redirectButton: 'create' })} activeOpacity={0.8} className='py-3 bg-white flex-row items-center justify-center'>
                          <Text className='text-base font-title mr-3'>Criar conta</Text>
                          <Ionicons name='ios-person-add' size={24} color='black' />
                     </TouchableOpacity>

@@ -2,13 +2,18 @@ export declare global {
      namespace ReactNavigation {
           interface RootParamList {
                main: undefined;
-               login: undefined;
-               create: undefined;
+               login: {
+                    redirectButton: string;
+               };
+               create: {
+                    redirectButton: string;
+               };
                insertEmail: {
                     status: string;
                };
                insertData: {
                     email: string;
+                    status: string;
                };
                noPersonal: undefined;
                studentHome: undefined;

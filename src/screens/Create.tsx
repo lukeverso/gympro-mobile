@@ -4,12 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
 export function Create() {
-     const [status, setStatus] = useState('student');
+     const [status, setStatus] = useState('students');
 
      const { goBack, navigate } = useNavigation();
 
      function handleSelection() {
-          console.log('Clicou.');
           navigate('insertEmail', {
                status: status
           });
@@ -25,9 +24,9 @@ export function Create() {
                          Bem-vindo!{'\n'}
                          Você é aluno ou personal?
                     </Text>
-                    <TouchableOpacity onPress={() => setStatus('student')} className='mt-8 px-5 py-3 border border-black flex-row items-center'>
+                    <TouchableOpacity onPress={() => setStatus('students')} className='mt-8 px-5 py-3 border border-black flex-row items-center'>
                          {
-                              status === 'student' ?
+                              status === 'students' ?
                                    <MaterialCommunityIcons name='record-circle-outline' size={24} color='black' /> :
                                    <MaterialCommunityIcons name='circle-outline' size={24} color='black' />
                          }
@@ -35,9 +34,9 @@ export function Create() {
                               Sou aluno
                          </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setStatus('teacher')} className='mt-8 px-5 py-3 border border-black flex-row items-center'>
+                    <TouchableOpacity onPress={() => setStatus('teachers')} className='mt-8 px-5 py-3 border border-black flex-row items-center'>
                          {
-                              status === 'teacher' ?
+                              status === 'teachers' ?
                                    <MaterialCommunityIcons name='record-circle-outline' size={24} color='black' /> :
                                    <MaterialCommunityIcons name='circle-outline' size={24} color='black' />
                          }

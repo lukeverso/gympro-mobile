@@ -2,17 +2,51 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { api } from '../lib/api';
+
+interface InsertEmailProps {
+     status: string;
+};
 
 export function InsertEmail() {
      const [email, setEmail] = useState('');
      const [error, setError] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
 
      const { goBack, navigate } = useNavigation();
 
-     function handleEmailInsertion() {
-          navigate('insertData', {
-               email: email
-          })
+     const route = useRoute();
+
+     const { status } = route.params as InsertEmailProps;
+
+     async function handleEmailInsertion() {
+          setError(false);
+          setErrorMessage('');
+
+          if (email === '') {
+               setError(true);
+               setErrorMessage('Insira um e-mail válido.');
+               return;
+          };
+
+          try {
+               const response = await api.get(`/${status}/verify-email?email=${email}`);
+               console.log(response.data);
+               navigate('insertData', {
+                    email,
+                    status
+               })
+          } catch (error: any) {
+               console.log(error);
+               if (error.response && error.response.data && error.response.data.status === 'error.') {
+                    setError(true);
+                    setErrorMessage(error.response.data.message);
+               } else {
+                    setError(true);
+                    setErrorMessage('Erro na requisição.');
+               }
+          };
      };
 
      return (
@@ -39,7 +73,7 @@ export function InsertEmail() {
                     <View className='flex-row items-center absolute bottom-10 left-10 py-3 px-5 bg-red-400 rounded-full'>
                          <AntDesign name='warning' size={24} color='white' />
                          <Text className='text-white text-base ml-3'>
-                              Este e-mail está em uso.
+                              {errorMessage}
                          </Text>
                     </View>
                }

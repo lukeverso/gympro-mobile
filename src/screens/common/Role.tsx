@@ -3,7 +3,7 @@ import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
-export function Create() {
+export function Role() {
      const [status, setStatus] = useState('students');
 
      const { goBack, navigate } = useNavigation();
@@ -25,7 +25,9 @@ export function Create() {
                     <TouchableOpacity
                          onPress={() => setStatus('students')}
                          activeOpacity={0.7}
-                         className='mt-4 px-5 py-4 border border-black flex-row items-center'
+                         className={status === 'students' ?
+                              'mt-4 px-3 py-4 border border-black flex-row items-center rounded'
+                              : 'mt-4 px-3 py-4 border border-zinc-200 flex-row items-center rounded'}
                     >
                          {
                               status === 'students' ?
@@ -39,7 +41,9 @@ export function Create() {
                     <TouchableOpacity
                          onPress={() => setStatus('teachers')}
                          activeOpacity={0.7}
-                         className='mt-4 px-5 py-4 border border-black flex-row items-center'
+                         className={status === 'teachers' ?
+                              'mt-4 px-3 py-4 border border-black flex-row items-center rounded'
+                              : 'mt-4 px-3 py-4 border border-zinc-200 flex-row items-center rounded'}
                     >
                          {
                               status === 'teachers' ?
@@ -53,7 +57,9 @@ export function Create() {
                     <TouchableOpacity
                          onPress={() => setStatus('gyms')}
                          activeOpacity={0.7}
-                         className='mt-4 px-5 py-4 border border-black flex-row items-center'
+                         className={status === 'gyms' ?
+                              'mt-4 px-3 py-4 border border-black flex-row items-center rounded'
+                              : 'mt-4 px-3 py-4 border border-zinc-200 flex-row items-center rounded'}
                     >
                          {
                               status === 'gyms' ?

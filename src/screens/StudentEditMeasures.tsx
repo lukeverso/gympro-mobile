@@ -3,16 +3,16 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
-import Arm from '../../assets/measures/arm.svg';
-import Calf from '../../assets/measures/calf.svg';
-import Chest from '../../assets/measures/chest.svg';
-import Height from '../../assets/measures/height.svg';
-import Hip from '../../assets/measures/hip.svg';
-import Shoulders from '../../assets/measures/shoulders.svg';
-import Thigh from '../../assets/measures/thigh.svg';
-import Waist from '../../assets/measures/waist.svg';
-import Weight from '../../assets/measures/weight.svg';
-import Wingspan from '../../assets/measures/wingspan.svg';
+import Arm from '../assets/measures/arm.svg';
+import Calf from '../assets/measures/calf.svg';
+import Chest from '../assets/measures/chest.svg';
+import Height from '../assets/measures/height.svg';
+import Hip from '../assets/measures/hip.svg';
+import Shoulders from '../assets/measures/shoulders.svg';
+import Thigh from '../assets/measures/thigh.svg';
+import Waist from '../assets/measures/waist.svg';
+import Weight from '../assets/measures/weight.svg';
+import Wingspan from '../assets/measures/wingspan.svg';
 
 export function StudentEditMeasures() {
      const [selectedImage, setSelectedImage] = useState('Weight');

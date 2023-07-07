@@ -1,6 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import exercise from '../../assets/exercise-example.png';
+import exercise from '../assets/exercise-example.png';
 
 export function CurrentExercise() {
      return (

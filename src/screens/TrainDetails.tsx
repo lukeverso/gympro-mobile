@@ -2,7 +2,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import example from '../../assets/exercise-example.png';
+import example from '../assets/exercise-example.png';
 
 export function TrainDetails() {
      const { navigate } = useNavigation();

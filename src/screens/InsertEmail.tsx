@@ -33,10 +33,7 @@ export function InsertEmail() {
           try {
                const response = await api.get(`/${status}/verify-email?email=${email}`);
                console.log(response.data);
-               navigate('insertData', {
-                    email,
-                    status
-               })
+               navigate('insertData')
           } catch (error: any) {
                console.log(error);
                if (error.response && error.response.data && error.response.data.status === 'error.') {

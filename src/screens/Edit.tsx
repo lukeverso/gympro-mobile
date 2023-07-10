@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { MaskedTextInput } from 'react-native-mask-text';
 import { StatusBar } from 'expo-status-bar';
 
-export function Create() {
+export function Edit() {
      const { goBack, navigate } = useNavigation();
 
      const [name, setName] = useState('');

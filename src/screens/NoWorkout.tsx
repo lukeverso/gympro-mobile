@@ -1,9 +1,10 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import QRCode from 'react-native-qrcode-svg';
 
-export function NoPersonal() {
+import workout from '../assets/workout.png';
+
+export function NoWorkout() {
      const { goBack } = useNavigation();
 
      return (
@@ -13,20 +14,17 @@ export function NoPersonal() {
                          <Feather name='x' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='text-center mt-8 text-2xl font-title'>
-                         Parece que você ainda{'\n'}
-                         não tem um professor...
-                    </Text>
-                    <Text className='text-center mt-10 text-lg font-text'>
-                         Peça para o seu professor{'\n'}
-                         escanear o código QR abaixo
+                         Oops!{'\n'}
+                         Você ainda não possui{'\n'}
+                         uma ficha de treino...
                     </Text>
                     <View className='mt-8 mx-auto'>
-                         <QRCode value='https://www.youtube.com/watch?v=dQw4w9WgXcQ' size={220} />
+                         <Image source={workout} />
                     </View>
                     <Text className='text-center mt-10 text-lg font-text'>
-                         ou informe seu e-mail{'\n'}
-                         para você ser adicionado{'\n'}
-                         como aluno.
+                         Converse com seu professor{'\n'}
+                         para ele criar a ficha ideal{'\n'}
+                         para você.
                     </Text>
                </View>
           </View>

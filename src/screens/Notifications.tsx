@@ -31,7 +31,7 @@ export function Notifications() {
                     </Text>
                </View>
                {accordionItems.map((item, index) => (
-                    <View key={index} className='border-b-2 border-b-gray-200'>
+                    <View key={index} className='border-b-2 border-b-gray-300'>
                          <TouchableOpacity
                               activeOpacity={0.7}
                               onPress={() => toggleItem(index)}

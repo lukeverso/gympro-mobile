@@ -25,7 +25,7 @@ export function Edit() {
 
      return (
           <KeyboardAvoidingView
-               behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1 bg-white'>
+               behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1 bg-white pb-10'>
                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <ScrollView>
                          <View className='mt-20 mb-10 px-8'>
@@ -33,7 +33,7 @@ export function Edit() {
                                    <Ionicons name='ios-chevron-back' size={24} color='black' />
                               </TouchableOpacity>
                               <Text className='mt-8 text-2xl font-title'>
-                                   Preencha seus dados abaixo
+                                   Edite seus dados
                               </Text>
                               <View className='flex-row'>
                                    <View className='flex-1 mr-3'>
@@ -212,7 +212,7 @@ export function Edit() {
                                              </Text>
                                         </View>
                                    }
-                                   <TouchableOpacity activeOpacity={0.8} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
+                                   <TouchableOpacity activeOpacity={0.7} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
                                         <AntDesign name='arrowright' size={24} color='white' />
                                    </TouchableOpacity>
                               </View>

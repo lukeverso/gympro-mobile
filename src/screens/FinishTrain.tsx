@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import finish from '../assets/finish.png';
+
+import finish from '../assets/images/finish.png';
 
 export function FinishTrain() {
      return (
@@ -21,7 +22,7 @@ export function FinishTrain() {
                          </Text>
                     </View>
                     <View className='flex mt-5'>
-                         <TouchableOpacity activeOpacity={0.8} className='py-3 bg-black flex-row items-center justify-center flex'>
+                         <TouchableOpacity activeOpacity={0.7} className='py-3 bg-black flex-row items-center justify-center flex'>
                               <Text className='text-white text-base font-title mr-3'>Concluir treino</Text>
                               <Feather name='check' size={24} color='white' />
                          </TouchableOpacity>

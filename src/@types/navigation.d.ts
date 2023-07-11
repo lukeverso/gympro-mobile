@@ -3,8 +3,10 @@ export declare global {
           interface RootParamList {
                main: undefined;
                login: undefined;
-               create: undefined;
-               insertEmail: undefined;
+               create: {
+                    email: string;
+               };
+               checkEmail: undefined;
                noPersonal: undefined;
                noWorkout: undefined;
                home: undefined;
@@ -14,6 +16,7 @@ export declare global {
                finishTrain: undefined;
                profile: undefined;
                edit: undefined;
+               measures: undefined;
           };
      };
 };

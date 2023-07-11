@@ -1,4 +1,5 @@
 import { Routes } from './src/routes';
+import AuthProvider from './src/contexts/auth';
 
 import { useFonts } from 'expo-font';
 
@@ -12,6 +13,8 @@ export default function App() {
      if (!fontsLoaded) return null;
 
      return (
-          <Routes />
+          <AuthProvider>
+               <Routes />
+          </AuthProvider>
      );
 }

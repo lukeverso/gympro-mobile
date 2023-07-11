@@ -2,9 +2,13 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/auth';
 
 export function NoPersonal() {
      const { goBack } = useNavigation();
+
+     const { user } = useContext(AuthContext);
 
      return (
           <View className='flex-1 bg-white'>

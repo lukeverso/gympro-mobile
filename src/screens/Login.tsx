@@ -1,7 +1,9 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
 
 export function Login() {
      const { goBack, navigate } = useNavigation();
@@ -9,8 +11,12 @@ export function Login() {
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
 
-     function handleLogin() {
-          console.log('Clicou.');
+     const { login } = useContext(AuthContext);
+
+     async function handleLogin() {
+          await login({ email, password });
+
+          navigate('home');
      };
 
      return (
@@ -47,17 +53,17 @@ export function Login() {
                          onChangeText={setPassword}
                          value={password}
                     />
-                    <View className='mt-8 flex-row justify-end'>
-                         <TouchableOpacity onPress={handleLogin} activeOpacity={0.8} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
-                              <AntDesign name='arrowright' size={24} color='white' />
-                         </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity onPress={() => navigate('insertEmail')} className='mt-8 flex-row items-center'>
+                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center'>
                          <Text className='mr-3 text-base font-text mb-1'>
                               Não possui conta? Clique aqui
                          </Text>
                          <Ionicons name='ios-chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
+                    <View className='mt-8 flex-row justify-end'>
+                         <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
+                              <AntDesign name='arrowright' size={24} color='white' />
+                         </TouchableOpacity>
+                    </View>
                </View>
           </View>
      );

@@ -1,6 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import exercise from '../assets/exercise-example.png';
 
 export function CurrentExercise() {
      return (
@@ -12,9 +11,6 @@ export function CurrentExercise() {
                     <Text className='font-title text-3xl'>
                          Rosca direta com barra
                     </Text>
-                    <View className='w-full items-center'>
-                         <Image source={exercise} />
-                    </View>
                     <View className='flex-row gap-3'>
                          <View className='bg-white flex-1 rounded items-center justify-center py-3'>
                               <Feather name='x' size={24} color='black' />

@@ -1,9 +1,8 @@
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 
-import background from '../assets/background.jpg';
+import background from '../assets/images/background.jpg';
 import GymPro from '../assets/GymPro.svg';
 
 export function Main() {

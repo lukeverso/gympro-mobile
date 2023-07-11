@@ -3,17 +3,16 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { useRoute } from '@react-navigation/native';
+import { api } from '../lib/api';
 
-export function InsertEmail() {
+export function CheckEmail() {
      const [email, setEmail] = useState('');
      const [errorMessage, setErrorMessage] = useState('');
      const [error, setError] = useState(false);
 
      const { goBack, navigate } = useNavigation();
 
-     const route = useRoute();
-
-     async function handleEmailInsertion() {
+     async function handleEmailCheck() {
           setError(false);
           setErrorMessage('');
 
@@ -23,7 +22,17 @@ export function InsertEmail() {
                return;
           };
 
-          navigate('create');
+          console.log(typeof email);
+
+          const request = await api.post(`/students/verify-email?email=${email}`);
+
+          if (request.data.status === 'success') {
+               navigate('create', { email });
+          } else {
+               setError(true);
+               setErrorMessage(request.data.message);
+               return;
+          }
      };
 
      return (
@@ -58,7 +67,7 @@ export function InsertEmail() {
                                    </Text>
                               </View>
                          }
-                         <TouchableOpacity activeOpacity={0.8} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
+                         <TouchableOpacity onPress={handleEmailCheck} activeOpacity={0.7} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
                               <AntDesign name='arrowright' size={24} color='white' />
                          </TouchableOpacity>
                     </View>

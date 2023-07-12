@@ -29,13 +29,19 @@ export function Home() {
                     </Text>
                </View>
                <View className='py-8 px-8'>
-                    <Text className='text-2xl font-title'>
-                         Sua ficha
-                    </Text>
+                    <View className='flex-row justify-between items-center'>
+                         <Text className='text-2xl font-title'>
+                              Sua ficha
+                         </Text>
+                         <TouchableOpacity activeOpacity={0.7}>
+                              <Text className='text-sm text-blue-600 font-title'>
+                                   Ver todas
+                              </Text>
+                         </TouchableOpacity>
+                    </View>
                     <View className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
                          <Text className='font-text text-base'>
                               Objetivo: condicionamento físico{'\n'}
-                              Sessões: 50 sessões{'\n'}
                               Início: 31/05/2023{'\n'}
                               Término: 04/08/2023
                          </Text>
@@ -109,16 +115,18 @@ export function Home() {
                          Outras funcionalidades
                     </Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
-                         <View className='w-64'>
-                              <Image source={measures} className='h-40 w-64 rounded' />
-                              <View className='mt-3 px-6 space-y-2'>
-                                   <View className='flex-row items-center space-x-1'>
-                                        <Text className='font-title text-lg'>Edite suas medidas</Text>
-                                        <Feather name="arrow-right" size={24} color="black" />
+                         <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
+                              <View className='w-64'>
+                                   <Image source={measures} className='h-40 w-64 rounded' />
+                                   <View className='mt-3 px-6 space-y-2'>
+                                        <View className='flex-row items-center space-x-1'>
+                                             <Text className='font-title text-lg'>Edite suas medidas</Text>
+                                             <Feather name="arrow-right" size={24} color="black" />
+                                        </View>
+                                        <Text className='font-text text-base'>Anote todas as medidas do seu corpo</Text>
                                    </View>
-                                   <Text className='font-text text-base'>Anote todas as medidas do seu corpo</Text>
                               </View>
-                         </View>
+                         </TouchableOpacity>
                          <View className='w-64'>
                               <Image source={measures} className='h-40 w-64 rounded' />
                               <View className='mt-3 px-6 space-y-2'>

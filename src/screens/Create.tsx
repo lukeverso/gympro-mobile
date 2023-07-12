@@ -1,7 +1,7 @@
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MaskedTextInput } from 'react-native-mask-text';
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from '@react-navigation/native';
@@ -28,12 +28,17 @@ export function Create() {
      const [repeatPassword, setRepeatPassword] = useState('');
      const [telephone, setTelephone] = useState('');
      const [birthdate, setBirthdate] = useState('');
+     const [CEP, setCEP] = useState('');
      const [street, setStreet] = useState('');
      const [number, setNumber] = useState('');
      const [complement, setComplement] = useState('');
      const [city, setCity] = useState('');
      const [state, setState] = useState('');
      const [country, setCountry] = useState('');
+
+     useEffect(() => {
+
+     }, [CEP]);
 
      async function handleUserCreation() {
           setError(false);
@@ -77,6 +82,12 @@ export function Create() {
           if (birthdate === '') {
                setError(true);
                setErrorMessage('Insira a data de nascimento.');
+               return;
+          };
+
+          if (CEP === '') {
+               setError(true);
+               setErrorMessage('Insira seu CEP.');
                return;
           };
 
@@ -258,6 +269,17 @@ export function Create() {
                                              />
                                         </View>
                                    </View>
+                                   <Text className='mt-8 font-title px-3'>
+                                        CEP
+                                   </Text>
+                                   <MaskedTextInput
+                                        mask='99999-999'
+                                        autoCapitalize='none'
+                                        keyboardType='number-pad'
+                                        placeholder='CEP'
+                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                        onChangeText={setCEP}
+                                   />
                                    <Text className='mt-8 font-title px-3'>
                                         Endereço
                                    </Text>

@@ -1,9 +1,13 @@
 import { Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/auth';
 
 export function Menu() {
      const { goBack } = useNavigation();
+
+     const { logout } = useContext(AuthContext);
 
      return (
           <View className='flex-1 bg-white'>
@@ -33,7 +37,7 @@ export function Menu() {
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <TouchableOpacity activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-20 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-20 border-b-2 border-b-gray-100'>
                     <View className='flex-row gap-3 items-center'>
                          <Feather name='edit-3' size={24} style={{ color: '#c62222' }} />
                          <Text className='font-title text-base mb-1 text-red-400'>

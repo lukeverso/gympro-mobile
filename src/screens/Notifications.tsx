@@ -40,9 +40,9 @@ export function Notifications() {
                               onPress={() => toggleItem(index)}
                               className='flex-row justify-between items-center px-8 h-20'
                          >
-                              <View className='flex-row items-center'>
+                              <View className='flex-row items-center space-x-3'>
                                    <Feather name='bell' size={24} color='black' />
-                                   <Text className='font-title text-lg ml-3'>{item.title}</Text>
+                                   <Text className='font-title text-lg'>{item.title}</Text>
                               </View>
                               {
                                    item.isExpanded ?

@@ -9,17 +9,17 @@ import measures from '../assets/images/measures.png';
 export function Home() {
      const { navigate } = useNavigation();
 
-     const { user } = useContext(AuthContext);
+     const { user, logout } = useContext(AuthContext);
      const [workout, setWorkout] = useState();
 
      return (
           <ScrollView>
                <View className='mt-20 px-8'>
                     <View className='flex-row justify-between items-center'>
-                         <TouchableOpacity activeOpacity={0.7} className='items-center justify-center'>
+                         <TouchableOpacity onPress={logout} activeOpacity={0.7} className='items-center justify-center'>
                               <Feather name='menu' size={24} color='black' />
                          </TouchableOpacity>
-                         <TouchableOpacity activeOpacity={0.7} className='items-center justify-center'>
+                         <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center'>
                               <Feather name='bell' size={24} color='black' />
                          </TouchableOpacity>
                     </View>

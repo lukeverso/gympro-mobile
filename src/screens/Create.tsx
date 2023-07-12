@@ -16,6 +16,10 @@ export function Create() {
 
      const route = useRoute();
 
+     const [success, setSuccess] = useState(false);
+     const [error, setError] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
+
      const { email } = route.params as CreateProps;
 
      const [name, setName] = useState('');
@@ -30,8 +34,6 @@ export function Create() {
      const [city, setCity] = useState('');
      const [state, setState] = useState('');
      const [country, setCountry] = useState('');
-     const [error, setError] = useState(false);
-     const [errorMessage, setErrorMessage] = useState('');
 
      async function handleUserCreation() {
           setError(false);
@@ -123,30 +125,37 @@ export function Create() {
                email
           };
 
-          console.log(data);
-
           const request = await api.post('/students', data);
 
-          console.log(request.data);
+          if (request.data.status === 'success') {
+               setSuccess(true);
+          } else {
+               setError(true);
+               setErrorMessage(request.data.message);
+               return;
+          }
      };
 
      return (
           <>
-               <View className='flex-1 w-full h-full bg-gray-200/80 justify-center items-center absolute z-10'>
-                    <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
-                         <Feather name='check' size={24} color='black' />
-                         <Text className='font-title text-base text-center'>
-                              Conta criada com sucesso!{'\n'}
-                              Realize o login para acessar{'\n'}
-                              o aplicativo.
-                         </Text>
-                         <TouchableOpacity activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
-                              <Text className='text-black font-text text-base'>
-                                   Okay
+               {
+                    success &&
+                    <View className='flex-1 w-full h-full bg-gray-200/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                              <Feather name='check' size={24} color='black' />
+                              <Text className='font-title text-base text-center'>
+                                   Conta criada com sucesso!{'\n'}
+                                   Realize o login para acessar{'\n'}
+                                   o aplicativo.
                               </Text>
-                         </TouchableOpacity>
+                              <TouchableOpacity onPress={() => navigate('login')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Okay
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
                     </View>
-               </View>
+               }
                <KeyboardAvoidingView
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1 bg-white pb-10'>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

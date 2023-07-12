@@ -6,7 +6,7 @@ export function Routes() {
      return (
           <NavigationContainer>
                <AppRoutes />
-               <StatusBar style='auto' backgroundColor='#FFFFFF' />
+               <StatusBar style='auto' />
           </NavigationContainer>
      );
 };

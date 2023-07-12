@@ -17,6 +17,7 @@ export declare global {
                profile: undefined;
                edit: undefined;
                measures: undefined;
-          };
-     };
-};
+               protectedRoutes: undefined; // Adicionada a rota 'protectedRoutes'
+          }
+     }
+}

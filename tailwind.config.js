@@ -12,6 +12,7 @@ module.exports = {
                     main: 'RoobertHeavy'
                },
                colors: {
+                    'white': '#FFFFFF',
                     gray: {
                          50: '#f1f1f1',
                          100: '#eaeaea',

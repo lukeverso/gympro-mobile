@@ -2,7 +2,6 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 import { api } from '../lib/api';
 
 export function CheckEmail() {
@@ -21,8 +20,6 @@ export function CheckEmail() {
                setErrorMessage('Insira um e-mail válido.');
                return;
           };
-
-          console.log(typeof email);
 
           const request = await api.post(`/students/verify-email?email=${email}`);
 

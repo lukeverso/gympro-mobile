@@ -16,7 +16,7 @@ export function Home() {
           <ScrollView>
                <View className='mt-20 px-8'>
                     <View className='flex-row justify-between items-center'>
-                         <TouchableOpacity onPress={logout} activeOpacity={0.7} className='items-center justify-center'>
+                         <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center'>
                               <Feather name='menu' size={24} color='black' />
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center'>

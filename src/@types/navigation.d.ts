@@ -10,6 +10,7 @@ export declare global {
                noPersonal: undefined;
                noWorkout: undefined;
                home: undefined;
+               menu: undefined;
                notifications: undefined;
                trainDetails: undefined;
                beginTrain: undefined;
@@ -17,7 +18,6 @@ export declare global {
                profile: undefined;
                edit: undefined;
                measures: undefined;
-               protectedRoutes: undefined; // Adicionada a rota 'protectedRoutes'
           }
      }
 }

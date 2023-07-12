@@ -1,8 +1,11 @@
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export function Notifications() {
+     const { goBack, navigate } = useNavigation();
+
      const [accordionItems, setAccordionItems] = useState([
           { title: 'Lorem ipsum dolor sit amet', isExpanded: false, content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar congue orci, ut placerat massa congue pellentesque. Curabitur vitae dolor eu ex blandit finibus quis et arcu. In faucibus egestas pretium. In tortor libero, eleifend non nibh vel, finibus pulvinar orci. Sed non mattis turpis. Aliquam nec quam turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.' },
           { title: 'Lorem ipsum dolor sit amet', isExpanded: false, content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar congue orci, ut placerat massa congue pellentesque. Curabitur vitae dolor eu ex blandit finibus quis et arcu. In faucibus egestas pretium. In tortor libero, eleifend non nibh vel, finibus pulvinar orci. Sed non mattis turpis. Aliquam nec quam turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.' },
@@ -20,18 +23,18 @@ export function Notifications() {
      return (
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>
                <View className='mt-20 px-8'>
-                    <TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
                          <Ionicons name='ios-chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
                          Avisos e notificações
                     </Text>
-                    <Text className='font-text text-sm'>
+                    <Text className='mt-1 font-text text-base'>
                          Sua lista de informes da academia
                     </Text>
                </View>
                {accordionItems.map((item, index) => (
-                    <View key={index} className='border-b-2 border-b-gray-300'>
+                    <View key={index} className='py-2 border-b-2 border-b-gray-100'>
                          <TouchableOpacity
                               activeOpacity={0.7}
                               onPress={() => toggleItem(index)}

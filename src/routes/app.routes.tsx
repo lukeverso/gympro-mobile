@@ -17,6 +17,7 @@ import { Edit } from '../screens/Edit';
 import { Measures } from '../screens/Measures';
 import { Notifications } from '../screens/Notifications';
 import { NoWorkout } from '../screens/NoWorkout';
+import { Menu } from '../screens/Menu';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ export function AppRoutes() {
                               <Screen name='finishTrain' component={FinishTrain} />
                               <Screen name='beginTrain' component={BeginTrain} />
                               <Screen name='trainDetails' component={TrainDetails} />
+                              <Screen name='menu' component={Menu} />
                               <Screen name='notifications' component={Notifications} />
                               <Screen name='edit' component={Edit} />
                               <Screen name='measures' component={Measures} />

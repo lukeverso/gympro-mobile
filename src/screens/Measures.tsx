@@ -28,7 +28,7 @@ export function Measures() {
                <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1 bg-white mt-20 pb-10'>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                          <ScrollView className='px-8'>
-                              <TouchableOpacity onPress={() => goBack()}>
+                              <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
                                    <Ionicons name='ios-chevron-back' size={24} color='black' />
                               </TouchableOpacity>
                               <Text className='mt-8 text-2xl font-title'>

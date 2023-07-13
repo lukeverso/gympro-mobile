@@ -1,11 +1,51 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { api } from '../lib/api';
 
-import example from '../assets/exercise-example.png';
+interface TrainDetailsProps {
+     id: string;
+};
+
+interface ExerciseItemProps {
+     id: string;
+     annotations: string | null;
+     name: string;
+     repetitions: number;
+     restTime: number;
+     series: number;
+     weight: string;
+};
+
+interface ExercisesProps {
+     active: boolean;
+     exercises: ExerciseItemProps[];
+     focus: string;
+     type: string;
+};
 
 export function TrainDetails() {
      const { goBack } = useNavigation();
+
+     const route = useRoute();
+
+     const { id } = route.params as TrainDetailsProps;
+
+     const [exercises, setExercises] = useState<ExercisesProps | null>(null);
+
+     console.log(exercises);
+
+     useEffect(() => {
+          async function getExercises() {
+               const response = await api.get(`/exercises/${id}`);
+
+               setExercises(response.data.exercises);
+          };
+
+          getExercises();
+     }, []);
 
      return (
           <ScrollView className='flex-1 bg-white'>
@@ -17,44 +57,48 @@ export function TrainDetails() {
                          Informações do treino
                     </Text>
                     <Text className='mt-8 text-2xl font-title'>
-                         Bíceps e peito
+                         {exercises?.focus}
                     </Text>
                     <Text className='text-lg font-text'>
                          Exercícios
                     </Text>
-                    <View className='mt-8 px-5 py-5 bg-gray-300 rounded space-y-5'>
-                         <Text className='font-title text-xl'>
-                              Rosca direta com barra
-                         </Text>
-                         <View className='flex-row space-x-3'>
-                              <View className='bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
-                                   <Feather name='x' size={24} color='black' />
-                                   <Text className='font-title text-2xl mt-2'>3</Text>
-                                   <Text className='font-text text-xs'>séries</Text>
-                              </View>
-                              <View className='bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
-                                   <Feather name='repeat' size={24} color='black' />
-                                   <Text className='font-title text-2xl mt-2'>21</Text>
-                                   <Text className='font-text text-xs'>repetições</Text>
-                              </View>
-                         </View>
-                         <View className='flex-row space-x-3'>
-                              <View className='bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
-                                   <MaterialCommunityIcons name='weight' size={24} color='black' />
-                                   <Text className='font-title text-2xl mt-2'>10 kg</Text>
-                                   <Text className='font-text text-xs'>de carga</Text>
-                              </View>
-                              <View className='bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
-                                   <Feather name='clock' size={24} color='black' />
-                                   <Text className='font-title text-2xl mt-2'>45s</Text>
-                                   <Text className='font-text text-xs'>de descanso</Text>
-                              </View>
-                         </View>
-                         <View className='flex-row space-x-3'>
-                              <Text className='font-title'>Observações:</Text>
-                              <Text className='font-text flex-1'>7 repetições até a metade, 7 da metade pra cima e 7 repetições completas.</Text>
-                         </View>
-                    </View>
+                    {
+                         exercises?.exercises.map((exercise: ExerciseItemProps) => {
+                              return (
+                                   <View key={exercise.id} className='mt-8 px-5 py-5 bg-gray-200 rounded space-y-5'>
+                                        <Text className='font-title text-xl'>
+                                             {exercise.name}
+                                        </Text>
+                                        <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row space-x-3'>
+                                             <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                  <Feather name='x' size={24} color='black' />
+                                                  <Text className='font-title text-2xl mt-2'>{exercise.series}</Text>
+                                                  <Text className='font-text text-xs'>séries</Text>
+                                             </View>
+                                             <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                  <Feather name='repeat' size={24} color='black' />
+                                                  <Text className='font-title text-2xl mt-2'>{exercise.repetitions}</Text>
+                                                  <Text className='font-text text-xs'>repetições</Text>
+                                             </View>
+                                             <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                  <MaterialCommunityIcons name='weight' size={24} color='black' />
+                                                  <Text className='font-title text-2xl mt-2'>{exercise.weight} kg</Text>
+                                                  <Text className='font-text text-xs'>de carga</Text>
+                                             </View>
+                                             <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                  <Feather name='clock' size={24} color='black' />
+                                                  <Text className='font-title text-2xl mt-2'>{exercise.restTime}s</Text>
+                                                  <Text className='font-text text-xs'>de descanso</Text>
+                                             </View>
+                                        </ScrollView>
+                                        <View className='flex-row space-x-3'>
+                                             <Text className='font-title'>Observações:</Text>
+                                             <Text className='font-text flex-1'>{exercise.annotations}</Text>
+                                        </View>
+                                   </View>
+                              )
+                         })
+                    }
                     <View className='flex mt-8'>
                          <TouchableOpacity activeOpacity={0.7} className='py-3 bg-black flex-row items-center justify-center flex'>
                               <Text className='text-white text-base font-title mr-3'>Começar treino</Text>

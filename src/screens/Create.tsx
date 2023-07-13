@@ -28,17 +28,29 @@ export function Create() {
      const [repeatPassword, setRepeatPassword] = useState('');
      const [telephone, setTelephone] = useState('');
      const [birthdate, setBirthdate] = useState('');
-     const [CEP, setCEP] = useState('');
+     const [code, setCode] = useState('');
      const [street, setStreet] = useState('');
      const [number, setNumber] = useState('');
      const [complement, setComplement] = useState('');
      const [city, setCity] = useState('');
      const [state, setState] = useState('');
-     const [country, setCountry] = useState('');
+     const [district, setDistrict] = useState('');
 
      useEffect(() => {
+          async function fetchData() {
+               if (code.length === 9) {
+                    const request = await api.get('https://cdn.apicep.com/file/apicep/' + code + '.json');
 
-     }, [CEP]);
+                    setStreet(request.data.address);
+                    setDistrict(request.data.district);
+                    setCity(request.data.city);
+                    setState(request.data.state);
+               };
+          };
+
+          fetchData();
+     }, [code]);
+
 
      async function handleUserCreation() {
           setError(false);
@@ -85,9 +97,9 @@ export function Create() {
                return;
           };
 
-          if (CEP === '') {
+          if (code === '') {
                setError(true);
-               setErrorMessage('Insira seu CEP.');
+               setErrorMessage('Insira seu cep.');
                return;
           };
 
@@ -103,6 +115,12 @@ export function Create() {
                return;
           };
 
+          if (district === '') {
+               setError(true);
+               setErrorMessage('Insira seu país.');
+               return;
+          };
+
           if (city === '') {
                setError(true);
                setErrorMessage('Insira sua cidade.');
@@ -115,25 +133,20 @@ export function Create() {
                return;
           };
 
-          if (country === '') {
-               setError(true);
-               setErrorMessage('Insira seu país.');
-               return;
-          };
-
           const data = {
                name,
                surname,
+               email,
                password,
                telephone,
                birthdate,
+               code,
                street,
                number,
                complement,
+               district,
                city,
-               state,
-               country,
-               email
+               state
           };
 
           const request = await api.post('/students', data);
@@ -146,6 +159,9 @@ export function Create() {
                return;
           }
      };
+
+     const [seePassword, setSeePassword] = useState(false);
+     const [seePasswordRepeat, setSeePasswordRepeat] = useState(false);
 
      return (
           <>
@@ -178,8 +194,8 @@ export function Create() {
                                    <Text className='mt-8 text-2xl font-title'>
                                         Preencha seus dados abaixo
                                    </Text>
-                                   <View className='flex-row'>
-                                        <View className='flex-1 mr-3'>
+                                   <View className='flex-row space-x-6'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Nome
                                              </Text>
@@ -189,9 +205,10 @@ export function Create() {
                                                   placeholder='Nome'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setName}
+                                                  value={name}
                                              />
                                         </View>
-                                        <View className='flex-1 ml-3'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Sobrenome
                                              </Text>
@@ -200,6 +217,7 @@ export function Create() {
                                                   placeholder='Sobrenome'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setSurname}
+                                                  value={surname}
                                              />
                                         </View>
                                    </View>
@@ -214,36 +232,50 @@ export function Create() {
                                         value={email}
                                         editable={false}
                                    />
-                                   <View className='flex-row mt-2'>
-                                        <View className='flex-1 mr-3'>
-                                             <Text className='mt-8 font-title px-3'>
-                                                  Senha
-                                             </Text>
-                                             <TextInput
-                                                  secureTextEntry
-                                                  autoCapitalize='none'
-                                                  keyboardType='default'
-                                                  placeholder='Senha'
-                                                  className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                                  onChangeText={setPassword}
-                                             />
-                                        </View>
-                                        <View className='flex-1 ml-3'>
-                                             <Text className='mt-8 font-title px-3'>
-                                                  Repita a senha
-                                             </Text>
-                                             <TextInput
-                                                  secureTextEntry
-                                                  autoCapitalize='none'
-                                                  keyboardType='default'
-                                                  placeholder='Repita a senha'
-                                                  className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                                  onChangeText={setRepeatPassword}
-                                             />
-                                        </View>
+                                   <Text className='mt-8 font-title px-3'>
+                                        Senha
+                                   </Text>
+                                   <View className='flex-row items-center space-x-4'>
+                                        <TextInput
+                                             secureTextEntry={!seePassword ? true : false}
+                                             autoCapitalize='none'
+                                             keyboardType='default'
+                                             placeholder='Senha'
+                                             className='flex-1 mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                             onChangeText={setPassword}
+                                             value={password}
+                                        />
+                                        <TouchableOpacity onPress={() => setSeePassword(!seePassword)} className='mt-2'>
+                                             {
+                                                  !seePassword ?
+                                                       <Feather name='eye' size={20} color='black' /> :
+                                                       <Feather name='eye-off' size={20} color='black' />
+                                             }
+                                        </TouchableOpacity>
                                    </View>
-                                   <View className='flex-row mt-2'>
-                                        <View className='flex-1 mr-3'>
+                                   <Text className='mt-8 font-title px-3'>
+                                        Repita a senha
+                                   </Text>
+                                   <View className='flex-row items-center space-x-4'>
+                                        <TextInput
+                                             secureTextEntry={!seePasswordRepeat ? true : false}
+                                             autoCapitalize='none'
+                                             keyboardType='default'
+                                             placeholder='Repita a senha'
+                                             className='flex-1 mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                             onChangeText={setRepeatPassword}
+                                             value={repeatPassword}
+                                        />
+                                        <TouchableOpacity onPress={() => setSeePasswordRepeat(!seePasswordRepeat)} className='mt-2'>
+                                             {
+                                                  !seePasswordRepeat ?
+                                                       <Feather name='eye' size={20} color='black' /> :
+                                                       <Feather name='eye-off' size={20} color='black' />
+                                             }
+                                        </TouchableOpacity>
+                                   </View>
+                                   <View className='flex-row mt-2 space-x-6'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Telefone
                                              </Text>
@@ -254,9 +286,10 @@ export function Create() {
                                                   autoCapitalize='none'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setTelephone}
+                                                  value={telephone}
                                              />
                                         </View>
-                                        <View className='flex-1 ml-3'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Nascimento
                                              </Text>
@@ -266,6 +299,7 @@ export function Create() {
                                                   placeholder='Nascimento'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setBirthdate}
+                                                  value={birthdate}
                                              />
                                         </View>
                                    </View>
@@ -278,7 +312,8 @@ export function Create() {
                                         keyboardType='number-pad'
                                         placeholder='CEP'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setCEP}
+                                        onChangeText={setCode}
+                                        value={code}
                                    />
                                    <Text className='mt-8 font-title px-3'>
                                         Endereço
@@ -289,9 +324,10 @@ export function Create() {
                                         placeholder='Endereço'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                         onChangeText={setStreet}
+                                        value={street}
                                    />
-                                   <View className='flex-row mt-2'>
-                                        <View className='flex-1 mr-3'>
+                                   <View className='flex-row mt-2 space-x-6'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Número
                                              </Text>
@@ -301,9 +337,10 @@ export function Create() {
                                                   autoCapitalize='none'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setNumber}
+                                                  value={number}
                                              />
                                         </View>
-                                        <View className='flex-1 ml-3'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Complemento
                                              </Text>
@@ -312,11 +349,24 @@ export function Create() {
                                                   placeholder='Complemento'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setComplement}
+                                                  value={complement}
                                              />
                                         </View>
                                    </View>
-                                   <View className='flex-row mt-2'>
-                                        <View className='flex-1 mr-3'>
+                                   <View className='flex-row mt-2 space-x-3'>
+                                        <View className='flex-1'>
+                                             <Text className='mt-8 font-title px-3'>
+                                                  Bairro
+                                             </Text>
+                                             <TextInput
+                                                  keyboardType='default'
+                                                  placeholder='Bairro'
+                                                  className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                                  onChangeText={setDistrict}
+                                                  value={district}
+                                             />
+                                        </View>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Cidade
                                              </Text>
@@ -325,9 +375,10 @@ export function Create() {
                                                   placeholder='Cidade'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setCity}
+                                                  value={city}
                                              />
                                         </View>
-                                        <View className='flex-1 mr-3 ml-3'>
+                                        <View className='flex-1'>
                                              <Text className='mt-8 font-title px-3'>
                                                   Estado
                                              </Text>
@@ -338,17 +389,7 @@ export function Create() {
                                                   placeholder='Estado'
                                                   className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                                   onChangeText={setState}
-                                             />
-                                        </View>
-                                        <View className='flex-1 ml-3'>
-                                             <Text className='mt-8 font-title px-3'>
-                                                  País
-                                             </Text>
-                                             <TextInput
-                                                  keyboardType='default'
-                                                  placeholder='País'
-                                                  className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                                  onChangeText={setCountry}
+                                                  value={state}
                                              />
                                         </View>
                                    </View>

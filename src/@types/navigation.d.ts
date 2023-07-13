@@ -12,7 +12,9 @@ export declare global {
                home: undefined;
                menu: undefined;
                notifications: undefined;
-               trainDetails: undefined;
+               trainDetails: {
+                    id: string;
+               };
                beginTrain: undefined;
                finishTrain: undefined;
                profile: undefined;

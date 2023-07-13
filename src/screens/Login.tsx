@@ -1,8 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
-import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
 
 export function Login() {
@@ -10,6 +9,7 @@ export function Login() {
 
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
+     const [seePassword, setSeePassword] = useState(false);
 
      const { login } = useContext(AuthContext);
 
@@ -45,14 +45,24 @@ export function Login() {
                     <Text className='mt-3 font-title px-3'>
                          Senha
                     </Text>
-                    <TextInput
-                         secureTextEntry
-                         autoCapitalize='none'
-                         placeholder='Senha'
-                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                         onChangeText={setPassword}
-                         value={password}
-                    />
+                    <View className='flex-row items-center space-x-4'>
+                         <TextInput
+                              secureTextEntry={!seePassword ? true : false}
+                              autoCapitalize='none'
+                              keyboardType='default'
+                              placeholder='Senha'
+                              className='flex-1 mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                              onChangeText={setPassword}
+                              value={password}
+                         />
+                         <TouchableOpacity onPress={() => setSeePassword(!seePassword)} className='mt-2'>
+                              {
+                                   !seePassword ?
+                                        <Feather name='eye' size={20} color='black' /> :
+                                        <Feather name='eye-off' size={20} color='black' />
+                              }
+                         </TouchableOpacity>
+                    </View>
                     <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center'>
                          <Text className='mr-3 text-base font-text mb-1'>
                               Não possui conta? Clique aqui

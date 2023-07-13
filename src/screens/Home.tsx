@@ -1,16 +1,47 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useState } from 'react';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 
 import measures from '../assets/images/measures.png';
+import { api } from '../lib/api';
+
+interface WorkoutsProps {
+     active: boolean;
+     focus: string;
+     id: string;
+     type: string;
+};
+
+interface SheetProps {
+     active: boolean;
+     annotations: string;
+     endDate: string;
+     id: string;
+     objective: string;
+     startDate: string;
+     workouts: WorkoutsProps[];
+};
 
 export function Home() {
      const { navigate } = useNavigation();
 
-     const { user, logout } = useContext(AuthContext);
-     const [workout, setWorkout] = useState();
+     const { user } = useContext(AuthContext);
+
+     const [name, setName] = useState<string>('');
+     const [sheet, setSheet] = useState<SheetProps | null>(null);
+
+     useEffect(() => {
+          async function getHomeData() {
+               const request = await api.get(`/me/${user?.id}`);
+               const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
+               setName(request.data.response.name);
+               setSheet(activeSheet);
+          };
+
+          getHomeData();
+     }, []);
 
      return (
           <ScrollView>
@@ -25,7 +56,7 @@ export function Home() {
                     </View>
                     <Text className='text-3xl font-title text-black mt-8'>
                          Bem-vindo,{'\n'}
-                         {user?.name}
+                         {name}
                     </Text>
                </View>
                <View className='py-8 px-8'>
@@ -41,41 +72,30 @@ export function Home() {
                     </View>
                     <View className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
                          <Text className='font-text text-base'>
-                              Objetivo: condicionamento físico{'\n'}
-                              Início: 31/05/2023{'\n'}
-                              Término: 04/08/2023
+                              Objetivo: {sheet?.objective}{'\n'}
+                              {sheet?.annotations ? `Anotações: ${sheet.annotations}` : ''}
+                              Início: {sheet?.startDate}{'\n'}
+                              Término: {sheet?.endDate}
                          </Text>
                     </View>
                     <Text className='mt-8 text-2xl font-title'>
                          Seus treinos
                     </Text>
-                    <TouchableOpacity activeOpacity={0.7} className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
-                         <View className='flex-row gap-3 items-center'>
-                              <Octicons name="dot-fill" size={24} color="black" />
-                              <Text className='font-title text-base mb-1'>
-                                   Bíceps e peito
-                              </Text>
-                         </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7} className='mt-5 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
-                         <View className='flex-row gap-3 items-center'>
-                              <Octicons name="dot-fill" size={24} color="black" />
-                              <Text className='font-title text-base mb-1'>
-                                   Tríceps e costa
-                              </Text>
-                         </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7} className='mt-5 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
-                         <View className='flex-row gap-3 items-center'>
-                              <Octicons name="dot-fill" size={24} color="black" />
-                              <Text className='font-title text-base mb-1'>
-                                   Membros inferiores
-                              </Text>
-                         </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
-                    </TouchableOpacity>
+                    {
+                         sheet?.workouts?.map((workout: WorkoutsProps) => {
+                              return (
+                                   <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
+                                        <View className='flex-row gap-3 items-center'>
+                                             <Octicons name="dot-fill" size={24} color="black" />
+                                             <Text className='font-title text-base mb-1'>
+                                                  {workout.focus} ({workout.type})
+                                             </Text>
+                                        </View>
+                                        <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                   </TouchableOpacity>
+                              )
+                         })
+                    }
                     <Text className='text-2xl font-title mt-8'>
                          Sua semana
                     </Text>

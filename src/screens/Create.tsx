@@ -167,7 +167,7 @@ export function Create() {
           <>
                {
                     success &&
-                    <View className='flex-1 w-full h-full bg-gray-200/80 justify-center items-center absolute z-10'>
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
                          <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
                               <Text className='font-title text-base text-center'>

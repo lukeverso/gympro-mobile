@@ -1,24 +1,41 @@
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+
+interface NotificationProps {
+     content: string;
+     expanded: boolean;
+     id: string;
+     title: string;
+};
 
 export function Notifications() {
-     const { goBack, navigate } = useNavigation();
+     const { user } = useContext(AuthContext);
 
-     const [accordionItems, setAccordionItems] = useState([
-          { title: 'Lorem ipsum dolor sit amet', isExpanded: false, content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar congue orci, ut placerat massa congue pellentesque. Curabitur vitae dolor eu ex blandit finibus quis et arcu. In faucibus egestas pretium. In tortor libero, eleifend non nibh vel, finibus pulvinar orci. Sed non mattis turpis. Aliquam nec quam turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.' },
-          { title: 'Lorem ipsum dolor sit amet', isExpanded: false, content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar congue orci, ut placerat massa congue pellentesque. Curabitur vitae dolor eu ex blandit finibus quis et arcu. In faucibus egestas pretium. In tortor libero, eleifend non nibh vel, finibus pulvinar orci. Sed non mattis turpis. Aliquam nec quam turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.' },
-          { title: 'Lorem ipsum dolor sit amet', isExpanded: false, content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar congue orci, ut placerat massa congue pellentesque. Curabitur vitae dolor eu ex blandit finibus quis et arcu. In faucibus egestas pretium. In tortor libero, eleifend non nibh vel, finibus pulvinar orci. Sed non mattis turpis. Aliquam nec quam turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.' },
-     ]);
+     const { goBack } = useNavigation();
+
+     const [notifications, setNotifications] = useState<NotificationProps[]>([]);
 
      const toggleItem = (index: number) => {
-          setAccordionItems((prevState) => {
+          setNotifications((prevState) => {
                const updatedItems = [...prevState];
-               updatedItems[index].isExpanded = !updatedItems[index].isExpanded;
+               updatedItems[index].expanded = !updatedItems[index].expanded;
                return updatedItems;
           });
      };
+
+     useEffect(() => {
+          async function getNotifications() {
+               const response = await api.get(`/notifications/${user?.id}`);
+
+               setNotifications(response.data.notifications[0].gym.notifications);
+          };
+
+          getNotifications();
+     }, []);
 
      return (
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>
@@ -33,28 +50,33 @@ export function Notifications() {
                          Sua lista de informes da academia
                     </Text>
                </View>
-               {accordionItems.map((item, index) => (
+               {notifications?.map((notification: NotificationProps, index: number) => (
                     <View key={index} className='py-2 border-b-2 border-b-gray-100'>
                          <TouchableOpacity
                               activeOpacity={0.7}
                               onPress={() => toggleItem(index)}
                               className='flex-row justify-between items-center px-8 h-20'
                          >
-                              <View className='flex-row items-center space-x-3'>
+                              <View className='flex-row items-center space-x-5'>
                                    <Feather name='bell' size={24} color='black' />
-                                   <Text className='font-title text-lg'>{item.title}</Text>
+                                   <Text className='flex-1 font-title text-lg' numberOfLines={1} ellipsizeMode="tail">
+                                        {notification.title}
+                                   </Text>
+                                   {
+                                        notification.expanded ?
+                                             <Ionicons name='ios-chevron-up' size={24} color='black' /> :
+                                             <Ionicons name='ios-chevron-down' size={24} color='black' />
+                                   }
                               </View>
-                              {
-                                   item.isExpanded ?
-                                        <Ionicons name='ios-chevron-up' size={24} color='black' /> :
-                                        <Ionicons name='ios-chevron-down' size={24} color='black' />
-                              }
                          </TouchableOpacity>
                          {
-                              item.isExpanded &&
-                              <View className='px-8 mb-8'>
+                              notification.expanded &&
+                              <View className='px-8 mb-8 space-y-3'>
+                                   <Text className='flex-1 font-title text-lg'>
+                                        {notification.title}
+                                   </Text>
                                    <Text className='font-text text-base'>
-                                        {item.content}
+                                        {notification.content}
                                    </Text>
                               </View>
                          }

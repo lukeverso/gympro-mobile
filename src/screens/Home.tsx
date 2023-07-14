@@ -1,11 +1,12 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
-
-import measures from '../assets/images/measures.png';
 import { api } from '../lib/api';
+
+import constructionImg from '../assets/images/construction.png';
+import measures from '../assets/images/measures.png';
 
 interface WorkoutsProps {
      active: boolean;
@@ -70,7 +71,7 @@ export function Home() {
                               </Text>
                          </TouchableOpacity>
                     </View>
-                    <View className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
+                    <View className='mt-4 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
                          <Text className='font-text text-base'>
                               Objetivo: {sheet?.objective}{'\n'}
                               {sheet?.annotations ? `Anotações: ${sheet.annotations}` : ''}
@@ -84,7 +85,7 @@ export function Home() {
                     {
                          sheet?.workouts?.map((workout: WorkoutsProps) => {
                               return (
-                                   <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-4 bg-gray-200 rounded flex-row justify-between items-center px-5 py-5'>
+                                   <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
                                         <View className='flex-row gap-3 items-center'>
                                              <Octicons name="dot-fill" size={24} color="black" />
                                              <Text className='font-title text-base mb-1'>
@@ -96,11 +97,11 @@ export function Home() {
                               )
                          })
                     }
-                    <Text className='text-2xl font-title mt-8'>
+                    {/* <Text className='text-2xl font-title mt-8'>
                          Sua semana
                     </Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row space-x-4 mt-4'>
-                         <View className='px-10 py-5 bg-gray-200 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
                               <Feather name='repeat' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    4
@@ -110,7 +111,7 @@ export function Home() {
                                    consecutivos
                               </Text>
                          </View>
-                         <View className='px-10 py-5 bg-gray-200 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
                               <Feather name='trending-up' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    27
@@ -120,7 +121,7 @@ export function Home() {
                                    em sequência
                               </Text>
                          </View>
-                         <View className='px-10 py-5 bg-gray-200 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
                               <Feather name='trending-up' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    27
@@ -130,7 +131,7 @@ export function Home() {
                                    em sequência
                               </Text>
                          </View>
-                    </ScrollView>
+                    </ScrollView> */}
                     <Text className='text-2xl font-title mt-8'>
                          Outras funcionalidades
                     </Text>
@@ -138,7 +139,7 @@ export function Home() {
                          <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
                               <View className='w-64'>
                                    <Image source={measures} className='h-40 w-64 rounded' />
-                                   <View className='mt-3 px-6 space-y-2'>
+                                   <View className='mt-3 px-3'>
                                         <View className='flex-row items-center space-x-1'>
                                              <Text className='font-title text-lg'>Edite suas medidas</Text>
                                              <Feather name="arrow-right" size={24} color="black" />
@@ -149,7 +150,7 @@ export function Home() {
                          </TouchableOpacity>
                          <View className='w-64'>
                               <Image source={measures} className='h-40 w-64 rounded' />
-                              <View className='mt-3 px-6 space-y-2'>
+                              <View className='mt-3 px-3'>
                                    <View className='flex-row items-center space-x-1'>
                                         <Text className='font-title text-lg'>Edite suas medidas</Text>
                                         <Feather name="arrow-right" size={24} color="black" />
@@ -158,6 +159,18 @@ export function Home() {
                               </View>
                          </View>
                     </ScrollView>
+                    <Text className='text-2xl font-title mt-8'>
+                         Sua semana
+                    </Text>
+                    <Image source={constructionImg} className='mt-8 w-full h-52 rounded-lg' />
+                    <Text className='mt-4 font-title text-xl text-center'>
+                         Esta sessão está em{'\n'}
+                         construção...
+                    </Text>
+                    <Text className='mt-4 font-text text-base text-center'>
+                         Mas é rápido! Em breve ela{'\n'}
+                         estará disponível para o seu uso!
+                    </Text>
                </View>
           </ScrollView>
      );

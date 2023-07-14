@@ -35,8 +35,6 @@ export function TrainDetails() {
 
      const [exercises, setExercises] = useState<ExercisesProps | null>(null);
 
-     console.log(exercises);
-
      useEffect(() => {
           async function getExercises() {
                const response = await api.get(`/exercises/${id}`);
@@ -57,7 +55,7 @@ export function TrainDetails() {
                          Informações do treino
                     </Text>
                     <Text className='mt-8 text-2xl font-title'>
-                         {exercises?.focus}
+                         {exercises?.focus} ({exercises?.type})
                     </Text>
                     <Text className='text-lg font-text'>
                          Exercícios
@@ -65,7 +63,7 @@ export function TrainDetails() {
                     {
                          exercises?.exercises.map((exercise: ExerciseItemProps) => {
                               return (
-                                   <View key={exercise.id} className='mt-8 px-5 py-5 bg-gray-200 rounded space-y-5'>
+                                   <View key={exercise.id} className='mt-8 px-5 py-5 bg-gray-100 rounded space-y-5'>
                                         <Text className='font-title text-xl'>
                                              {exercise.name}
                                         </Text>
@@ -80,21 +78,31 @@ export function TrainDetails() {
                                                   <Text className='font-title text-2xl mt-2'>{exercise.repetitions}</Text>
                                                   <Text className='font-text text-xs'>repetições</Text>
                                              </View>
-                                             <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
-                                                  <MaterialCommunityIcons name='weight' size={24} color='black' />
-                                                  <Text className='font-title text-2xl mt-2'>{exercise.weight} kg</Text>
-                                                  <Text className='font-text text-xs'>de carga</Text>
-                                             </View>
+                                             {
+                                                  exercise.weight &&
+                                                  (
+                                                       <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                            <MaterialCommunityIcons name='weight' size={24} color='black' />
+                                                            <Text className='font-title text-2xl mt-2'>{exercise.weight} kg</Text>
+                                                            <Text className='font-text text-xs'>de carga</Text>
+                                                       </View>
+                                                  )
+                                             }
                                              <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
                                                   <Feather name='clock' size={24} color='black' />
                                                   <Text className='font-title text-2xl mt-2'>{exercise.restTime}s</Text>
                                                   <Text className='font-text text-xs'>de descanso</Text>
                                              </View>
                                         </ScrollView>
-                                        <View className='flex-row space-x-3'>
-                                             <Text className='font-title'>Observações:</Text>
-                                             <Text className='font-text flex-1'>{exercise.annotations}</Text>
-                                        </View>
+                                        {
+                                             exercise.annotations &&
+                                             (
+                                                  <View className='flex-row space-x-3'>
+                                                       <Text className='font-title'>Descrição:</Text>
+                                                       <Text className='font-text flex-1'>{exercise.annotations}</Text>
+                                                  </View>
+                                             )
+                                        }
                                    </View>
                               )
                          })

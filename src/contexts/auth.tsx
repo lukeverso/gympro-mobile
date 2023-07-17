@@ -9,8 +9,6 @@ interface LoginProps {
 
 interface UserProps {
      id: string;
-     name: string;
-     email: string;
 }
 
 export interface AuthContextDataProps {

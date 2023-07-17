@@ -51,7 +51,6 @@ export function Create() {
           fetchData();
      }, [code]);
 
-
      async function handleUserCreation() {
           setError(false);
 
@@ -157,7 +156,7 @@ export function Create() {
                setError(true);
                setErrorMessage(request.data.message);
                return;
-          }
+          };
      };
 
      const [seePassword, setSeePassword] = useState(false);

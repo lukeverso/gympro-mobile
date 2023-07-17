@@ -18,6 +18,10 @@ import { Measures } from '../screens/Measures';
 import { Notifications } from '../screens/Notifications';
 import { NoWorkout } from '../screens/NoWorkout';
 import { Menu } from '../screens/Menu';
+import { EditName } from '../screens/EditName';
+import { EditEmail } from '../screens/EditEmail';
+import { EditTelephone } from '../screens/EditTelephone';
+import { EditAddress } from '../screens/EditAddress';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -39,6 +43,10 @@ export function AppRoutes() {
                               <Screen name='menu' component={Menu} />
                               <Screen name='notifications' component={Notifications} />
                               <Screen name='edit' component={Edit} />
+                              <Screen name='editName' component={EditName} />
+                              <Screen name='editEmail' component={EditEmail} />
+                              <Screen name='editTelephone' component={EditTelephone} />
+                              <Screen name='editAddress' component={EditAddress} />
                               <Screen name='measures' component={Measures} />
                          </> :
                          <>

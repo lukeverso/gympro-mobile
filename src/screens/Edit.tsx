@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
@@ -16,16 +16,16 @@ export function Edit() {
                          Edite seus dados abaixo
                     </Text>
                </View>
-               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={() => navigate('editName')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
-                         <Feather name='edit-3' size={24} color='black' />
+                         <Octicons name="person" size={24} color="black" />
                          <Text className='font-title text-base mb-1'>
                               Editar nome
                          </Text>
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={() => navigate('editEmail')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
                          <Feather name='mail' size={24} color='black' />
                          <Text className='font-title text-base mb-1'>
@@ -34,11 +34,20 @@ export function Edit() {
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={() => navigate('editTelephone')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
-                         <Feather name='edit-3' size={24} color='black' />
+                         <Feather name="phone-call" size={24} color="black" />
                          <Text className='font-title text-base mb-1'>
-                              Editar e-mail
+                              Editar telefone
+                         </Text>
+                    </View>
+                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+               </TouchableOpacity>
+               <TouchableOpacity onPress={() => navigate('editAddress')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+                    <View className='flex-row space-x-3 items-center'>
+                         <Ionicons name="location-outline" size={24} color="black" />
+                         <Text className='font-title text-base mb-1'>
+                              Editar endereço
                          </Text>
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />

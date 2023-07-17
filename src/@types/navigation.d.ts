@@ -19,6 +19,10 @@ export declare global {
                finishTrain: undefined;
                profile: undefined;
                edit: undefined;
+               editName: undefined;
+               editEmail: undefined;
+               editTelephone: undefined;
+               editAddress: undefined;
                measures: undefined;
           }
      }

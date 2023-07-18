@@ -19,9 +19,19 @@ export function EditTelephone() {
 
      useEffect(() => {
           async function getTelephone() {
-               const request = await api.get(`/students/me/${user?.id}/telephone`);
+               setError(false);
+               setErrorMessage('');
 
-               setTelephone(request.data.user.telephone);
+               try {
+                    const request = await api.get(`/students/me/${user?.id}/telephone`);
+
+                    setTelephone(request.data.user.telephone);
+               } catch (error) {
+                    console.log(error);
+
+                    setError(true);
+                    setErrorMessage('Ocorreu um erro...');
+               };
           };
 
           getTelephone();
@@ -29,6 +39,7 @@ export function EditTelephone() {
 
      async function handleTelephoneEditing() {
           setError(false);
+          setErrorMessage('');
 
           if (telephone === '') {
                setError(true);
@@ -38,8 +49,6 @@ export function EditTelephone() {
 
           try {
                const request = await api.patch(`/students/me/${user?.id}/telephone`, { telephone });
-
-               console.log(request);
 
                if (request.data.status === 'success') {
                     setSuccess(true);
@@ -85,6 +94,7 @@ export function EditTelephone() {
                               Telefone
                          </Text>
                          <MaskedTextInput
+                              autoFocus
                               mask='(99) 99999-9999'
                               autoCapitalize='none'
                               keyboardType='number-pad'

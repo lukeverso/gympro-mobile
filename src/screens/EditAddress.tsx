@@ -10,8 +10,8 @@ export function EditAddress() {
      const { goBack, navigate } = useNavigation();
 
      const [success, setSuccess] = useState(false);
-     const [error, setError] = useState(true);
-     const [errorMessage, setErrorMessage] = useState('Teste');
+     const [error, setError] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
 
      const [code, setCode] = useState('');
      const [street, setStreet] = useState('');
@@ -23,13 +23,35 @@ export function EditAddress() {
 
      useEffect(() => {
           async function fetchData() {
-               if (code.length === 9) {
-                    const request = await api.get('https://cdn.apicep.com/file/apicep/' + code + '.json');
+               setError(false);
+               setErrorMessage('');
 
-                    setStreet(request.data.address);
-                    setDistrict(request.data.district);
-                    setCity(request.data.city);
-                    setState(request.data.state);
+               if (code.length === 9) {
+                    try {
+                         const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
+
+                         if (request.data.erro === true) {
+                              setError(true);
+                              setErrorMessage('CEP inválido.');
+
+                              setStreet('');
+                              setDistrict('');
+                              setCity('');
+                              setState('');
+
+                              return;
+                         };
+
+                         setStreet(request.data.logradouro);
+                         setDistrict(request.data.bairro);
+                         setCity(request.data.localidade);
+                         setState(request.data.uf);
+                    } catch (error) {
+                         console.log(error);
+
+                         setError(true);
+                         setErrorMessage('Ocorreu um erro...');
+                    };
                };
           };
 
@@ -40,11 +62,21 @@ export function EditAddress() {
 
      useEffect(() => {
           async function getAddress() {
-               const request = await api.get(`/students/me/${user?.id}/address`);
+               setError(false);
+               setErrorMessage('');
 
-               setCode(request.data.user.code);
-               setNumber(request.data.user.number);
-               setComplement(request.data.user.complement);
+               try {
+                    const request = await api.get(`/students/me/${user?.id}/address`);
+
+                    setCode(request.data.user.code);
+                    setNumber(request.data.user.number);
+                    setComplement(request.data.user.complement);
+               } catch (error) {
+                    console.log(error);
+
+                    setError(true);
+                    setErrorMessage('Ocorreu um erro...');
+               };
           };
 
           getAddress();
@@ -52,10 +84,11 @@ export function EditAddress() {
 
      async function handleAddressEditing() {
           setError(false);
+          setErrorMessage('');
 
           if (code === '') {
                setError(true);
-               setErrorMessage('Insira seu cep.');
+               setErrorMessage('Insira seu CEP.');
                return;
           };
 
@@ -101,8 +134,6 @@ export function EditAddress() {
 
                const request = await api.patch(`/students/me/${user?.id}/address`, { address });
 
-               console.log(request);
-
                if (request.data.status === 'success') {
                     setSuccess(true);
                } else {
@@ -135,8 +166,8 @@ export function EditAddress() {
                          </View>
                     </View>
                }
-               <KeyboardAvoidingView className='flex-1 w-full px-8 pb-28' behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                    <ScrollView className='mt-20 mb-10 w-full flex-1 bg-red-500'>
+               <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-28 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                    <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
                          <TouchableOpacity onPress={goBack}>
                               <Ionicons name='ios-chevron-back' size={24} color='black' />
                          </TouchableOpacity>
@@ -147,6 +178,7 @@ export function EditAddress() {
                               CEP
                          </Text>
                          <MaskedTextInput
+                              autoFocus
                               mask='99999-999'
                               autoCapitalize='none'
                               keyboardType='number-pad'
@@ -234,7 +266,7 @@ export function EditAddress() {
                               </View>
                          </View>
                     </ScrollView>
-                    <View className='bottom-8 w-full space-y-5 bg-amber-300'>
+                    <View className='absolute bottom-8 w-full space-y-5'>
                          {
                               error &&
                               <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>

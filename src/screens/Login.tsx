@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
@@ -7,6 +7,9 @@ import { AuthContext } from '../contexts/auth';
 export function Login() {
      const { goBack, navigate } = useNavigation();
 
+     const [error, setError] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
+
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
      const [seePassword, setSeePassword] = useState(false);
@@ -14,14 +17,29 @@ export function Login() {
      const { login } = useContext(AuthContext);
 
      async function handleLogin() {
-          await login({ email, password });
+          setError(false);
+          setErrorMessage('');
 
+          if (email === '') {
+               setError(true);
+               setErrorMessage('Insira seu e-mail.');
+               return;
+          };
+
+          if (password === '') {
+               setError(true);
+               setErrorMessage('Insira sua senha.');
+               return;
+          };
+
+          await login({ email, password });
+     
           navigate('home');
      };
 
      return (
-          <View className='flex-1 bg-white'>
-               <View className='mt-20 px-8'>
+          <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-44 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+               <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
                     <TouchableOpacity onPress={() => goBack()} activeOpacity={0.7}>
                          <Ionicons name='ios-chevron-back' size={24} color='black' />
                     </TouchableOpacity>
@@ -63,18 +81,27 @@ export function Login() {
                               }
                          </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center'>
-                         <Text className='mr-3 text-base font-text mb-1'>
+               </ScrollView>
+               <View className='absolute bottom-8 w-full space-y-5'>
+                    {
+                         error &&
+                         <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <AntDesign name='warning' size={24} color='white' />
+                              <Text className='text-white text-base'>
+                                   {errorMessage}
+                              </Text>
+                         </View>
+                    }
+                    <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
+                         <Text className='text-white text-base font-title'>Entrar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center justify-center space-x-1'>
+                         <Text className='text-base font-text mb-1'>
                               Não possui conta? Clique aqui
                          </Text>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <AntDesign name='arrowright' size={24} color='black' />
                     </TouchableOpacity>
-                    <View className='mt-8 flex-row justify-end'>
-                         <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
-                              <AntDesign name='arrowright' size={24} color='white' />
-                         </TouchableOpacity>
-                    </View>
                </View>
-          </View>
+          </KeyboardAvoidingView>
      );
 };

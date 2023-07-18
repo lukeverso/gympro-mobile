@@ -22,6 +22,7 @@ import { EditName } from '../screens/EditName';
 import { EditEmail } from '../screens/EditEmail';
 import { EditTelephone } from '../screens/EditTelephone';
 import { EditAddress } from '../screens/EditAddress';
+import { Evolution } from '../screens/Evolution';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ export function AppRoutes() {
                               <Screen name='profile' component={Profile} />
                               <Screen name='finishTrain' component={FinishTrain} />
                               <Screen name='beginTrain' component={BeginTrain} />
+                              <Screen name='currentExercise' component={CurrentExercise} />
                               <Screen name='trainDetails' component={TrainDetails} />
                               <Screen name='menu' component={Menu} />
                               <Screen name='notifications' component={Notifications} />
@@ -48,6 +50,7 @@ export function AppRoutes() {
                               <Screen name='editTelephone' component={EditTelephone} />
                               <Screen name='editAddress' component={EditAddress} />
                               <Screen name='measures' component={Measures} />
+                              <Screen name='evolution' component={Evolution} />
                          </> :
                          <>
                               <Screen name='main' component={Main} />

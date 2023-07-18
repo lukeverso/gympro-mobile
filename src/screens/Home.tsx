@@ -5,8 +5,10 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
 
-import constructionImg from '../assets/images/construction.png';
 import measures from '../assets/images/measures.png';
+import evolution from '../assets/images/evolution.png';
+import constructionImg from '../assets/images/construction.png';
+import { StatusBar } from 'expo-status-bar';
 
 interface WorkoutsProps {
      active: boolean;
@@ -35,17 +37,35 @@ export function Home() {
 
      useEffect(() => {
           async function getHomeData() {
-               const request = await api.get(`/me/${user?.id}`);
-               const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
-               setName(request.data.response.name);
-               setSheet(activeSheet);
+               try {
+                    const request = await api.get(`/students/me/${user?.id}`);
+
+                    console.log(request.data);
+
+                    if (request.data.response.teacher === null) {
+                         navigate('noPersonal');
+                         return;
+                    };
+
+                    if (request.data.response.sheets.length === 0) {
+                         navigate('noWorkout');
+                         return;
+                    };
+
+                    const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
+
+                    setName(request.data.response.name);
+                    setSheet(activeSheet);
+               } catch (error) {
+                    console.log(error);
+               }
           };
 
           getHomeData();
      }, []);
 
      return (
-          <ScrollView>
+          <ScrollView className='flex-1 bg-white'>
                <View className='mt-20 px-8'>
                     <View className='flex-row justify-between items-center'>
                          <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center'>
@@ -66,7 +86,7 @@ export function Home() {
                               Sua ficha
                          </Text>
                          <TouchableOpacity activeOpacity={0.7}>
-                              <Text className='text-sm text-blue-600 font-title'>
+                              <Text className='text-sm text-black font-title'>
                                    Ver todas
                               </Text>
                          </TouchableOpacity>
@@ -85,7 +105,7 @@ export function Home() {
                     {
                          sheet?.workouts?.map((workout: WorkoutsProps) => {
                               return (
-                                   <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
+                                   <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
                                         <View className='flex-row gap-3 items-center'>
                                              <Octicons name="dot-fill" size={24} color="black" />
                                              <Text className='font-title text-base mb-1'>
@@ -101,7 +121,7 @@ export function Home() {
                          Sua semana
                     </Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row space-x-4 mt-4'>
-                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 roundedex-1 items-center justify-center space-y-1'>
                               <Feather name='repeat' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    4
@@ -111,7 +131,7 @@ export function Home() {
                                    consecutivos
                               </Text>
                          </View>
-                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 roundedex-1 items-center justify-center space-y-1'>
                               <Feather name='trending-up' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    27
@@ -121,7 +141,7 @@ export function Home() {
                                    em sequência
                               </Text>
                          </View>
-                         <View className='px-10 py-5 bg-gray-100 rounded flex-1 items-center justify-center space-y-1'>
+                         <View className='px-10 py-5 bg-gray-100 roundedex-1 items-center justify-center space-y-1'>
                               <Feather name='trending-up' size={24} color='black' />
                               <Text className='font-title text-2xl'>
                                    27
@@ -139,30 +159,30 @@ export function Home() {
                          <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
                               <View className='w-64'>
                                    <Image source={measures} className='h-40 w-64 rounded' />
-                                   <View className='mt-3 px-3'>
+                                   <View className='mt-3 px-4'>
                                         <View className='flex-row items-center space-x-1'>
                                              <Text className='font-title text-lg'>Edite suas medidas</Text>
-                                             <Feather name="arrow-right" size={24} color="black" />
                                         </View>
                                         <Text className='font-text text-base'>Anote todas as medidas do seu corpo</Text>
                                    </View>
                               </View>
                          </TouchableOpacity>
-                         <View className='w-64'>
-                              <Image source={measures} className='h-40 w-64 rounded' />
-                              <View className='mt-3 px-3'>
-                                   <View className='flex-row items-center space-x-1'>
-                                        <Text className='font-title text-lg'>Edite suas medidas</Text>
-                                        <Feather name="arrow-right" size={24} color="black" />
+                         <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('evolution')}>
+                              <View className='w-64'>
+                                   <Image source={evolution} className='h-40 w-64 rounded' />
+                                   <View className='mt-3 px-4'>
+                                        <View className='flex-row items-center space-x-1'>
+                                             <Text className='font-title text-lg'>Acompanhe sua evolução</Text>
+                                        </View>
+                                        <Text className='font-text text-base'>Saiba como está sua evolução corporal na academia</Text>
                                    </View>
-                                   <Text className='font-text text-base'>Anote todas as medidas do seu corpo</Text>
                               </View>
-                         </View>
+                         </TouchableOpacity>
                     </ScrollView>
                     <Text className='text-2xl font-title mt-8'>
                          Sua semana
                     </Text>
-                    <Image source={constructionImg} className='mt-8 w-full h-52 rounded-lg' />
+                    <Image source={constructionImg} className='mt-8 w-full h-52 rounded' />
                     <Text className='mt-4 font-title text-xl text-center'>
                          Esta sessão está em{'\n'}
                          construção...
@@ -172,6 +192,7 @@ export function Home() {
                          estará disponível para o seu uso!
                     </Text>
                </View>
+               <StatusBar style='dark' backgroundColor='#FFFFFF' />
           </ScrollView>
      );
 };

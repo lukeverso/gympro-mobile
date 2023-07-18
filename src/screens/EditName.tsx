@@ -19,10 +19,20 @@ export function EditName() {
 
      useEffect(() => {
           async function getName() {
-               const request = await api.get(`/students/me/${user?.id}/name`);
+               setError(false);
+               setErrorMessage('');
 
-               setName(request.data.user.name.split(' ')[0]);
-               setSurname(request.data.user.name.split(' ')[1]);
+               try {
+                    const request = await api.get(`/students/me/${user?.id}/name`);
+
+                    setName(request.data.user.name.split(' ')[0]);
+                    setSurname(request.data.user.name.split(' ')[1]);
+               } catch (error) {
+                    console.log(error);
+
+                    setError(true);
+                    setErrorMessage('Ocorreu um erro...');
+               };
           };
 
           getName();
@@ -30,6 +40,7 @@ export function EditName() {
 
      async function handleNameEditing() {
           setError(false);
+          setErrorMessage('');
 
           if (name === '') {
                setError(true);

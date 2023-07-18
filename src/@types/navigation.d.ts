@@ -16,6 +16,7 @@ export declare global {
                     id: string;
                };
                beginTrain: undefined;
+               currentExercise: undefined;
                finishTrain: undefined;
                profile: undefined;
                edit: undefined;
@@ -24,6 +25,7 @@ export declare global {
                editTelephone: undefined;
                editAddress: undefined;
                measures: undefined;
+               evolution: undefined;
           }
      }
 }

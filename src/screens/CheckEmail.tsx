@@ -21,20 +21,27 @@ export function CheckEmail() {
                return;
           };
 
-          const request = await api.post(`/students/verify-email?email=${email}`);
+          try {
+               const request = await api.post(`/students/verify-email?email=${email}`);
 
-          if (request.data.status === 'success') {
-               navigate('create', { email });
-          } else {
+               if (request.data.status === 'success') {
+                    navigate('create', { email });
+               } else {
+                    setError(true);
+                    setErrorMessage(request.data.message);
+                    return;
+               };
+          } catch (error) {
+               console.log(error);
+
                setError(true);
-               setErrorMessage(request.data.message);
-               return;
-          }
+               setErrorMessage('Ocorreu um erro...');
+          };
      };
 
      return (
-          <View className='flex-1 bg-white'>
-               <View className='mt-20 px-8'>
+          <View className='flex-1 bg-white px-8 items-center'>
+               <View className='mt-20 mb-10 w-full'>
                     <TouchableOpacity onPress={() => goBack()}>
                          <Ionicons name='ios-chevron-back' size={24} color='black' />
                     </TouchableOpacity>
@@ -54,20 +61,20 @@ export function CheckEmail() {
                          onChangeText={setEmail}
                          value={email}
                     />
-                    <View className={error ? 'mt-8 flex-row justify-between' : 'mt-8 flex-row justify-end'}>
-                         {
-                              error &&
-                              <View className='flex-row items-center py-3 px-5 bg-red-400 rounded-full'>
-                                   <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base ml-3'>
-                                        {errorMessage}
-                                   </Text>
-                              </View>
-                         }
-                         <TouchableOpacity onPress={handleEmailCheck} activeOpacity={0.7} className='px-3 py-3 items-center justify-center bg-black rounded-full'>
-                              <AntDesign name='arrowright' size={24} color='white' />
-                         </TouchableOpacity>
-                    </View>
+               </View>
+               <View className='absolute bottom-8 w-full space-y-5'>
+                    {
+                         error &&
+                         <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <AntDesign name='warning' size={24} color='white' />
+                              <Text className='text-white text-base'>
+                                   {errorMessage}
+                              </Text>
+                         </View>
+                    }
+                    <TouchableOpacity onPress={handleEmailCheck} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
+                         <Text className='text-white text-base font-title'>Avançar</Text>
+                    </TouchableOpacity>
                </View>
           </View>
      );

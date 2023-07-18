@@ -18,9 +18,19 @@ export function EditEmail() {
 
      useEffect(() => {
           async function getEmail() {
-               const request = await api.get(`/students/me/${user?.id}/email`);
+               setError(false);
+               setErrorMessage('');
 
-               setEmail(request.data.user.email);
+               try {
+                    const request = await api.get(`/students/me/${user?.id}/email`);
+
+                    setEmail(request.data.user.email);
+               } catch (error) {
+                    console.log(error);
+
+                    setError(true);
+                    setErrorMessage('Ocorreu um erro...');
+               };
           };
 
           getEmail();
@@ -28,6 +38,7 @@ export function EditEmail() {
 
      async function handleEmailEditing() {
           setError(false);
+          setErrorMessage('');
 
           if (email === '') {
                setError(true);
@@ -37,8 +48,6 @@ export function EditEmail() {
 
           try {
                const request = await api.patch(`/students/me/${user?.id}/email`, { email });
-
-               console.log(request);
 
                if (request.data.status === 'success') {
                     setSuccess(true);
@@ -84,6 +93,7 @@ export function EditEmail() {
                               E-mail
                          </Text>
                          <TextInput
+                              autoFocus
                               autoCapitalize='none'
                               keyboardType='email-address'
                               placeholder='E-mail'

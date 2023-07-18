@@ -27,7 +27,7 @@ interface ExercisesProps {
 };
 
 export function TrainDetails() {
-     const { goBack } = useNavigation();
+     const { goBack, navigate } = useNavigation();
 
      const route = useRoute();
 
@@ -37,9 +37,13 @@ export function TrainDetails() {
 
      useEffect(() => {
           async function getExercises() {
-               const response = await api.get(`/exercises/${id}`);
+               try {
+                    const response = await api.get(`/exercises/${id}`);
 
-               setExercises(response.data.exercises);
+                    setExercises(response.data.exercises);
+               } catch (error) {
+                    console.log(error);
+               };
           };
 
           getExercises();
@@ -108,9 +112,8 @@ export function TrainDetails() {
                          })
                     }
                     <View className='flex mt-8'>
-                         <TouchableOpacity activeOpacity={0.7} className='py-3 bg-black flex-row items-center justify-center flex'>
+                         <TouchableOpacity onPress={() => navigate('currentExercise')} activeOpacity={0.7} className='rounded py-3 bg-black flex-row items-center justify-center flex'>
                               <Text className='text-white text-base font-title mr-3'>Começar treino</Text>
-                              <Feather name='check' size={24} color='white' />
                          </TouchableOpacity>
                     </View>
                </View>

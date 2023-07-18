@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/auth';
@@ -37,15 +37,23 @@ export function Menu() {
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={() => navigate('evolution')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
-                         <Feather name='edit-3' size={24} style={{ color: '#c62222' }} />
-                         <Text className='font-title text-base mb-1 text-red-400'>
-                              Sair do aplicativo
+                         <AntDesign name='linechart' size={24} color='black' />
+                         <Text className='font-title text-base mb-1'>
+                              Acompanhe sua evolução
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} style={{ color: '#c62222' }} />
+                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
+               <View className='absolute bottom-8 w-full px-8'>
+                    <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-center items-center space-x-3 py-3 bg-gray-100 rounded-full'>
+                         <Feather name='log-out' size={24} color='black' />
+                         <Text className='font-title text-base mb-1 text-black'>
+                              Sair do aplicativo
+                         </Text>
+                    </TouchableOpacity>
+               </View>
           </View>
      );
 };

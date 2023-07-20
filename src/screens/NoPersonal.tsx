@@ -1,8 +1,9 @@
+import { useCallback, useContext, useState } from 'react';
 import { RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg';
-import { useCallback, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { api } from '../lib/api';
 
 export function NoPersonal() {
      const { user } = useContext(AuthContext);
@@ -16,11 +17,26 @@ export function NoPersonal() {
 
           async function getData() {
                try {
+                    const request = await api.get(`/students/${user?.id}`);
 
+                    console.log(request.data);
+
+                    if (request.data.response.teacher === null) {
+                         return;
+                    };
+
+                    if (request.data.response.sheets.length === 0) {
+                         navigate('noWorkout');
+                         return;
+                    };
+
+                    navigate('home');
                } catch (error) {
-
-               }
+                    console.log(error);
+               };
           };
+
+          getData();
 
           setTimeout(() => {
                setRefreshing(false);
@@ -50,6 +66,11 @@ export function NoPersonal() {
                               ou informe seu e-mail{'\n'}
                               para você ser adicionado{'\n'}
                               como aluno.
+                         </Text>
+                         <Text className='text-center mt-10 text-lg font-text'>
+                              (Puxe a tela para atualizar os dados{'\n'}
+                              quando seu professor tiver adicionado{'\n'}
+                              você como aluno.)
                          </Text>
                     </View>
                </ScrollView>

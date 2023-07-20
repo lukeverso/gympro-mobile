@@ -23,10 +23,10 @@ export function EditName() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/me/${user?.id}/name`);
+                    const request = await api.get(`/students/${user?.id}/name`);
 
-                    setName(request.data.user.name.split(' ')[0]);
-                    setSurname(request.data.user.name.split(' ')[1]);
+                    setName(request.data.student.name.split(' ')[0]);
+                    setSurname(request.data.student.name.split(' ')[1]);
                } catch (error) {
                     console.log(error);
 
@@ -55,7 +55,7 @@ export function EditName() {
           };
 
           try {
-               const request = await api.patch(`/students/me/${user?.id}/name`, { name, surname });
+               const request = await api.patch(`/students/${user?.id}/name`, { name, surname });
 
                if (request.data.status === 'success') {
                     setSuccess(true);

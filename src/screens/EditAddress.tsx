@@ -66,11 +66,11 @@ export function EditAddress() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/me/${user?.id}/address`);
+                    const request = await api.get(`/students/${user?.id}/address`);
 
-                    setCode(request.data.user.code);
-                    setNumber(request.data.user.number);
-                    setComplement(request.data.user.complement);
+                    setCode(request.data.student.code);
+                    setNumber(request.data.student.number);
+                    setComplement(request.data.student.complement);
                } catch (error) {
                     console.log(error);
 
@@ -132,7 +132,7 @@ export function EditAddress() {
                     state
                };
 
-               const request = await api.patch(`/students/me/${user?.id}/address`, { address });
+               const request = await api.patch(`/students/${user?.id}/address`, { address });
 
                if (request.data.status === 'success') {
                     setSuccess(true);

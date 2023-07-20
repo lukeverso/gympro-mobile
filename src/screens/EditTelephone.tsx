@@ -23,9 +23,9 @@ export function EditTelephone() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/me/${user?.id}/telephone`);
+                    const request = await api.get(`/students/${user?.id}/telephone`);
 
-                    setTelephone(request.data.user.telephone);
+                    setTelephone(request.data.student.telephone);
                } catch (error) {
                     console.log(error);
 
@@ -48,7 +48,7 @@ export function EditTelephone() {
           };
 
           try {
-               const request = await api.patch(`/students/me/${user?.id}/telephone`, { telephone });
+               const request = await api.patch(`/students/${user?.id}/telephone`, { telephone });
 
                if (request.data.status === 'success') {
                     setSuccess(true);

@@ -22,9 +22,9 @@ export function EditEmail() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/me/${user?.id}/email`);
+                    const request = await api.get(`/students/${user?.id}/email`);
 
-                    setEmail(request.data.user.email);
+                    setEmail(request.data.student.email);
                } catch (error) {
                     console.log(error);
 
@@ -47,7 +47,7 @@ export function EditEmail() {
           };
 
           try {
-               const request = await api.patch(`/students/me/${user?.id}/email`, { email });
+               const request = await api.patch(`/students/${user?.id}/email`, { email });
 
                if (request.data.status === 'success') {
                     setSuccess(true);

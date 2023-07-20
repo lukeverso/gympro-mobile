@@ -2,6 +2,7 @@ import { Image, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { api } from '../lib/api';
 
 import workout from '../assets/images/workout.png';
 
@@ -17,11 +18,21 @@ export function NoWorkout() {
 
           async function getData() {
                try {
+                    const request = await api.get(`/students/${user?.id}`);
 
+                    console.log(request.data);
+
+                    if (request.data.response.sheets.length === 0) {
+                         return;
+                    };
+
+                    navigate('home');
                } catch (error) {
-
-               }
+                    console.log(error);
+               };
           };
+
+          getData();
 
           setTimeout(() => {
                setRefreshing(false);
@@ -49,6 +60,11 @@ export function NoWorkout() {
                                    Converse com seu professor{'\n'}
                                    para ele criar a ficha ideal{'\n'}
                                    para você.
+                              </Text>
+                              <Text className='text-center mt-10 text-lg font-text'>
+                                   (Puxe a tela para atualizar os dados{'\n'}
+                                   quando seu professor tiver criado{'\n'}
+                                   sua ficha de treino.)
                               </Text>
                          </View>
                     </View>

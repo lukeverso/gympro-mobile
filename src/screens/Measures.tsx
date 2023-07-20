@@ -42,7 +42,34 @@ export function Measures() {
      }, [weight, height]);
 
      async function handleMeasuresInsert() {
-          
+          setError(false);
+          setErrorMessage('');
+
+          try {
+               const request = await api.post(`/students/${user?.id}/measures`, {
+                    weight,
+                    height,
+                    bmi,
+                    shoulders,
+                    chest,
+                    waist,
+                    hip,
+                    arm,
+                    thigh,
+                    calf,
+                    wingspan
+               });
+
+               if (request.data.status === 'success') {
+                    setSuccess(true);
+               } else {
+                    setError(true);
+                    setErrorMessage(request.data.message || 'Ocorreu um erro');
+                    return;
+               };
+          } catch (error) {
+
+          }
      };
 
      const { user } = useContext(AuthContext);
@@ -53,21 +80,35 @@ export function Measures() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/me/${user?.id}/measures`);
+                    const request = await api.get(`/students/${user?.id}/measures`);
 
                     console.log(request.data);
 
-                    setWeight(request.data.measures.weight);
-                    setHeight(request.data.measures.height);
-                    setBmi(request.data.measures.bmi);
-                    setShoulders(request.data.measures.shoulders);
-                    setChest(request.data.measures.chest);
-                    setWaist(request.data.measures.waist);
-                    setHip(request.data.measures.hip);
-                    setArm(request.data.measures.arm);
-                    setThigh(request.data.measures.thigh);
-                    setCalf(request.data.measures.calf);
-                    setWingspan(request.data.measures.wingspan);
+                    if (request.data.measures) {
+                         setWeight(request.data.measures.weight);
+                         setHeight(request.data.measures.height);
+                         setBmi(request.data.measures.bmi);
+                         setShoulders(request.data.measures.shoulders);
+                         setChest(request.data.measures.chest);
+                         setWaist(request.data.measures.waist);
+                         setHip(request.data.measures.hip);
+                         setArm(request.data.measures.arm);
+                         setThigh(request.data.measures.thigh);
+                         setCalf(request.data.measures.calf);
+                         setWingspan(request.data.measures.wingspan);
+                    } else {
+                         setWeight('');
+                         setHeight('');
+                         setBmi('');
+                         setShoulders('');
+                         setChest('');
+                         setWaist('');
+                         setHip('');
+                         setArm('');
+                         setThigh('');
+                         setCalf('');
+                         setWingspan('');
+                    };
                } catch (error) {
                     console.log(error);
 
@@ -89,7 +130,7 @@ export function Measures() {
                               <Text className='font-title text-base text-center'>
                                    Suas medidas foram salvas com sucesso.
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                              <TouchableOpacity onPress={() => { setSuccess(false); navigate('menu'); }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>

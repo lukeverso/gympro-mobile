@@ -1,14 +1,15 @@
-import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground } from 'react-native';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { StatusBar } from 'expo-status-bar';
 
+import home from '../assets/images/home.jpg';
 import measures from '../assets/images/measures.png';
 import evolution from '../assets/images/evolution.png';
 import constructionImg from '../assets/images/construction.png';
-import { StatusBar } from 'expo-status-bar';
 
 interface WorkoutsProps {
      active: boolean;
@@ -118,14 +119,16 @@ export function Home() {
                                    </Text>
                               </TouchableOpacity>
                          </View>
-                         <View className='mt-4 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
-                              <Text className='font-text text-base'>
-                                   Objetivo: {sheet?.objective}{'\n'}
-                                   {sheet?.annotations ? `Anotações: ${sheet.annotations}` : ''}
-                                   Início: {sheet?.startDate}{'\n'}
-                                   Término: {sheet?.endDate}
-                              </Text>
-                         </View>
+                         <ImageBackground source={home} className='mt-4 rounded flex-row justify-between items-center overflow-hidden'>
+                              <View className='bg-black/50 px-5 py-10 flex-1'>
+                                   <Text className='font-text text-base text-white'>
+                                        Objetivo: {sheet?.objective}{'\n'}
+                                        {sheet?.annotations ? `Anotações: ${sheet.annotations}` : ''}
+                                        Início: {sheet?.startDate}{'\n'}
+                                        Término: {sheet?.endDate}
+                                   </Text>
+                              </View>
+                         </ImageBackground>
                          <Text className='mt-8 text-2xl font-title'>
                               Seus treinos
                          </Text>

@@ -29,9 +29,17 @@ export function Notifications() {
 
      useEffect(() => {
           async function getNotifications() {
-               const response = await api.get(`/notifications/${user?.id}`);
+               try {
+                    const response = await api.get(`/notifications/${user?.id}`);
 
-               setNotifications(response.data.notifications[0].gym.notifications);
+                    if (response.data.notifications[0].gym) {
+                         setNotifications(response.data.notifications[0].gym.notifications);
+                    } else {
+                         setNotifications([]);
+                    };
+               } catch (error) {
+                    console.log(error);
+               }
           };
 
           getNotifications();
@@ -50,38 +58,48 @@ export function Notifications() {
                          Sua lista de informes da academia
                     </Text>
                </View>
-               {notifications?.map((notification: NotificationProps, index: number) => (
-                    <View key={index} className='py-2 border-b-2 border-b-gray-100'>
-                         <TouchableOpacity
-                              activeOpacity={0.7}
-                              onPress={() => toggleItem(index)}
-                              className='flex-row justify-between items-center px-8 h-20'
-                         >
-                              <View className='flex-row items-center space-x-5'>
-                                   <Feather name='bell' size={24} color='black' />
-                                   <Text className='flex-1 font-title text-lg' numberOfLines={1} ellipsizeMode="tail">
-                                        {notification.title}
-                                   </Text>
+               {
+                    notifications.length > 0 ?
+                         notifications?.map((notification: NotificationProps, index: number) => (
+                              <View key={index} className='py-2 border-b-2 border-b-gray-100'>
+                                   <TouchableOpacity
+                                        activeOpacity={0.7}
+                                        onPress={() => toggleItem(index)}
+                                        className='flex-row justify-between items-center px-8 h-20'
+                                   >
+                                        <View className='flex-row items-center space-x-5'>
+                                             <Feather name='bell' size={24} color='black' />
+                                             <Text className='flex-1 font-title text-lg' numberOfLines={1} ellipsizeMode='tail'>
+                                                  {notification.title}
+                                             </Text>
+                                             {
+                                                  notification.expanded ?
+                                                       <Ionicons name='ios-chevron-up' size={24} color='black' /> :
+                                                       <Ionicons name='ios-chevron-down' size={24} color='black' />
+                                             }
+                                        </View>
+                                   </TouchableOpacity>
                                    {
-                                        notification.expanded ?
-                                             <Ionicons name='ios-chevron-up' size={24} color='black' /> :
-                                             <Ionicons name='ios-chevron-down' size={24} color='black' />
+                                        notification.expanded &&
+                                        <View className='px-8 mb-8 space-y-3'>
+                                             <Text className='flex-1 font-title text-lg'>
+                                                  {notification.title}
+                                             </Text>
+                                             <Text className='font-text text-base'>
+                                                  {notification.content}
+                                             </Text>
+                                        </View>
                                    }
                               </View>
-                         </TouchableOpacity>
-                         {
-                              notification.expanded &&
-                              <View className='px-8 mb-8 space-y-3'>
-                                   <Text className='flex-1 font-title text-lg'>
-                                        {notification.title}
-                                   </Text>
-                                   <Text className='font-text text-base'>
-                                        {notification.content}
-                                   </Text>
-                              </View>
-                         }
-                    </View>
-               ))}
+                         )) :
+                         <View className='w-full flex-col items-center mt-8 space-y-3'>
+                              <Feather name='bell-off' size={24} color='black' />
+                              <Text className='font-title text-lg text-center leading-6'>
+                                   Nenhuma notificação{'\n'}
+                                   encontrada
+                              </Text>
+                         </View>
+               }
           </ScrollView>
      );
 };

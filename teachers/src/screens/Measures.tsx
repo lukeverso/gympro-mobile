@@ -4,10 +4,19 @@ import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { useRoute } from '@react-navigation/native';
 import { MaskedTextInput } from 'react-native-mask-text';
+
+interface StudentDetailsProps {
+     id: string;
+};
 
 export function Measures() {
      const { goBack, navigate } = useNavigation();
+
+     const route = useRoute();
+
+     const { id } = route.params as StudentDetailsProps;
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
@@ -46,7 +55,7 @@ export function Measures() {
           setErrorMessage('');
 
           try {
-               const request = await api.post(`/students/${user?.id}/measures`, {
+               const request = await api.post(`/students/${id}/measures`, {
                     weight,
                     height,
                     bmi,
@@ -68,55 +77,53 @@ export function Measures() {
                     return;
                };
           } catch (error) {
-
-          }
+               console.log(error);
+          };
      };
 
-     const { user } = useContext(AuthContext);
+     async function getMeasures() {
+          setError(false);
+          setErrorMessage('');
+
+          try {
+               const request = await api.get(`/students/${id}/measures`);
+
+               console.log(request.data);
+
+               if (request.data.measures) {
+                    setWeight(request.data.measures.weight);
+                    setHeight(request.data.measures.height);
+                    setBmi(request.data.measures.bmi);
+                    setShoulders(request.data.measures.shoulders);
+                    setChest(request.data.measures.chest);
+                    setWaist(request.data.measures.waist);
+                    setHip(request.data.measures.hip);
+                    setArm(request.data.measures.arm);
+                    setThigh(request.data.measures.thigh);
+                    setCalf(request.data.measures.calf);
+                    setWingspan(request.data.measures.wingspan);
+               } else {
+                    setWeight('');
+                    setHeight('');
+                    setBmi('');
+                    setShoulders('');
+                    setChest('');
+                    setWaist('');
+                    setHip('');
+                    setArm('');
+                    setThigh('');
+                    setCalf('');
+                    setWingspan('');
+               };
+          } catch (error) {
+               console.log(error);
+
+               setError(true);
+               setErrorMessage('Ocorreu um erro...');
+          };
+     };
 
      useEffect(() => {
-          async function getMeasures() {
-               setError(false);
-               setErrorMessage('');
-
-               try {
-                    const request = await api.get(`/students/${user?.id}/measures`);
-
-                    console.log(request.data);
-
-                    if (request.data.measures) {
-                         setWeight(request.data.measures.weight);
-                         setHeight(request.data.measures.height);
-                         setBmi(request.data.measures.bmi);
-                         setShoulders(request.data.measures.shoulders);
-                         setChest(request.data.measures.chest);
-                         setWaist(request.data.measures.waist);
-                         setHip(request.data.measures.hip);
-                         setArm(request.data.measures.arm);
-                         setThigh(request.data.measures.thigh);
-                         setCalf(request.data.measures.calf);
-                         setWingspan(request.data.measures.wingspan);
-                    } else {
-                         setWeight('');
-                         setHeight('');
-                         setBmi('');
-                         setShoulders('');
-                         setChest('');
-                         setWaist('');
-                         setHip('');
-                         setArm('');
-                         setThigh('');
-                         setCalf('');
-                         setWingspan('');
-                    };
-               } catch (error) {
-                    console.log(error);
-
-                    setError(true);
-                    setErrorMessage('Ocorreu um erro...');
-               };
-          };
-
           getMeasures();
      }, []);
 
@@ -125,9 +132,9 @@ export function Measures() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
-                              <Text className='font-title text-base text-center'>
+                              <Text className='font-title text-lg text-center'>
                                    Suas medidas foram salvas com sucesso.
                               </Text>
                               <TouchableOpacity onPress={() => { setSuccess(false); navigate('menu'); }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>

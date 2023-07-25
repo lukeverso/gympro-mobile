@@ -18,12 +18,12 @@ export function ScanCode() {
      const [hasPermission, setHasPermission] = useState<boolean>(false);
      const [scanned, setScanned] = useState<boolean>(false);
 
-     useEffect(() => {
-          const getBarCodeScannerPermissions = async () => {
-               const { status } = await BarCodeScanner.requestPermissionsAsync();
-               setHasPermission(status === 'granted');
-          };
+     const getBarCodeScannerPermissions = async () => {
+          const { status } = await BarCodeScanner.requestPermissionsAsync();
+          setHasPermission(status === 'granted');
+     };
 
+     useEffect(() => {
           getBarCodeScannerPermissions();
      }, []);
 
@@ -55,9 +55,9 @@ export function ScanCode() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
-                              <Text className='font-title text-base text-center'>
+                              <Text className='font-title text-lg text-center'>
                                    Aluno adicionado com sucesso!
                               </Text>
                               <TouchableOpacity onPress={() => navigate('home')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>

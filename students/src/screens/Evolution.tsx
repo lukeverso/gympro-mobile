@@ -1,14 +1,11 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { ScrollView, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
-import { MaskedTextInput } from 'react-native-mask-text';
 
 import construction from '../assets/images/construction.png';
 
 export function Evolution() {
      const { goBack } = useNavigation();
-
 
      return (
           <View className='flex-1 bg-white'>

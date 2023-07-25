@@ -60,25 +60,25 @@ export function EditAddress() {
 
      const { user } = useContext(AuthContext);
 
-     useEffect(() => {
-          async function getAddress() {
-               setError(false);
-               setErrorMessage('');
+     async function getAddress() {
+          setError(false);
+          setErrorMessage('');
 
-               try {
-                    const request = await api.get(`/students/${user?.id}/address`);
+          try {
+               const request = await api.get(`/students/${user?.id}/address`);
 
-                    setCode(request.data.student.code);
-                    setNumber(request.data.student.number);
-                    setComplement(request.data.student.complement);
-               } catch (error) {
-                    console.log(error);
+               setCode(request.data.student.code);
+               setNumber(request.data.student.number);
+               setComplement(request.data.student.complement);
+          } catch (error) {
+               console.log(error);
 
-                    setError(true);
-                    setErrorMessage('Ocorreu um erro...');
-               };
+               setError(true);
+               setErrorMessage('Ocorreu um erro...');
           };
+     };
 
+     useEffect(() => {
           getAddress();
      }, []);
 
@@ -153,10 +153,10 @@ export function EditAddress() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
-                              <Text className='font-title text-base text-center'>
-                                   O endereço foi editado com sucesso.{'\n'}
+                              <Text className='font-title text-lg text-center'>
+                                   O endereço foi editado com sucesso.
                               </Text>
                               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>

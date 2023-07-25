@@ -36,30 +36,30 @@ export function Home() {
      const [name, setName] = useState<string>('');
      const [sheet, setSheet] = useState<SheetProps | null>(null);
 
-     useEffect(() => {
-          async function getHomeData() {
-               try {
-                    const request = await api.get(`/students/${user?.id}`);
+     async function getHomeData() {
+          try {
+               const request = await api.get(`/students/${user?.id}`);
 
-                    if (request.data.response.teacher === null) {
-                         navigate('noPersonal');
-                         return;
-                    };
-
-                    if (request.data.response.sheets.length === 0) {
-                         navigate('noWorkout');
-                         return;
-                    };
-
-                    const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
-
-                    setName(request.data.response.name);
-                    setSheet(activeSheet);
-               } catch (error) {
-                    console.log(error);
+               if (request.data.response.teacher === null) {
+                    navigate('noPersonal');
+                    return;
                };
-          };
 
+               if (request.data.response.sheets.length === 0) {
+                    navigate('noWorkout');
+                    return;
+               };
+
+               const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
+
+               setName(request.data.response.name);
+               setSheet(activeSheet);
+          } catch (error) {
+               console.log(error);
+          };
+     };
+
+     useEffect(() => {
           getHomeData();
      }, []);
 

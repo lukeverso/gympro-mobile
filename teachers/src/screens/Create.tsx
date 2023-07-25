@@ -35,43 +35,43 @@ export function Create() {
      const [state, setState] = useState('');
      const [district, setDistrict] = useState('');
 
-     useEffect(() => {
-          async function fetchData() {
-               setError(false);
-               setErrorMessage('');
+     async function fetchData() {
+          setError(false);
+          setErrorMessage('');
 
-               if (code.length === 9) {
-                    try {
-                         setError(false);
-                         setErrorMessage('');
+          if (code.length === 9) {
+               try {
+                    setError(false);
+                    setErrorMessage('');
 
-                         const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
+                    const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
 
-                         if (request.data.erro === true) {
-                              setError(true);
-                              setErrorMessage('CEP inválido.');
-
-                              setStreet('');
-                              setDistrict('');
-                              setCity('');
-                              setState('');
-
-                              return;
-                         };
-
-                         setStreet(request.data.logradouro);
-                         setDistrict(request.data.bairro);
-                         setCity(request.data.localidade);
-                         setState(request.data.uf);
-                    } catch (error) {
-                         console.log(error);
-
+                    if (request.data.erro === true) {
                          setError(true);
-                         setErrorMessage('Ocorreu um erro...');
+                         setErrorMessage('CEP inválido.');
+
+                         setStreet('');
+                         setDistrict('');
+                         setCity('');
+                         setState('');
+
+                         return;
                     };
+
+                    setStreet(request.data.logradouro);
+                    setDistrict(request.data.bairro);
+                    setCity(request.data.localidade);
+                    setState(request.data.uf);
+               } catch (error) {
+                    console.log(error);
+
+                    setError(true);
+                    setErrorMessage('Ocorreu um erro...');
                };
           };
+     };
 
+     useEffect(() => {
           fetchData();
      }, [code]);
 
@@ -199,9 +199,9 @@ export function Create() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
-                              <Text className='font-title text-base text-center'>
+                              <Text className='font-title text-lg text-center'>
                                    Conta criada com sucesso!{'\n'}
                                    Realize o login para acessar{'\n'}
                                    o aplicativo.

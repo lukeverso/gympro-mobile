@@ -21,6 +21,8 @@ import { EditAddress } from '../screens/EditAddress';
 import { Evolution } from '../screens/Evolution';
 import { ScanCode } from '../screens/ScanCode';
 import StudentDetails from '../screens/StudentDetails';
+import StudentList from '../screens/StudentList';
+import FindByEmail from '../screens/FindByEmail';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -34,6 +36,8 @@ export function AppRoutes() {
                          <>
                               <Screen name='home' component={Home} />
                               <Screen name='scanCode' component={ScanCode} />
+                              <Screen name='studentList' component={StudentList} />
+                              <Screen name='findByEmail' component={FindByEmail} />
                               <Screen name='studentDetails' component={StudentDetails} />
                               <Screen name='profile' component={Profile} />
                               <Screen name='menu' component={Menu} />

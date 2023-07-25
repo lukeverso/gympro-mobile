@@ -8,6 +8,8 @@ export declare global {
                };
                checkEmail: undefined;
                home: undefined;
+               studentList: undefined;
+               findByEmail: undefined;
                studentDetails: {
                     id: string;
                };
@@ -20,7 +22,9 @@ export declare global {
                editTelephone: undefined;
                editAddress: undefined;
                scanCode: undefined;
-               measures: undefined;
+               measures: {
+                    id: string | undefined;
+               };
                evolution: undefined;
           }
      }

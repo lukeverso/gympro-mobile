@@ -21,56 +21,30 @@ export function EditAddress() {
      const [state, setState] = useState('');
      const [district, setDistrict] = useState('');
 
-     useEffect(() => {
-          async function fetchData() {
-               setError(false);
-               setErrorMessage('');
+     async function fetchData() {
+          setError(false);
+          setErrorMessage('');
 
-               if (code.length === 9) {
-                    try {
-                         const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
-
-                         if (request.data.erro === true) {
-                              setError(true);
-                              setErrorMessage('CEP inválido.');
-
-                              setStreet('');
-                              setDistrict('');
-                              setCity('');
-                              setState('');
-
-                              return;
-                         };
-
-                         setStreet(request.data.logradouro);
-                         setDistrict(request.data.bairro);
-                         setCity(request.data.localidade);
-                         setState(request.data.uf);
-                    } catch (error) {
-                         console.log(error);
-
-                         setError(true);
-                         setErrorMessage('Ocorreu um erro...');
-                    };
-               };
-          };
-
-          fetchData();
-     }, [code]);
-
-     const { user } = useContext(AuthContext);
-
-     useEffect(() => {
-          async function getAddress() {
-               setError(false);
-               setErrorMessage('');
-
+          if (code.length === 9) {
                try {
-                    const request = await api.get(`/students/${user?.id}/address`);
+                    const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
 
-                    setCode(request.data.student.code);
-                    setNumber(request.data.student.number);
-                    setComplement(request.data.student.complement);
+                    if (request.data.erro === true) {
+                         setError(true);
+                         setErrorMessage('CEP inválido.');
+
+                         setStreet('');
+                         setDistrict('');
+                         setCity('');
+                         setState('');
+
+                         return;
+                    };
+
+                    setStreet(request.data.logradouro);
+                    setDistrict(request.data.bairro);
+                    setCity(request.data.localidade);
+                    setState(request.data.uf);
                } catch (error) {
                     console.log(error);
 
@@ -78,7 +52,33 @@ export function EditAddress() {
                     setErrorMessage('Ocorreu um erro...');
                };
           };
+     };
 
+     useEffect(() => {
+          fetchData();
+     }, [code]);
+
+     const { user } = useContext(AuthContext);
+
+     async function getAddress() {
+          setError(false);
+          setErrorMessage('');
+
+          try {
+               const request = await api.get(`/students/${user?.id}/address`);
+
+               setCode(request.data.student.code);
+               setNumber(request.data.student.number);
+               setComplement(request.data.student.complement);
+          } catch (error) {
+               console.log(error);
+
+               setError(true);
+               setErrorMessage('Ocorreu um erro...');
+          };
+     };
+
+     useEffect(() => {
           getAddress();
      }, []);
 
@@ -153,9 +153,9 @@ export function EditAddress() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
                               <Feather name='check' size={24} color='black' />
-                              <Text className='font-title text-base text-center'>
+                              <Text className='font-title text-lg text-center'>
                                    O endereço foi editado com sucesso.{'\n'}
                               </Text>
                               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>

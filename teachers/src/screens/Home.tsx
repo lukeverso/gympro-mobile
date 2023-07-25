@@ -1,5 +1,5 @@
 import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Button } from 'react-native';
-import { Octicons, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
@@ -14,6 +14,7 @@ interface StudentsProps {
 };
 
 export function Home() {
+     const navigation = useNavigation();
      const { navigate } = useNavigation();
 
      const { user } = useContext(AuthContext);
@@ -21,19 +22,21 @@ export function Home() {
      const [name, setName] = useState<string>('');
      const [students, setStudents] = useState<StudentsProps[] | null>(null);
 
-     useEffect(() => {
-          async function getHomeData() {
-               try {
-                    const request = await api.get(`/teachers/${user?.id}`);
+     async function getData() {
+          try {
+               const request = await api.get(`/teachers/${user?.id}`);
 
-                    setName(request.data.name);
-                    setStudents(request.data.students);
-               } catch (error) {
-                    console.log(error);
-               };
+               setName(request.data.name);
+               setStudents(request.data.students);
+          } catch (error) {
+               console.log(error);
           };
+     };
 
-          getHomeData();
+     useEffect(() => {
+          navigation.addListener('focus', () => {
+               getData();
+          })
      }, []);
 
      const [refreshing, setRefreshing] = useState(false);
@@ -41,27 +44,12 @@ export function Home() {
      const onRefresh = useCallback(() => {
           setRefreshing(true);
 
-          async function getData() {
-               try {
-                    const request = await api.get(`/teachers/${user?.id}`);
-
-                    setName(request.data.name);
-                    setStudents(request.data.students);
-               } catch (error) {
-                    console.log(error);
-               };
-          };
-
           getData();
 
           setTimeout(() => {
                setRefreshing(false);
           }, 1000);
      }, []);
-
-     function handleStudentSelection(id: string) {
-          navigate('studentDetails', { id });
-     };
 
      return (
           <SafeAreaView className='flex-1 bg-white'>
@@ -88,13 +76,13 @@ export function Home() {
                               <Text className='text-2xl font-title'>
                                    Seus alunos
                               </Text>
-                              <TouchableOpacity activeOpacity={0.7}>
+                              <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7}>
                                    <Text className='text-sm text-black font-title'>
                                         Ver todas
                                    </Text>
                               </TouchableOpacity>
                          </View>
-                         <TouchableOpacity activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
+                         <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
                               <Feather name='search' size={24} color='black' />
                               <Text className='text-sm text-black font-title'>
                                    Pesquisar seus alunos
@@ -106,9 +94,9 @@ export function Home() {
                          {
                               students?.map((student: StudentsProps) => {
                                    return (
-                                        <TouchableOpacity onPress={() => handleStudentSelection(student.id)} key={student.id} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                        <TouchableOpacity onPress={() => navigate('studentDetails', { id: student?.id })} key={student.id} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                                              <View className='flex-row space-x-2 items-center'>
-                                                  <Octicons name='dot-fill' size={24} color='black' />
+                                                  <Entypo name='dot-single' size={24} color='black' />
                                                   <Text className='font-title text-base mb-1'>
                                                        {student.name}
                                                   </Text>
@@ -125,7 +113,7 @@ export function Home() {
                               Pesquisar aluno
                          </Text>
                          <View className='flex-row space-x-5 justify-between mt-5'>
-                              <TouchableOpacity activeOpacity={0.7} className='flex-1 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
+                              <TouchableOpacity onPress={() => navigate('findByEmail')} activeOpacity={0.7} className='flex-1 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
                                    <Feather name='search' size={24} color='black' />
                                    <Text className='text-sm text-black font-title'>
                                         Adicionar aluno por e-mail

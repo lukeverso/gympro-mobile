@@ -19,29 +19,11 @@ export function Menu() {
                          Menu do aplicativo
                     </Text>
                </View>
-               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
+               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8'>
                     <View className='flex-row space-x-3 items-center'>
                          <Feather name='edit-3' size={24} color='black' />
                          <Text className='font-title text-base mb-1'>
                               Editar dados do perfil
-                         </Text>
-                    </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
-               </TouchableOpacity>
-               <TouchableOpacity onPress={() => navigate('measures')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
-                    <View className='flex-row space-x-3 items-center'>
-                         <FontAwesome5 name='ruler-horizontal' size={24} color='black' />
-                         <Text className='font-title text-base mb-1'>
-                              Editar minhas medidas
-                         </Text>
-                    </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
-               </TouchableOpacity>
-               <TouchableOpacity onPress={() => navigate('evolution')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
-                    <View className='flex-row space-x-3 items-center'>
-                         <AntDesign name='linechart' size={24} color='black' />
-                         <Text className='font-title text-base mb-1'>
-                              Acompanhe sua evolução
                          </Text>
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />

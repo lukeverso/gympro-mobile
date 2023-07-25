@@ -29,7 +29,7 @@ export function CurrentExercise() {
                          </View>
                     </View>
                     <View className='mb-3'>
-                         <Text className='font-title text-lg text-center'>
+                         <Text className='font-title text-base text-center'>
                               Observações:
                          </Text>
                          <Text className='px-8 text-center mt-3'>

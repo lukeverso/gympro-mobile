@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, TextInput, SafeAreaView, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Entypo, Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
@@ -10,7 +10,7 @@ interface StudentProps {
      name: string;
 };
 
-export default function FindByEmail() {
+export function FindByEmail() {
      const { goBack, navigate } = useNavigation();
 
      const { user } = useContext(AuthContext);
@@ -32,7 +32,7 @@ export default function FindByEmail() {
           setStudentView(false);
 
           try {
-               const request = await api.get(`/students/email/${email}`);
+               const request = await api.get(`/students/${email}/search`);
 
                setStudent(request.data);
                setStudentView(true);
@@ -48,6 +48,7 @@ export default function FindByEmail() {
                console.log(request.data);
 
                if (request.data.status === 'success') {
+                    setOpenAddStudentModal(false);
                     setSuccess(true);
                };
           } catch (error) {
@@ -96,9 +97,12 @@ export default function FindByEmail() {
                }
                <SafeAreaView className='flex-1 bg-white'>
                     <View className='mt-20 px-8'>
-                         <TouchableOpacity onPress={goBack}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
-                         </TouchableOpacity>
+                         <View className='flex-row justify-between items-center'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              </TouchableOpacity>
+                              <View className='items-center justify-center p-3'></View>
+                         </View>
                          <Text className='mt-8 text-2xl font-title'>
                               Encontrar um aluno
                          </Text>
@@ -128,18 +132,11 @@ export default function FindByEmail() {
                          {
                               studentView ?
                                    student ?
-                                        <TouchableOpacity
-                                             activeOpacity={0.7}
-                                             onPress={() => { Keyboard.dismiss(); setOpenAddStudentModal(true) }}
-                                             className='mt-8 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'
-                                        >
-                                             <View className='flex-row space-x-2 items-center'>
-                                                  <Entypo name='dot-single' size={24} color='black' />
-                                                  <Text className='font-title text-base mb-1'>
-                                                       {student.name}
-                                                  </Text>
-                                             </View>
-                                             <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                        <TouchableOpacity activeOpacity={0.7} onPress={() => { Keyboard.dismiss(); setOpenAddStudentModal(true) }} className='mt-8 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                             <Text className='font-title text-base mb-1'>
+                                                  {student.name}
+                                             </Text>
+                                             <Octicons name="person-add" size={24} color="black" />
                                         </TouchableOpacity> :
                                         <View className='w-full flex-col items-center mt-8 space-y-3'>
                                              <Feather name='alert-circle' size={24} color='black' />

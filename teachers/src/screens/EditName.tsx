@@ -91,9 +91,12 @@ export function EditName() {
                }
                <View className='flex-1 bg-white px-8 items-center'>
                     <View className='mt-20 mb-10 w-full'>
-                         <TouchableOpacity onPress={() => goBack()}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
-                         </TouchableOpacity>
+                         <View className='flex-row justify-between items-center'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              </TouchableOpacity>
+                              <View className='items-center justify-center p-3'></View>
+                         </View>
                          <Text className='mt-8 text-2xl font-title'>
                               Edite seu nome
                          </Text>

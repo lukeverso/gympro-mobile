@@ -12,7 +12,7 @@ interface StudentProps {
      birthdate: string;
 };
 
-export default function StudentList() {
+export function StudentList() {
      const { goBack, navigate } = useNavigation();
 
      const { user } = useContext(AuthContext);
@@ -54,9 +54,12 @@ export default function StudentList() {
                          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }>
                     <View className='mt-20 px-8'>
-                         <TouchableOpacity onPress={goBack}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
-                         </TouchableOpacity>
+                         <View className='flex-row justify-between items-center'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              </TouchableOpacity>
+                              <View className='items-center justify-center p-3'></View>
+                         </View>
                          <Text className='mt-8 text-2xl font-title'>
                               Todos os seus alunos
                          </Text>

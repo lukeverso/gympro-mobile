@@ -13,6 +13,9 @@ export declare global {
                studentDetails: {
                     id: string;
                };
+               trainSheets: {
+                    id: string;
+               };
                menu: undefined;
                notifications: undefined;
                profile: undefined;

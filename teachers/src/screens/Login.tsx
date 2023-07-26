@@ -33,16 +33,19 @@ export function Login() {
           };
 
           await login({ email, password });
-     
+
           navigate('home');
      };
 
      return (
           <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-44 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
-                    <TouchableOpacity onPress={() => goBack()} activeOpacity={0.7}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
-                    </TouchableOpacity>
+                    <View className='flex-row justify-between items-center'>
+                         <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         </TouchableOpacity>
+                         <View className='items-center justify-center p-3'></View>
+                    </View>
                     <Text className='mt-8 text-2xl font-title'>
                          Bem-vindo!{'\n'}
                          Digite seu e-mail e senha{'\n'}

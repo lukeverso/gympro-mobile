@@ -6,13 +6,11 @@ import { Main } from '../screens/Main';
 import { Login } from '../screens/Login';
 import { CheckEmail } from '../screens/CheckEmail';
 import { Create } from '../screens/Create';
-import { NoPersonal } from '../screens/NoPersonal';
 import { Home } from '../screens/Home';
 import { Profile } from '../screens/Profile';
 import { Edit } from '../screens/Edit';
 import { Measures } from '../screens/Measures';
 import { Notifications } from '../screens/Notifications';
-import { NoWorkout } from '../screens/NoWorkout';
 import { Menu } from '../screens/Menu';
 import { EditName } from '../screens/EditName';
 import { EditEmail } from '../screens/EditEmail';
@@ -20,9 +18,10 @@ import { EditTelephone } from '../screens/EditTelephone';
 import { EditAddress } from '../screens/EditAddress';
 import { Evolution } from '../screens/Evolution';
 import { ScanCode } from '../screens/ScanCode';
-import StudentDetails from '../screens/StudentDetails';
-import StudentList from '../screens/StudentList';
-import FindByEmail from '../screens/FindByEmail';
+import { StudentDetails } from '../screens/StudentDetails';
+import { StudentList } from '../screens/StudentList';
+import { FindByEmail } from '../screens/FindByEmail';
+import { TrainSheets } from '../screens/TrainSheets';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -39,6 +38,7 @@ export function AppRoutes() {
                               <Screen name='studentList' component={StudentList} />
                               <Screen name='findByEmail' component={FindByEmail} />
                               <Screen name='studentDetails' component={StudentDetails} />
+                              <Screen name='trainSheets' component={TrainSheets} />
                               <Screen name='profile' component={Profile} />
                               <Screen name='menu' component={Menu} />
                               <Screen name='notifications' component={Notifications} />

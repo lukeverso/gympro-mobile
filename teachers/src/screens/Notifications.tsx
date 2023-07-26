@@ -44,9 +44,12 @@ export function Notifications() {
      return (
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>
                <View className='mt-20 px-8'>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
-                    </TouchableOpacity>
+                    <View className='flex-row justify-between items-center'>
+                         <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         </TouchableOpacity>
+                         <View className='items-center justify-center p-3'></View>
+                    </View>
                     <Text className='mt-8 text-2xl font-title'>
                          Avisos e notificações
                     </Text>

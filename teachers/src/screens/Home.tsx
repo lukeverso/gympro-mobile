@@ -59,10 +59,10 @@ export function Home() {
                     }>
                     <View className='mt-20 px-8'>
                          <View className='flex-row justify-between items-center'>
-                              <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center'>
+                              <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center py-3'>
                                    <Feather name='menu' size={24} color='black' />
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center'>
+                              <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center py-3'>
                                    <Feather name='bell' size={24} color='black' />
                               </TouchableOpacity>
                          </View>
@@ -96,7 +96,6 @@ export function Home() {
                                    return (
                                         <TouchableOpacity onPress={() => navigate('studentDetails', { id: student?.id })} key={student.id} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                                              <View className='flex-row space-x-2 items-center'>
-                                                  <Entypo name='dot-single' size={24} color='black' />
                                                   <Text className='font-title text-base mb-1'>
                                                        {student.name}
                                                   </Text>

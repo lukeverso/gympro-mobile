@@ -30,7 +30,13 @@
                [
                     "expo-barcode-scanner",
                     {
-                         "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+                         "cameraPermission": "Permita que o app use sua câmera para escanear o código do aluno."
+                    }
+               ],
+               [
+                    "expo-image-picker",
+                    {
+                         "photosPermission": "Permita que o app obtenha acesso à sua galeria para a escolha da foto de perfil."
                     }
                ]
           ]

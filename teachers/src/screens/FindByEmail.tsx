@@ -61,7 +61,7 @@ export function FindByEmail() {
                {
                     openAddStudentModal &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
                               <Feather name='power' size={24} color='black' />
                               <Text className='font-title text-lg text-center'>
                                    Deseja adicionar {student?.name} como aluno?
@@ -82,7 +82,7 @@ export function FindByEmail() {
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
-                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
                               <Feather name='check' size={24} color='black' />
                               <Text className='font-title text-lg text-center'>
                                    Aluno adicionado com sucesso!

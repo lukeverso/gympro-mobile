@@ -40,7 +40,7 @@ export function Menu() {
           getData();
      }, []);
 
-     const [image, setImage] = useState<string>('');
+     const [image, setImage] = useState<ImagePicker.ImagePickerResult | null>(null);
 
      async function pickImage() {
           let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,34 +50,51 @@ export function Menu() {
                quality: 1,
           });
 
-          result.assets && setImage(result.assets[0].uri);
+          result && setImage(result);
      };
 
      async function saveImage() {
+          if (!image) return;
+
           try {
-               if (!image) {
-                    console.log('Nenhuma imagem selecionada.');
-                    return;
-               };
-
-               const blob = await urlToBlob(image);
-
-               const file = new File([blob], 'picture.jpg');
-
                const formData = new FormData();
 
-               formData.append('image', file);
-               
-               const response = await api.post(`/teachers/${user?.id}/upload`, formData, {
-                    headers: {
-                         'Content-Type': 'multipart/form-data',
-                    },
-               });
-               
-               console.log(response.data);
-          } catch (error) {
-               console.error('Ocorreu um erro:', error);
-          };
+               const filename = image?.assets ? image?.assets[0].uri : '';
+               const uri = image?.assets ? image?.assets[0].uri : '';
+               const extension = filename.split('.')[1];
+
+               formData.append('file', JSON.parse(JSON.stringify({
+                    name: filename,
+                    uri: uri,
+                    type: `image/${extension}`
+               })));
+
+               const request = await api.post(
+                    `/teachers/upload`,
+                    formData,
+                    {
+                         headers: {
+                              'Content-Type': 'multipart/form-data'
+                         },
+                    }
+               );
+
+               if (request.data) {
+                    console.log('Deu certo??')
+               };
+          } catch (error: any) {
+               if (error.response) {
+                    // O servidor respondeu com um status de erro (ou seja, não foi 2xx)
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    // A solicitação foi feita, mas não recebeu resposta do servidor
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    // Ocorreu um erro ao configurar a solicitação
+                    console.log('Erro de configuração:', error.message);
+               }
+          }
      };
 
      return (
@@ -106,13 +123,13 @@ export function Menu() {
                                    Alterar foto de perfil
                               </Text>
                               {
-                                   image ?
+                                   image?.assets ?
                                         <View>
                                              <Image
-                                                  source={{ uri: image }}
+                                                  source={{ uri: image.assets[0].uri }}
                                                   className='mt-8 w-36 h-36 rounded-full'
                                              />
-                                             <TouchableOpacity onPress={() => setImage('')} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
+                                             <TouchableOpacity onPress={() => setImage(null)} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
                                                   <Feather name='trash-2' size={24} color='black' />
                                              </TouchableOpacity>
                                         </View> :
@@ -147,14 +164,14 @@ export function Menu() {
                     </View>
                     <View className='items-center mt-8 mb-8'>
                          <View>
-                              <TouchableOpacity onPress={() => { setImage(''); setPictureModal(true); }} activeOpacity={0.7} className='w-28 h-28 rounded-full items-center justify-center bg-gray-100'>
+                              <TouchableOpacity onPress={() => { setImage(null); setPictureModal(true); }} activeOpacity={0.7} className='w-28 h-28 rounded-full items-center justify-center bg-gray-100'>
                                    {
                                         picture ?
                                              <Image source={{ uri: picture }} className='w-32 h-32 rounded-full' /> :
                                              <Octicons name='person' size={32} color='black' />
                                    }
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => { setImage(''); setPictureModal(true); }} activeOpacity={0.7} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
+                              <TouchableOpacity onPress={() => { setImage(null); setPictureModal(true); }} activeOpacity={0.7} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
                                    <Feather name='camera' size={20} color='black' />
                               </TouchableOpacity>
                          </View>

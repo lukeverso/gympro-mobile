@@ -166,7 +166,7 @@ export function StudentDetails() {
                          </View>
                     </View>
                }
-               <ScrollView className='flex-1 bg-white px-8'>
+               <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white px-8'>
                     <View className='mt-20 mb-10 w-full'>
                          <View className='flex-row justify-between items-center'>
                               <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>

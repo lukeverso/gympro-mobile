@@ -91,6 +91,7 @@ export function Home() {
      return (
           <SafeAreaView className='flex-1 bg-white'>
                <ScrollView
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }>

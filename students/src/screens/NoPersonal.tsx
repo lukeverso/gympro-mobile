@@ -46,6 +46,7 @@ export function NoPersonal() {
      return (
           <SafeAreaView className='flex-1 bg-white'>
                <ScrollView
+                    showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}
                     refreshControl={
                          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

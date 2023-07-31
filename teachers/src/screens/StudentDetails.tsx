@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image } from 'react-native';
 import { useContext, useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -28,6 +28,7 @@ interface WorkoutProps {
 
 interface StudentProps {
      id: string;
+     picture: string;
      age: number;
      birthdate: string;
      email: string;
@@ -178,9 +179,13 @@ export function StudentDetails() {
                               Seu aluno
                          </Text>
                          <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg flex-row items-center justify-between'>
-                              <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
-                                   <Octicons name='person' size={32} color='black' />
-                              </View>
+                              {
+                                   student?.picture !== null ?
+                                        <Image source={{ uri: student?.picture }} className='w-20 h-20 rounded-full' /> :
+                                        <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
+                                             <Octicons name='person' size={32} color='black' />
+                                        </View>
+                              }
                               <View>
                                    <Text className='font-title text-xl'>{student?.name}</Text>
                                    <Text className='font-text text-sm'>{student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}</Text>
@@ -192,7 +197,7 @@ export function StudentDetails() {
                               <Text className='text-2xl font-title'>
                                    Ficha de treino
                               </Text>
-                              <TouchableOpacity activeOpacity={0.7}>
+                              <TouchableOpacity onPress={() => navigate('createSheet', { id: student?.id })} activeOpacity={0.7}>
                                    <Text className='text-sm text-black font-title'>
                                         Criar nova
                                    </Text>

@@ -88,8 +88,6 @@ export function Measures() {
           try {
                const request = await api.get(`/students/${id}/measures`);
 
-               console.log(request.data);
-
                if (request.data.measures) {
                     setWeight(request.data.measures.weight);
                     setHeight(request.data.measures.height);

@@ -52,6 +52,8 @@ export function Home() {
 
                const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
 
+               console.log(request.data.response);
+
                setName(request.data.response.name);
                setSheet(activeSheet);
           } catch (error) {
@@ -120,21 +122,35 @@ export function Home() {
                                    </Text>
                               </TouchableOpacity>
                          </View>
-                         <ImageBackground source={home} className='mt-4 rounded flex-row justify-between items-center overflow-hidden'>
-                              <View className='bg-black/50 px-5 py-10 flex-1'>
-                                   <Text className='font-text text-base text-white'>
-                                        Objetivo: {sheet?.objective}{'\n'}
-                                        {sheet?.annotations ? `Anotações: ${sheet.annotations}` : ''}
-                                        Início: {sheet?.startDate}{'\n'}
-                                        Término: {sheet?.endDate}
-                                   </Text>
-                              </View>
-                         </ImageBackground>
+                         {
+                              sheet ?
+                                   <ImageBackground source={home} className='mt-4 rounded-lg flex-row justify-between items-center overflow-hidden'>
+                                        <View className='bg-black/50 px-5 py-5 flex-1'>
+                                             <Text className='font-text text-base text-white'>
+                                                  Objetivo: {sheet?.objective}{'\n'}
+                                                  {sheet?.annotations ? `Anotações: ${sheet?.annotations}\n` : ''}
+                                                  Início: {sheet?.startDate}{'\n'}
+                                                  Término: {sheet?.endDate}
+                                             </Text>
+                                        </View>
+                                   </ImageBackground> :
+                                   <View className='w-full flex-col items-center mt-8 space-y-3'>
+                                        <Feather name='alert-circle' size={24} color='black' />
+                                        <Text className='font-title text-lg text-center leading-6'>
+                                             Você não possui{'\n'}
+                                             fichas de treino
+                                        </Text>
+                                        <Text className='font-text text-base text-center'>
+                                             Converse com seu professor,{'\n'}
+                                             para ele criar a ideal para você
+                                        </Text>
+                                   </View>
+                         }
                          <Text className='mt-8 text-2xl font-title'>
                               Seus treinos
                          </Text>
                          {
-                              sheet?.workouts.length !== 0 ?
+                              sheet ?
                                    sheet?.workouts?.map((workout: WorkoutsProps) => {
                                         return (
                                              <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
@@ -151,8 +167,8 @@ export function Home() {
                                    <View className='w-full flex-col items-center mt-4 space-y-3'>
                                         <Feather name="alert-circle" size={24} color="black" />
                                         <Text className='font-title text-lg text-center leading-6'>
-                                             Você ainda não possui{'\n'}
-                                             exercícios nesta ficha
+                                             Você ainda não{'\n'}
+                                             possui exercícios
                                         </Text>
                                         <Text className='font-text text-base text-center'>
                                              Converse com seu personal{'\n'}

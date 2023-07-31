@@ -1,20 +1,20 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
-import { urlToBlob } from '../lib/urlToBlob';
 import * as ImagePicker from 'expo-image-picker';
 
 export function Menu() {
      const { goBack, navigate } = useNavigation();
-     const navigation = useNavigation();
 
      const { user, logout } = useContext(AuthContext);
 
      const [success, setSuccess] = useState<boolean>(false);
+     const [successPicture, setSuccessPicture] = useState<boolean>(false);
      const [pictureModal, setPictureModal] = useState<boolean>(false);
+     const [loading, setLoading] = useState<boolean>(false);
 
      const [name, setName] = useState<string>('');
      const [email, setEmail] = useState<string>('');
@@ -24,8 +24,6 @@ export function Menu() {
      async function getData() {
           try {
                const request = await api.get(`/teachers/${user?.id}`);
-
-               console.log(request.data);
 
                setName(request.data.name);
                setEmail(request.data.email);
@@ -54,7 +52,13 @@ export function Menu() {
      };
 
      async function saveImage() {
-          if (!image) return;
+          setLoading(true);
+
+          if (!image) {
+               setLoading(false);
+
+               return;
+          };
 
           try {
                const formData = new FormData();
@@ -70,7 +74,7 @@ export function Menu() {
                })));
 
                const request = await api.post(
-                    `/teachers/upload`,
+                    `/teachers/${user?.id}/upload`,
                     formData,
                     {
                          headers: {
@@ -80,21 +84,20 @@ export function Menu() {
                );
 
                if (request.data) {
-                    console.log('Deu certo??')
+                    setLoading(false);
+                    setPictureModal(false);
+                    setSuccessPicture(true);
                };
           } catch (error: any) {
                if (error.response) {
-                    // O servidor respondeu com um status de erro (ou seja, não foi 2xx)
                     console.log('Status de erro:', error.response.status);
                     console.log('Dados do erro:', error.response.data);
                } else if (error.request) {
-                    // A solicitação foi feita, mas não recebeu resposta do servidor
                     console.log('Erro de solicitação:', error.request);
                } else {
-                    // Ocorreu um erro ao configurar a solicitação
                     console.log('Erro de configuração:', error.message);
                }
-          }
+          };
      };
 
      return (
@@ -108,6 +111,22 @@ export function Menu() {
                                    As medidas foram salvas com sucesso.
                               </Text>
                               <TouchableOpacity onPress={() => { setSuccess(false); navigate('menu'); }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Okay
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
+               {
+                    successPicture &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='check' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Sua foto foi alterada com sucesso.
+                              </Text>
+                              <TouchableOpacity onPress={() => { setSuccessPicture(false); navigate('home'); }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>
@@ -140,9 +159,13 @@ export function Menu() {
                                         </View>
                               }
                               <TouchableOpacity onPress={saveImage} activeOpacity={0.7} disabled={image ? false : true} className={`mt-8 w-full rounded-lg py-3 justify-center items-center ${image ? 'bg-black' : 'bg-gray-200'}`}>
-                                   <Text className='font-text text-base text-white'>
-                                        Salvar foto
-                                   </Text>
+                                   {
+                                        loading ?
+                                             <ActivityIndicator size='small' color='#FFFFFF' /> :
+                                             <Text className='font-text text-base text-white'>
+                                                  Salvar foto
+                                             </Text>
+                                   }
                               </TouchableOpacity>
                               <TouchableOpacity onPress={() => setPictureModal(false)} activeOpacity={0.7} className='mt-2 w-full rounded py-3 justify-center items-center flex-row space-x-3'>
                                    <Text className='font-text text-base'>
@@ -152,7 +175,6 @@ export function Menu() {
                          </View>
                     </View>
                }
-
                <View className='flex-1 bg-white'>
                     <View className='mt-20 px-8'>
                          <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
@@ -164,7 +186,7 @@ export function Menu() {
                     </View>
                     <View className='items-center mt-8 mb-8'>
                          <View>
-                              <TouchableOpacity onPress={() => { setImage(null); setPictureModal(true); }} activeOpacity={0.7} className='w-28 h-28 rounded-full items-center justify-center bg-gray-100'>
+                              <TouchableOpacity onPress={() => { setImage(null); setPictureModal(true); }} activeOpacity={0.7} className='w-32 h-32 rounded-full items-center justify-center bg-gray-100'>
                                    {
                                         picture ?
                                              <Image source={{ uri: picture }} className='w-32 h-32 rounded-full' /> :

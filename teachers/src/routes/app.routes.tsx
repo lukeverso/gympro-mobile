@@ -22,6 +22,7 @@ import { StudentDetails } from '../screens/StudentDetails';
 import { StudentList } from '../screens/StudentList';
 import { FindByEmail } from '../screens/FindByEmail';
 import { TrainSheets } from '../screens/TrainSheets';
+import CreateSheet from '../screens/CreateSheet';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export function AppRoutes() {
                               <Screen name='studentList' component={StudentList} />
                               <Screen name='findByEmail' component={FindByEmail} />
                               <Screen name='studentDetails' component={StudentDetails} />
+                              <Screen name='createSheet' component={CreateSheet} />
                               <Screen name='trainSheets' component={TrainSheets} />
                               <Screen name='profile' component={Profile} />
                               <Screen name='menu' component={Menu} />

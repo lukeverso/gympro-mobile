@@ -16,6 +16,9 @@ export declare global {
                trainSheets: {
                     id: string;
                };
+               createSheet: {
+                    id: string | undefined;
+               };
                menu: undefined;
                notifications: undefined;
                profile: undefined;

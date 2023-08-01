@@ -151,7 +151,6 @@ export function Measures() {
                                    <View className='flex-row items-center space-x-5'>
                                         <View className='flex-1 flex-row space-x-3 items-center'>
                                              <TextInput
-                                                  autoFocus
                                                   placeholder='Peso'
                                                   keyboardType='number-pad'
                                                   className='flex-1 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'

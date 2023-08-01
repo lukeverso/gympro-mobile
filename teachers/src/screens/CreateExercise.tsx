@@ -1,48 +1,31 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
-import { AuthContext } from '../contexts/auth';
-import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
 
-interface CreateSheetProps {
+interface CreateExerciseProps {
      id: string;
 };
 
-export default function CreateSheet() {
+export default function CreateExercise() {
      const { goBack, navigate } = useNavigation();
 
      const route = useRoute();
 
-     const { id } = route.params as CreateSheetProps;
+     const { id } = route.params as CreateExerciseProps;
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
-     const [objective, setObjective] = useState<string>('');
-     const [startDate, setStartDate] = useState<string>('');
-     const [endDate, setEndDate] = useState<string>('');
-     const [annotations, setAnnotations] = useState<string>('');
+     const [type, setType] = useState<string>('');
+     const [focus, setFocus] = useState<string>('');
 
-     useEffect(() => {
-          const today: Date = new Date();
-          const yyyy: number = today.getFullYear();
-          let mm: number | string = today.getMonth() + 1;
-          let dd: number | string = today.getDate();
-
-          if (dd < 10) dd = '0' + dd;
-          if (mm < 10) mm = '0' + mm;
-
-          const formattedDate: string = dd + '/' + mm + '/' + yyyy;
-          setStartDate(formattedDate);
-     }, []);
-
-     async function handleSheetCreation() {
+     async function handleExerciseCreation() {
           try {
-               const request = await api.post(`/sheets/${id}`, {
-                    objective, startDate, endDate, annotations
+               const request = await api.post(`/workouts/${id}`, {
+                    type, focus
                });
 
                if (request.data.status === 'success') {
@@ -65,7 +48,7 @@ export default function CreateSheet() {
                          <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
                               <Feather name='check' size={24} color='black' />
                               <Text className='font-title text-lg text-center'>
-                                   Ficha de treino criada com sucesso!
+                                   Exercício criado com sucesso!
                               </Text>
                               <TouchableOpacity onPress={() => navigate('studentDetails', { id })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
@@ -84,49 +67,61 @@ export default function CreateSheet() {
                               <View className='items-center justify-center p-3'></View>
                          </View>
                          <Text className='mt-8 text-2xl font-title'>
-                              Criar ficha de treino
-                         </Text>
-                         <Text className='mt-1 font-text text-base'>
-                              Criar uma nova ficha de treino irá desativar quaisquer outras que existam
+                              Criar exercício
                          </Text>
                          <View className='flex-1'>
                               <Text className='mt-8 font-title px-3'>
-                                   Objetivo
+                                   Nome do exercício
                               </Text>
                               <TextInput
                                    keyboardType='default'
-                                   placeholder='Objetivo'
+                                   placeholder='Nome do exercício'
                                    className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                   onChangeText={setObjective}
-                                   value={objective}
+                                   onChangeText={setType}
+                                   value={type}
                               />
                          </View>
                          <View className='flex-row mt-2 space-x-6'>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
-                                        Data de início
+                                        Séries
                                    </Text>
-                                   <MaskedTextInput
-                                        mask='99/99/9999'
+                                   <TextInput
                                         keyboardType='number-pad'
-                                        placeholder='Data de início'
-                                        autoCapitalize='none'
+                                        placeholder='Séries'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setStartDate}
-                                        value={startDate}
                                    />
                               </View>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
-                                        Data de fim
+                                        Repetições
                                    </Text>
-                                   <MaskedTextInput
-                                        mask='99/99/9999'
+                                   <TextInput
                                         keyboardType='number-pad'
-                                        placeholder='Data de fim'
+                                        placeholder='Repetições'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setEndDate}
-                                        value={endDate}
+                                   />
+                              </View>
+                         </View>
+                         <View className='flex-row mt-2 space-x-6'>
+                              <View className='flex-1'>
+                                   <Text className='mt-8 font-title px-3'>
+                                        Tempo de descanso
+                                   </Text>
+                                   <TextInput
+                                        keyboardType='number-pad'
+                                        placeholder='(em segundos)'
+                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                   />
+                              </View>
+                              <View className='flex-1'>
+                                   <Text className='mt-8 font-title px-3'>
+                                        Peso (opcional)
+                                   </Text>
+                                   <TextInput
+                                        keyboardType='number-pad'
+                                        placeholder='Peso (opcional)'
+                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
                                    />
                               </View>
                          </View>
@@ -139,8 +134,8 @@ export default function CreateSheet() {
                                    keyboardType='default'
                                    placeholder='Observações (opcional)'
                                    className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                   onChangeText={setAnnotations}
-                                   value={annotations}
+                                   onChangeText={setType}
+                                   value={type}
                               />
                          </View>
                     </ScrollView>
@@ -154,8 +149,8 @@ export default function CreateSheet() {
                                    </Text>
                               </View>
                          }
-                         <TouchableOpacity onPress={handleSheetCreation} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                              <Text className='text-white text-base font-title'>Criar ficha</Text>
+                         <TouchableOpacity onPress={handleExerciseCreation} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
+                              <Text className='text-white text-base font-title'>Criar treino</Text>
                          </TouchableOpacity>
                     </View>
                </KeyboardAvoidingView>

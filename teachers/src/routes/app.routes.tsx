@@ -21,8 +21,12 @@ import { ScanCode } from '../screens/ScanCode';
 import { StudentDetails } from '../screens/StudentDetails';
 import { StudentList } from '../screens/StudentList';
 import { FindByEmail } from '../screens/FindByEmail';
-import { TrainSheets } from '../screens/TrainSheets';
+import { WorkoutDetails } from '../screens/WorkoutDetails';
 import CreateSheet from '../screens/CreateSheet';
+import ChangePicture from '../screens/ChangePicture';
+import CreateWorkout from '../screens/CreateWorkout';
+import { ExerciseDetails } from '../screens/ExerciseDetails';
+import CreateExercise from '../screens/CreateExercise';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -40,9 +44,13 @@ export function AppRoutes() {
                               <Screen name='findByEmail' component={FindByEmail} />
                               <Screen name='studentDetails' component={StudentDetails} />
                               <Screen name='createSheet' component={CreateSheet} />
-                              <Screen name='trainSheets' component={TrainSheets} />
+                              <Screen name='createWorkout' component={CreateWorkout} />
+                              <Screen name='createExercise' component={CreateExercise} />
+                              <Screen name='workoutDetails' component={WorkoutDetails} />
+                              <Screen name='exerciseDetails' component={ExerciseDetails} />
                               <Screen name='profile' component={Profile} />
                               <Screen name='menu' component={Menu} />
+                              <Screen name='changePicture' component={ChangePicture} />
                               <Screen name='notifications' component={Notifications} />
                               <Screen name='edit' component={Edit} />
                               <Screen name='editName' component={EditName} />

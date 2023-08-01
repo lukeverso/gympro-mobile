@@ -28,7 +28,7 @@ export function CheckEmail() {
                     navigate('create', { email });
                } else {
                     setError(true);
-                    setErrorMessage(request.data.message);
+                    setErrorMessage('Ocorreu um erro...');
                     return;
                };
           } catch (error) {
@@ -53,7 +53,6 @@ export function CheckEmail() {
                          E-mail
                     </Text>
                     <TextInput
-                         autoFocus
                          autoCapitalize='none'
                          keyboardType='email-address'
                          placeholder='E-mail'

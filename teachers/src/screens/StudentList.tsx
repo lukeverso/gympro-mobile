@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput, SafeAreaView, RefreshControl } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Entypo, Feather, Ionicons } from '@expo/vector-icons';
-import { useContext, useEffect, useState, useCallback } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
 
@@ -31,9 +31,9 @@ export function StudentList() {
           };
      };
 
-     useEffect(() => {
+     useFocusEffect(useCallback(() => {
           getData();
-     }, []);
+     }, []));
 
      const [refreshing, setRefreshing] = useState(false);
 
@@ -68,7 +68,6 @@ export function StudentList() {
                               Pesquisar aluno
                          </Text>
                          <TextInput
-                              autoFocus
                               autoCapitalize='none'
                               keyboardType='email-address'
                               placeholder='Nome do aluno'
@@ -92,7 +91,6 @@ export function StudentList() {
                                                   className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'
                                              >
                                                   <View className='flex-row space-x-2 items-center'>
-                                                       <Entypo name='dot-single' size={24} color='black' />
                                                        <Text className='font-title text-base mb-1'>
                                                             {student.name}
                                                        </Text>

@@ -1,7 +1,7 @@
 import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground } from 'react-native';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useContext, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
 import { StatusBar } from 'expo-status-bar';
@@ -61,9 +61,9 @@ export function Home() {
           };
      };
 
-     useEffect(() => {
+     useFocusEffect(useCallback(() => {
           getHomeData();
-     }, []);
+     }, []));
 
      const [refreshing, setRefreshing] = useState(false);
 

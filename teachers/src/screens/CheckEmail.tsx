@@ -56,7 +56,6 @@ export function CheckEmail() {
                          E-mail
                     </Text>
                     <TextInput
-                         autoFocus
                          autoCapitalize='none'
                          keyboardType='email-address'
                          placeholder='E-mail'

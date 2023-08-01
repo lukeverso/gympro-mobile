@@ -1,6 +1,6 @@
 import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Button } from 'react-native';
 import { Entypo, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
@@ -14,7 +14,6 @@ interface StudentsProps {
 };
 
 export function Home() {
-     const navigation = useNavigation();
      const { navigate } = useNavigation();
 
      const { user } = useContext(AuthContext);
@@ -33,11 +32,9 @@ export function Home() {
           };
      };
 
-     useEffect(() => {
-          navigation.addListener('focus', () => {
-               getData();
-          })
-     }, []);
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      const [refreshing, setRefreshing] = useState(false);
 
@@ -77,21 +74,41 @@ export function Home() {
                               <Text className='text-2xl font-title'>
                                    Seus alunos
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7}>
-                                   <Text className='text-sm text-black font-title'>
-                                        Ver todas
-                                   </Text>
-                              </TouchableOpacity>
+                              {
+                                   students && students.length > 0 &&
+                                   <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7}>
+                                        <Text className='text-sm text-black font-title'>
+                                             Ver todos
+                                        </Text>
+                                   </TouchableOpacity>
+                              }
                          </View>
-                         <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
-                              <Feather name='search' size={24} color='black' />
-                              <Text className='text-sm text-black font-title'>
-                                   Pesquisar seus alunos
-                              </Text>
-                         </TouchableOpacity>
-                         <Text className='mt-5 text-sm text-black font-title'>
-                              Adicionados recentemente
-                         </Text>
+                         {
+                              students && students.length > 0 ?
+                                   <>
+                                        <TouchableOpacity onPress={() => navigate('studentList')} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3'>
+                                             <Feather name='search' size={24} color='black' />
+                                             <Text className='text-sm text-black font-title'>
+                                                  Pesquisar seus alunos
+                                             </Text>
+                                        </TouchableOpacity>
+                                        <Text className='mt-5 text-sm text-black font-title'>
+                                             Adicionados recentemente
+                                        </Text>
+                                   </> :
+                                   <View className='w-full flex-col items-center mt-8 space-y-3'>
+                                        <Feather name='alert-circle' size={24} color='black' />
+                                        <Text className='font-title text-lg text-center leading-6'>
+                                             Você não{'\n'}
+                                             possui alunos
+                                        </Text>
+                                        <Text className='font-text text-base text-center'>
+                                             Para adicionar um aluno,{'\n'}
+                                             use a sessão 'Pesquisar{'\n'}
+                                             aluno' abaixo
+                                        </Text>
+                                   </View>
+                         }
                          {
                               students?.map((student: StudentsProps) => {
                                    return (

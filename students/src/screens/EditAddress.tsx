@@ -178,7 +178,6 @@ export function EditAddress() {
                               CEP
                          </Text>
                          <MaskedTextInput
-                              autoFocus
                               mask='99999-999'
                               autoCapitalize='none'
                               keyboardType='number-pad'

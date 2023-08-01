@@ -1,28 +1,43 @@
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { api } from '../lib/api';
 
 import home from '../assets/images/home.jpg';
 
-interface TrainSheetsProps {
+interface ExerciseDetailsProps {
      id: string;
 };
 
-export function TrainSheets() {
-     const { goBack } = useNavigation();
+interface ExerciseProps {
+     annotations: string | null;
+     id: string;
+     name: string;
+     repetitions: number;
+     restTime: number;
+     series: number;
+     weight: string;
+};
+
+export function ExerciseDetails() {
+     const { goBack, navigate } = useNavigation();
 
      const route = useRoute();
 
-     const { id } = route.params as TrainSheetsProps;
+     const { id } = route.params as ExerciseDetailsProps;
 
      async function getData() {
           try {
-               const request = await api.get('');
+               const request = await api.get(`/workouts/${id}`);
           } catch (error) {
                console.log(error);
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          // getData();
+     }, []));
 
      return (
           <SafeAreaView className='flex-1 bg-white'>
@@ -35,7 +50,7 @@ export function TrainSheets() {
                               <View className='items-center justify-center p-3'></View>
                          </View>
                          <Text className='mt-8 text-2xl font-title'>
-                              Detalhes da ficha de treino
+                              Supino reto com barra
                          </Text>
                     </View>
                </ScrollView>

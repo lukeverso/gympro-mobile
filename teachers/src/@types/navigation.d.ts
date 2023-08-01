@@ -13,13 +13,23 @@ export declare global {
                studentDetails: {
                     id: string;
                };
-               trainSheets: {
+               workoutDetails: {
+                    id: string;
+               };
+               exerciseDetails: {
                     id: string;
                };
                createSheet: {
                     id: string | undefined;
                };
+               createWorkout: {
+                    id: string | undefined;
+               }
+               createExercise: {
+                    id: string | undefined;
+               }
                menu: undefined;
+               changePicture: undefined;
                notifications: undefined;
                profile: undefined;
                edit: undefined;

@@ -97,7 +97,6 @@ export function EditTelephone() {
                               Telefone
                          </Text>
                          <MaskedTextInput
-                              autoFocus
                               mask='(99) 99999-9999'
                               autoCapitalize='none'
                               keyboardType='number-pad'

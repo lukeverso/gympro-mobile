@@ -95,8 +95,8 @@ export function FindByEmail() {
                          </View>
                     </View>
                }
-               <SafeAreaView className='flex-1 bg-white'>
-                    <View className='mt-20 px-8'>
+               <View className='flex-1 bg-white px-8 items-center'>
+                    <View className='mt-20 mb-10 w-full'>
                          <View className='flex-row justify-between items-center'>
                               <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
                                    <Ionicons name='ios-chevron-back' size={24} color='black' />
@@ -104,31 +104,19 @@ export function FindByEmail() {
                               <View className='items-center justify-center p-3'></View>
                          </View>
                          <Text className='mt-8 text-2xl font-title'>
-                              Encontrar um aluno
+                              Pesquisar aluno por e-mail
                          </Text>
-                         <View className='flex-row space-x-5 justify-between mt-8'>
-                              <TextInput
-                                   autoFocus
-                                   autoCapitalize='none'
-                                   keyboardType='email-address'
-                                   placeholder='E-mail do aluno'
-                                   className='flex-1 bg-gray-100 rounded-lg flex-row space-x-3 items-center px-5 py-3 placeholder:font-text placeholder:text-base'
-                                   value={email}
-                                   onChangeText={setEmail}
-                              />
-                              <TouchableOpacity onPress={searchStudent} activeOpacity={0.7} className='bg-black rounded-full items-center justify-center w-[52px]'>
-                                   <Feather name='search' size={24} color='white' />
-                              </TouchableOpacity>
-                         </View>
-                         {
-                              error &&
-                              <View className='mt-8 flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
-                                   <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base'>
-                                        {errorMessage}
-                                   </Text>
-                              </View>
-                         }
+                         <Text className='mt-8 font-title px-3'>
+                              E-mail
+                         </Text>
+                         <TextInput
+                              autoCapitalize='none'
+                              keyboardType='email-address'
+                              placeholder='E-mail'
+                              className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                              onChangeText={setEmail}
+                              value={email}
+                         />
                          {
                               studentView ?
                                    student ?
@@ -141,18 +129,27 @@ export function FindByEmail() {
                                         <View className='w-full flex-col items-center mt-8 space-y-3'>
                                              <Feather name='alert-circle' size={24} color='black' />
                                              <Text className='font-title text-lg text-center leading-6'>
-                                                  Aluno não encontrado
-                                             </Text>
-                                             <Text className='font-text text-base text-center'>
-                                                  Para adicionar um aluno,{'\n'}
-                                                  volte para a tela inicial e{'\n'}
-                                                  use a sessão 'Pesquisar aluno'
+                                                  Nenhum aluno não encontrado
                                              </Text>
                                         </View> :
                                    null
                          }
                     </View>
-               </SafeAreaView>
+                    <View className='absolute bottom-8 w-full space-y-5'>
+                         {
+                              error &&
+                              <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                                   <AntDesign name='warning' size={24} color='white' />
+                                   <Text className='text-white text-base'>
+                                        {errorMessage}
+                                   </Text>
+                              </View>
+                         }
+                         <TouchableOpacity onPress={searchStudent} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
+                              <Text className='text-white text-base font-title'>Pesquisar</Text>
+                         </TouchableOpacity>
+                    </View>
+               </View>
           </>
      );
 };

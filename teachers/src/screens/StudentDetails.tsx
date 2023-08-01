@@ -1,10 +1,9 @@
 import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
-import { api } from '../lib/api';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import { useContext, useState, useCallback } from 'react';
 import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
-
 import home from '../assets/images/home.jpg';
 
 interface StudentDetailsProps {
@@ -18,6 +17,7 @@ interface ExerciseProps {
 };
 
 interface WorkoutProps {
+     id: string;
      active: boolean;
      annotations: string;
      objective: string;
@@ -69,15 +69,9 @@ export function StudentDetails() {
           };
      };
 
-     useEffect(() => {
+     useFocusEffect(useCallback(() => {
           getDetails();
-     }, [reload]);
-
-     useEffect(() => {
-          navigation.addListener('focus', () => {
-               getDetails();
-          });
-     }, []);
+     }, [reload]));
 
      async function handleStudentInactivation() {
           try {
@@ -178,7 +172,7 @@ export function StudentDetails() {
                          <Text className='mt-8 text-2xl font-title'>
                               Seu aluno
                          </Text>
-                         <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg flex-row items-center justify-between'>
+                         <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg space-x-3 flex-row items-center'>
                               {
                                    student?.picture !== null ?
                                         <Image source={{ uri: student?.picture }} className='w-20 h-20 rounded-full' /> :
@@ -186,7 +180,7 @@ export function StudentDetails() {
                                              <Octicons name='person' size={32} color='black' />
                                         </View>
                               }
-                              <View>
+                              <View className='flex-1'>
                                    <Text className='font-title text-xl'>{student?.name}</Text>
                                    <Text className='font-text text-sm'>{student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}</Text>
                                    <Text className='font-text text-sm'>{student?.email}</Text>
@@ -204,7 +198,7 @@ export function StudentDetails() {
                               </TouchableOpacity>
                          </View>
                          {
-                              student?.sheets[0] && student.sheets[0].active === true ?
+                              student?.sheets[0] ?
                                    <>
                                         <ImageBackground source={home} className='mt-4 rounded-lg flex-row justify-between items-center overflow-hidden'>
                                              <View className='bg-black/50 px-5 py-5 flex-1'>
@@ -218,9 +212,9 @@ export function StudentDetails() {
                                         </ImageBackground>
                                         <View className='mt-8 flex-row justify-between items-center'>
                                              <Text className='text-2xl font-title'>
-                                                  Exercícios
+                                                  Treinos
                                              </Text>
-                                             <TouchableOpacity activeOpacity={0.7}>
+                                             <TouchableOpacity onPress={() => navigate('createWorkout', { id: student.sheets[0].id })} activeOpacity={0.7}>
                                                   <Text className='text-sm text-black font-title'>
                                                        Criar novo
                                                   </Text>
@@ -230,7 +224,7 @@ export function StudentDetails() {
                                              student?.sheets[0]?.workouts.length !== 0 ?
                                                   student?.sheets[0]?.workouts?.map((workout) => {
                                                        return (
-                                                            <TouchableOpacity key={workout.id} onPress={() => navigate('trainSheets', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                                            <TouchableOpacity key={workout.id} onPress={() => navigate('workoutDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                                                                  <Text className='font-title text-base mb-1'>
                                                                       {workout.focus} ({workout.type})
                                                                  </Text>
@@ -242,10 +236,10 @@ export function StudentDetails() {
                                                        <Feather name='alert-circle' size={24} color='black' />
                                                        <Text className='font-title text-lg text-center leading-6'>
                                                             Este aluno não{'\n'}
-                                                            possui exercícios
+                                                            possui treinos
                                                        </Text>
                                                        <Text className='font-text text-base text-center'>
-                                                            Para criar um exercício,{'\n'}
+                                                            Para criar um treino,{'\n'}
                                                             clique em 'Criar novo' acima
                                                        </Text>
                                                   </View>

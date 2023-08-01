@@ -52,7 +52,6 @@ export function Login() {
                          E-mail
                     </Text>
                     <TextInput
-                         autoFocus
                          autoCapitalize='none'
                          keyboardType='email-address'
                          placeholder='E-mail'

@@ -231,7 +231,6 @@ export function Create() {
                                         Nome
                                    </Text>
                                    <TextInput
-                                        autoFocus
                                         keyboardType='default'
                                         placeholder='Nome'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'

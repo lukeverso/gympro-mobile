@@ -11,13 +11,16 @@ export declare global {
                studentList: undefined;
                findByEmail: undefined;
                studentDetails: {
-                    id: string;
+                    id: string | undefined;
                };
                workoutDetails: {
-                    id: string;
+                    studentId: string | undefined;
+                    workoutId: string | undefined;
                };
                exerciseDetails: {
-                    id: string;
+                    exerciseId: string | undefined;
+                    studentId: string | undefined;
+                    workoutId: string | undefined;
                };
                createSheet: {
                     id: string | undefined;

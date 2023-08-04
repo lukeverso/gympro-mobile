@@ -19,13 +19,44 @@ export default function CreateExercise() {
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
-     const [type, setType] = useState<string>('');
-     const [focus, setFocus] = useState<string>('');
+     const [name, setName] = useState<string>('');
+     const [series, setSeries] = useState<string>('');
+     const [repetitions, setRepetitions] = useState<string>('');
+     const [restTime, setRestTime] = useState<string>('');
+     const [weight, setWeight] = useState<string>('');
+     const [annotations, setAnnotations] = useState<string>('');
 
      async function handleExerciseCreation() {
+          setError(false);
+          setErrorMessage('');
+
+          if (name === '') {
+               setError(true);
+               setErrorMessage('O nome é obrigatório.');
+               return;
+          };
+
+          if (series === '') {
+               setError(true);
+               setErrorMessage('As séries são obrigatórias.');
+               return;
+          };
+
+          if (repetitions === '') {
+               setError(true);
+               setErrorMessage('As repetições são obrigatórias.');
+               return;
+          };
+
+          if (restTime === '') {
+               setError(true);
+               setErrorMessage('O tempo de descanso é obrigatório.');
+               return;
+          };
+
           try {
-               const request = await api.post(`/workouts/${id}`, {
-                    type, focus
+               const request = await api.post(`/exercises/${id}`, {
+                    name, series, repetitions, restTime, weight, annotations
                });
 
                if (request.data.status === 'success') {
@@ -50,7 +81,7 @@ export default function CreateExercise() {
                               <Text className='font-title text-lg text-center'>
                                    Exercício criado com sucesso!
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('studentDetails', { id })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                              <TouchableOpacity onPress={() => navigate('workoutDetails', { id })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>
@@ -77,8 +108,8 @@ export default function CreateExercise() {
                                    keyboardType='default'
                                    placeholder='Nome do exercício'
                                    className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                   onChangeText={setType}
-                                   value={type}
+                                   onChangeText={setName}
+                                   value={name}
                               />
                          </View>
                          <View className='flex-row mt-2 space-x-6'>
@@ -90,6 +121,8 @@ export default function CreateExercise() {
                                         keyboardType='number-pad'
                                         placeholder='Séries'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                        onChangeText={setSeries}
+                                        value={series}
                                    />
                               </View>
                               <View className='flex-1'>
@@ -100,6 +133,8 @@ export default function CreateExercise() {
                                         keyboardType='number-pad'
                                         placeholder='Repetições'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                        onChangeText={setRepetitions}
+                                        value={repetitions}
                                    />
                               </View>
                          </View>
@@ -112,6 +147,8 @@ export default function CreateExercise() {
                                         keyboardType='number-pad'
                                         placeholder='(em segundos)'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                        onChangeText={setRestTime}
+                                        value={restTime}
                                    />
                               </View>
                               <View className='flex-1'>
@@ -122,6 +159,8 @@ export default function CreateExercise() {
                                         keyboardType='number-pad'
                                         placeholder='Peso (opcional)'
                                         className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                                        onChangeText={setWeight}
+                                        value={weight}
                                    />
                               </View>
                          </View>
@@ -134,8 +173,8 @@ export default function CreateExercise() {
                                    keyboardType='default'
                                    placeholder='Observações (opcional)'
                                    className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                   onChangeText={setType}
-                                   value={type}
+                                   onChangeText={setAnnotations}
+                                   value={annotations}
                               />
                          </View>
                     </ScrollView>
@@ -144,13 +183,13 @@ export default function CreateExercise() {
                               error &&
                               <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
                                    <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base'>
+                                   <Text className='font-text text-white text-base'>
                                         {errorMessage}
                                    </Text>
                               </View>
                          }
                          <TouchableOpacity onPress={handleExerciseCreation} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                              <Text className='text-white text-base font-title'>Criar treino</Text>
+                              <Text className='text-white text-base font-title'>Criar exercício</Text>
                          </TouchableOpacity>
                     </View>
                </KeyboardAvoidingView>

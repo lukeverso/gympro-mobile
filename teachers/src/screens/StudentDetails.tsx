@@ -224,7 +224,7 @@ export function StudentDetails() {
                                              student?.sheets[0]?.workouts.length !== 0 ?
                                                   student?.sheets[0]?.workouts?.map((workout) => {
                                                        return (
-                                                            <TouchableOpacity key={workout.id} onPress={() => navigate('workoutDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                                            <TouchableOpacity key={workout.id} onPress={() => navigate('workoutDetails', { studentId: student.id, workoutId: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                                                                  <Text className='font-title text-base mb-1'>
                                                                       {workout.focus} ({workout.type})
                                                                  </Text>

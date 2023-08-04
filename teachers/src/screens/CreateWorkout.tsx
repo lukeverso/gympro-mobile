@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
@@ -29,6 +29,8 @@ export default function CreateWorkout() {
                });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
+
                     setSuccess(true);
                } else {
                     setError(true);
@@ -99,7 +101,7 @@ export default function CreateWorkout() {
                               error &&
                               <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
                                    <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base'>
+                                   <Text className='font-text text-white text-base'>
                                         {errorMessage}
                                    </Text>
                               </View>

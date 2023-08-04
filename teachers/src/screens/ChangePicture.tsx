@@ -142,7 +142,7 @@ export default function ChangePicture() {
                               error &&
                               <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
                                    <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base'>
+                                   <Text className='font-text text-white text-base'>
                                         {errorMessage}
                                    </Text>
                               </View>

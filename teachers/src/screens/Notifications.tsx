@@ -30,8 +30,6 @@ export function Notifications() {
      async function getNotifications() {
           try {
                const request = await api.get(`/notifications/${user?.id}`);
-
-               console.log(request.data);
           } catch (error) {
                console.log(error);
           }

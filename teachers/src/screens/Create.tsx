@@ -225,7 +225,7 @@ export function Create() {
                          <Text className='mt-8 text-2xl font-title'>
                               Preencha seus dados abaixo
                          </Text>
-                         <View className='flex-row space-x-6'>
+                         <View className='flex-row space-x-5'>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Nome
@@ -304,7 +304,7 @@ export function Create() {
                                    }
                               </TouchableOpacity>
                          </View>
-                         <View className='flex-row mt-2 space-x-6'>
+                         <View className='flex-row mt-2 space-x-5'>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Telefone
@@ -356,7 +356,7 @@ export function Create() {
                               onChangeText={setStreet}
                               value={street}
                          />
-                         <View className='flex-row mt-2 space-x-6'>
+                         <View className='flex-row mt-2 space-x-5'>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Número
@@ -383,19 +383,17 @@ export function Create() {
                                    />
                               </View>
                          </View>
-                         <View className='flex-row mt-2 space-x-3'>
-                              <View className='flex-1'>
-                                   <Text className='mt-8 font-title px-3'>
-                                        Bairro
-                                   </Text>
-                                   <TextInput
-                                        keyboardType='default'
-                                        placeholder='Bairro'
-                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setDistrict}
-                                        value={district}
-                                   />
-                              </View>
+                         <Text className='mt-8 font-title px-3'>
+                              Bairro
+                         </Text>
+                         <TextInput
+                              keyboardType='default'
+                              placeholder='Bairro'
+                              className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                              onChangeText={setDistrict}
+                              value={district}
+                         />
+                         <View className='flex-row mt-2 space-x-5'>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Cidade
@@ -429,7 +427,7 @@ export function Create() {
                               error &&
                               <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
                                    <AntDesign name='warning' size={24} color='white' />
-                                   <Text className='text-white text-base'>
+                                   <Text className='font-text text-white text-base'>
                                         {errorMessage}
                                    </Text>
                               </View>

@@ -33,25 +33,29 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      async function loadUserFromStorage() {
           try {
                const storedUser = await AsyncStorage.getItem('user');
+
                if (storedUser) {
                     const parsedUser = JSON.parse(storedUser);
+
                     applyTokenInApiHeaders(parsedUser.token);
+
                     setUser(parsedUser);
-               }
+               };
           } catch (error) {
                console.log('Erro ao carregar os dados do usuário:', error);
-          }
-     }
+          };
+     };
 
      function applyTokenInApiHeaders(token: string) {
           api.defaults.headers.authorization = `Bearer ${token}`;
-     }
+     };
 
      async function login({ email, password }: LoginProps) {
           try {
                const response = await api.post('/teachers/login', { email, password });
                
                const { teacher, token } = response.data;
+
                applyTokenInApiHeaders(token);
 
                const userToStore = {
@@ -63,17 +67,18 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
                setUser(userToStore);
           } catch (error) {
                console.log('Erro ao realizar o login:', error);
-          }
-     }
+          };
+     };
 
      async function logout() {
           try {
                await AsyncStorage.removeItem('user');
+
                setUser(null);
           } catch (error) {
                console.log('Erro ao realizar o logout:', error);
-          }
-     }
+          };
+     };
 
      return (
           <AuthContext.Provider value={{ user, login, logout }}>

@@ -20,8 +20,6 @@ export function NoWorkout() {
                try {
                     const request = await api.get(`/students/${user?.id}`);
 
-                    console.log(request.data);
-
                     if (request.data.response.sheets.length === 0) {
                          return;
                     };

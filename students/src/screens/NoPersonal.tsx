@@ -19,8 +19,6 @@ export function NoPersonal() {
                try {
                     const request = await api.get(`/students/${user?.id}`);
 
-                    console.log(request.data);
-
                     if (request.data.response.teacher === null) {
                          return;
                     };

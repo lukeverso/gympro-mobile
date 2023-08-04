@@ -52,8 +52,6 @@ export function Home() {
 
                const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
 
-               console.log(request.data.response);
-
                setName(request.data.response.name);
                setSheet(activeSheet);
           } catch (error) {

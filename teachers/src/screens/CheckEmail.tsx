@@ -22,7 +22,7 @@ export function CheckEmail() {
           };
 
           try {
-               const request = await api.post(`/teachers/verify-email?email=${email}`);
+               const request = await api.post('/students/verify-email', { email });
 
                if (request.data.status === 'success') {
                     navigate('create', { email });

@@ -43,7 +43,7 @@ export function ExerciseDetails() {
 
      async function getData() {
           try {
-               const request = await api.get(`/exercises/${exerciseId}`);
+               const request = await api.get(`/api/get/exercises/${exerciseId}`);
 
                setName((request.data as ExerciseProps).name);
                setSeries((request.data as ExerciseProps).series);
@@ -65,7 +65,7 @@ export function ExerciseDetails() {
           setErrorMessage('');
 
           try {
-               const request = await api.delete(`/exercises/${exerciseId}/delete`);
+               const request = await api.delete(`/api/delete/exercises/${exerciseId}`);
 
                if (request.data.status === 'success') {
                     setExerciseDeleteModal(false);
@@ -112,7 +112,7 @@ export function ExerciseDetails() {
           };
 
           try {
-               const request = await api.post(`/exercises/${exerciseId}/edit`, {
+               const request = await api.post(`/api/post/exercises/${exerciseId}/edit`, {
                     name, series, repetitions, restTime, weight, annotations
                });
 

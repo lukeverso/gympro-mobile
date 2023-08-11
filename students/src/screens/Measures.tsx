@@ -46,7 +46,7 @@ export function Measures() {
           setErrorMessage('');
 
           try {
-               const request = await api.post(`/students/${user?.id}/measures`, {
+               const request = await api.post(`/api/post/students/${user?.id}/measures`, {
                     weight,
                     height,
                     bmi,
@@ -80,7 +80,7 @@ export function Measures() {
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/students/${user?.id}/measures`);
+                    const request = await api.get(`/api/get/students/${user?.id}/measures`);
 
                     if (request.data.measures) {
                          setWeight(request.data.measures.weight);

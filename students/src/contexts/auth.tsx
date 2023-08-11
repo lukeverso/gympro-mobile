@@ -49,7 +49,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
      async function login({ email, password }: LoginProps) {
           try {
-               const response = await api.post('/students/login', { email, password });
+               const response = await api.post('/api/post/students/login', { email, password });
                const { user, token } = response.data;
                applyTokenInApiHeaders(token);
 

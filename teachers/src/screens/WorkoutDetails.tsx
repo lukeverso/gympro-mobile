@@ -46,7 +46,7 @@ export function WorkoutDetails() {
 
      async function getData() {
           try {
-               const request = await api.get(`/workouts/${workoutId}`);
+               const request = await api.get(`/api/get/workouts/${workoutId}`);
 
                setWorkout(request.data[0]);
           } catch (error) {
@@ -63,7 +63,7 @@ export function WorkoutDetails() {
           setErrorMessage('');
 
           try {
-               const request = await api.delete(`/workouts/${workoutId}/delete`);
+               const request = await api.delete(`/api/delete/workouts/${workoutId}`);
 
                if (request.data.status === 'success') {
                     setWorkoutDeleteModal(false);

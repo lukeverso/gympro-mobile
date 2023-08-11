@@ -44,7 +44,7 @@ export function Create() {
                     setError(false);
                     setErrorMessage('');
 
-                    const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
+                    const request = await api.get(`https://viacep.com.br/ws/${code}/json`);
 
                     if (request.data.erro === true) {
                          setError(true);
@@ -174,7 +174,7 @@ export function Create() {
                     state
                };
 
-               const request = await api.post('/students', data);
+               const request = await api.post('/api/post/students', data);
 
                if (request.data.status === 'success') {
                     setSuccess(true);

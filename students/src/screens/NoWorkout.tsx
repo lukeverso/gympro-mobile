@@ -18,7 +18,7 @@ export function NoWorkout() {
 
           async function getData() {
                try {
-                    const request = await api.get(`/students/${user?.id}`);
+                    const request = await api.get(`/api/get/students/${user?.id}`);
 
                     if (request.data.response.sheets.length === 0) {
                          return;

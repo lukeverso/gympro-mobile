@@ -30,7 +30,7 @@ export function Notifications() {
      useEffect(() => {
           async function getNotifications() {
                try {
-                    const response = await api.get(`/notifications/${user?.id}`);
+                    const response = await api.get(`/api/get/notifications/${user?.id}`);
 
                     if (response.data.notifications[0].gym) {
                          setNotifications(response.data.notifications[0].gym.notifications);

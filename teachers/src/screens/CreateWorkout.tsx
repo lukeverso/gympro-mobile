@@ -24,7 +24,7 @@ export default function CreateWorkout() {
 
      async function handleWorkoutCreation() {
           try {
-               const request = await api.post(`/workouts/${id}`, {
+               const request = await api.post(`/api/post/workouts/${id}`, {
                     type, focus
                });
 

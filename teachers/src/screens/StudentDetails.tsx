@@ -61,7 +61,7 @@ export function StudentDetails() {
 
      async function getDetails() {
           try {
-               const request = await api.get(`/students/${id}/details`);
+               const request = await api.get(`/api/get/students/${id}/details`);
 
                setStudent(request.data);
           } catch (error) {
@@ -75,7 +75,7 @@ export function StudentDetails() {
 
      async function handleStudentInactivation() {
           try {
-               await api.patch(`/students/${id}/status`);
+               await api.patch(`/api/put/students/${id}/status`);
 
                setReload(true);
                setOpenInactivateModal(false);
@@ -87,7 +87,7 @@ export function StudentDetails() {
 
      async function handleStudentRemoval() {
           try {
-               const request = await api.post(`/teachers/${user?.id}/delete/${id}`);
+               const request = await api.post(`/api/post/teachers/${user?.id}/delete/${id}`);
 
                if (request.data.status === 'success') {
                     setOpenRemoveModal(false);

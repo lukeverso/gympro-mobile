@@ -28,7 +28,7 @@ export function EditAddress() {
 
                if (code.length === 9) {
                     try {
-                         const request = await api.get('https://viacep.com.br/ws/' + code + '/json');
+                         const request = await api.get(`https://viacep.com.br/ws/${code}/json`);
 
                          if (request.data.erro === true) {
                               setError(true);
@@ -65,7 +65,7 @@ export function EditAddress() {
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/students/${user?.id}/address`);
+               const request = await api.get(`/api/get/students/${user?.id}/address`);
 
                setCode(request.data.student.code);
                setNumber(request.data.student.number);
@@ -132,7 +132,7 @@ export function EditAddress() {
                     state
                };
 
-               const request = await api.patch(`/students/${user?.id}/address`, { address });
+               const request = await api.patch(`/api/put/students/${user?.id}/address`, { address });
 
                if (request.data.status === 'success') {
                     setSuccess(true);

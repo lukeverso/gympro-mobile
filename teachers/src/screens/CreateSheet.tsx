@@ -41,7 +41,7 @@ export default function CreateSheet() {
 
      async function handleSheetCreation() {
           try {
-               const request = await api.post(`/sheets/${id}`, {
+               const request = await api.post(`/api/post/sheets/${id}`, {
                     objective, startDate, endDate, annotations
                });
 

@@ -29,7 +29,7 @@ export function Notifications() {
 
      async function getNotifications() {
           try {
-               const request = await api.get(`/notifications/${user?.id}`);
+               const request = await api.get(`/api/get/notifications/${user?.id}`);
           } catch (error) {
                console.log(error);
           }

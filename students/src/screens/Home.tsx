@@ -10,6 +10,7 @@ import home from '../assets/images/home.jpg';
 import measures from '../assets/images/measures.png';
 import evolution from '../assets/images/evolution.png';
 import constructionImg from '../assets/images/construction.png';
+import QRCode from 'react-native-qrcode-svg';
 
 interface WorkoutsProps {
      active: boolean;
@@ -38,21 +39,23 @@ export function Home() {
 
      async function getHomeData() {
           try {
-               const request = await api.get(`/students/${user?.id}`);
+               const request = await api.get(`/api/get/students/${user?.id}`);
 
-               if (request.data.response.teacher === null) {
-                    navigate('noPersonal');
-                    return;
-               };
+               // console.log(request.data);
 
-               if (request.data.response.sheets.length === 0) {
-                    navigate('noWorkout');
-                    return;
-               };
+               // if (request.data.teacher === null) {
+               //      navigate('noPersonal');
+               //      return;
+               // };
 
-               const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
+               // if (request.data.sheets.length === 0) {
+               //      navigate('noWorkout');
+               //      return;
+               // };
 
-               setName(request.data.response.name);
+               const activeSheet = request.data.sheets.find((sheet: SheetProps) => sheet.active === true);
+
+               setName(request.data.name);
                setSheet(activeSheet);
           } catch (error) {
                console.log(error);
@@ -70,7 +73,7 @@ export function Home() {
 
           async function getData() {
                try {
-                    const request = await api.get(`/students/${user?.id}`);
+                    const request = await api.get(`/api/get/students/${user?.id}`);
 
                     const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
 
@@ -110,7 +113,10 @@ export function Home() {
                          </Text>
                     </View>
                     <View className='py-8 px-8'>
-                         <View className='flex-row justify-between items-center'>
+                         <Text className='mt-8 text-2xl font-title'>
+                              Seu professor
+                         </Text>
+                         <View className='mt-8 flex-row justify-between items-center'>
                               <Text className='text-2xl font-title'>
                                    Sua ficha
                               </Text>

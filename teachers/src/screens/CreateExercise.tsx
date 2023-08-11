@@ -5,7 +5,7 @@ import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
 
 interface CreateExerciseProps {
-     id: string;
+     id: string | undefined;
 };
 
 export default function CreateExercise() {
@@ -55,7 +55,7 @@ export default function CreateExercise() {
           };
 
           try {
-               const request = await api.post(`/exercises/${id}`, {
+               const request = await api.post(`/api/post/exercises/${id}`, {
                     name, series, repetitions, restTime, weight, annotations
                });
 
@@ -81,7 +81,7 @@ export default function CreateExercise() {
                               <Text className='font-title text-lg text-center'>
                                    Exercício criado com sucesso!
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('workoutDetails', { id })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                              <TouchableOpacity onPress={() => navigate('workoutDetails')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>

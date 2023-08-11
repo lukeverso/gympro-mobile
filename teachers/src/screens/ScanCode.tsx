@@ -31,7 +31,7 @@ export function ScanCode() {
           setScanned(true);
 
           try {
-               const request = await api.post(`/teachers/${user?.id}/add/${data}`);
+               const request = await api.post(`/api/post/teachers/${user?.id}/add/${data}`);
 
                if (request.data.status === 'success') {
                     setSuccess(true);

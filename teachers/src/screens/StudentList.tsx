@@ -23,7 +23,7 @@ export function StudentList() {
 
      async function getData() {
           try {
-               const request = await api.get(`/teachers/${user?.id}/students`);
+               const request = await api.get(`/api/get/teachers/${user?.id}/students`);
 
                setStudents(request.data);
           } catch (error) {

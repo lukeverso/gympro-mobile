@@ -38,7 +38,7 @@ export function TrainDetails() {
      useEffect(() => {
           async function getExercises() {
                try {
-                    const response = await api.get(`/exercises/${id}`);
+                    const response = await api.get(`/api/get/exercises/${id}`);
 
                     setExercises(response.data.exercises);
                } catch (error) {
@@ -56,7 +56,7 @@ export function TrainDetails() {
 
           async function getExercises() {
                try {
-                    const response = await api.get(`/exercises/${id}`);
+                    const response = await api.get(`/api/get/exercises/${id}`);
 
                     setExercises(response.data.exercises);
                } catch (error) {

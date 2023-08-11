@@ -32,7 +32,7 @@ export function FindByEmail() {
           setStudentView(false);
 
           try {
-               const request = await api.get(`/students/${email}/search`);
+               const request = await api.get(`/api/get/students/${email}/search`);
 
                setStudent(request.data);
                setStudentView(true);
@@ -43,7 +43,7 @@ export function FindByEmail() {
 
      async function handleAddStudent() {
           try {
-               const request = await api.post(`/teachers/${user?.id}/add/${student?.id}`);
+               const request = await api.post(`/api/post/teachers/${user?.id}/add/${student?.id}`);
 
                if (request.data.status === 'success') {
                     setOpenAddStudentModal(false);

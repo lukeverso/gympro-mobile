@@ -24,7 +24,7 @@ export function Menu() {
 
      async function getData() {
           try {
-               const request = await api.get(`/teachers/${user?.id}`);
+               const request = await api.get(`/api/get/teachers/${user?.id}`);
 
                setName(request.data.name);
                setEmail(request.data.email);

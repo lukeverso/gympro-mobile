@@ -27,21 +27,15 @@ export function Notifications() {
           });
      };
 
+     async function getNotifications() {
+          try {
+               const response = await api.get(`/api/get/notifications/${user?.id}`);
+          } catch (error) {
+               console.log(error);
+          }
+     };
+
      useEffect(() => {
-          async function getNotifications() {
-               try {
-                    const response = await api.get(`/api/get/notifications/${user?.id}`);
-
-                    if (response.data.notifications[0].gym) {
-                         setNotifications(response.data.notifications[0].gym.notifications);
-                    } else {
-                         setNotifications([]);
-                    };
-               } catch (error) {
-                    console.log(error);
-               }
-          };
-
           getNotifications();
      }, []);
 

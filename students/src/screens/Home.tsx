@@ -6,7 +6,7 @@ import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
 import { StatusBar } from 'expo-status-bar';
 
-import home from '../assets/images/home.jpg';
+import home from '../assets/images/teacher.jpg';
 import measures from '../assets/images/measures.png';
 import evolution from '../assets/images/evolution.png';
 import constructionImg from '../assets/images/construction.png';
@@ -29,6 +29,13 @@ interface SheetProps {
      workouts: WorkoutsProps[];
 };
 
+interface TeacherProps {
+     birthdate: string;
+     email: string;
+     name: string;
+     telephone: string;
+};
+
 export function Home() {
      const { navigate } = useNavigation();
 
@@ -36,27 +43,17 @@ export function Home() {
 
      const [name, setName] = useState<string>('');
      const [sheet, setSheet] = useState<SheetProps | null>(null);
+     const [teacher, setTeacher] = useState<TeacherProps | null>(null);
 
      async function getHomeData() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}`);
 
-               // console.log(request.data);
-
-               // if (request.data.teacher === null) {
-               //      navigate('noPersonal');
-               //      return;
-               // };
-
-               // if (request.data.sheets.length === 0) {
-               //      navigate('noWorkout');
-               //      return;
-               // };
-
                const activeSheet = request.data.sheets.find((sheet: SheetProps) => sheet.active === true);
 
                setName(request.data.name);
                setSheet(activeSheet);
+               setTeacher(request.data.teacher);
           } catch (error) {
                console.log(error);
           };
@@ -71,20 +68,7 @@ export function Home() {
      const onRefresh = useCallback(() => {
           setRefreshing(true);
 
-          async function getData() {
-               try {
-                    const request = await api.get(`/api/get/students/${user?.id}`);
-
-                    const activeSheet = request.data.response.sheets.find((sheet: SheetProps) => sheet.active === true);
-
-                    setName(request.data.response.name);
-                    setSheet(activeSheet);
-               } catch (error) {
-                    console.log(error);
-               };
-          };
-
-          getData();
+          getHomeData();
 
           setTimeout(() => {
                setRefreshing(false);
@@ -112,10 +96,40 @@ export function Home() {
                               {name}
                          </Text>
                     </View>
-                    <View className='py-8 px-8'>
+                    <View className='pb-8 px-8'>
                          <Text className='mt-8 text-2xl font-title'>
                               Seu professor
                          </Text>
+                         {
+                              teacher ?
+                                   <View className='mt-5 bg-gray-100 rounded flex-col justify-between px-5 py-5 space-y-3'>
+                                        <Text className='font-title text-xl text-black'>
+                                             {teacher.name}
+                                        </Text>
+                                        <Text className='font-text text-base text-black'>
+                                             Telefone: {teacher.telephone}{'\n'}
+                                             E-mail: {teacher.email}
+                                        </Text>
+                                   </View> :
+                                   <View className='w-full flex-col items-center mt-8 space-y-5'>
+                                        <View className='w-full flex-col items-center space-y-3'>
+                                             <Feather name='alert-circle' size={24} color='black' />
+                                             <Text className='font-title text-lg text-center leading-6'>
+                                                  Você ainda não{'\n'}
+                                                  possui um professor
+                                             </Text>
+                                        </View>
+                                        <View className='mt-8 mx-auto'>
+                                             <QRCode value={`${user?.id}`} size={150} />
+                                        </View>
+                                        <Text className='text-center mt-10 text-base font-text'>
+                                             Peça para ele escanear o código{'\n'}
+                                             acima ou informe seu e-mail{'\n'}
+                                             para você ser adicionado{'\n'}
+                                             como aluno.
+                                        </Text>
+                                   </View>
+                         }
                          <View className='mt-8 flex-row justify-between items-center'>
                               <Text className='text-2xl font-title'>
                                    Sua ficha
@@ -141,18 +155,21 @@ export function Home() {
                                    <View className='w-full flex-col items-center mt-8 space-y-3'>
                                         <Feather name='alert-circle' size={24} color='black' />
                                         <Text className='font-title text-lg text-center leading-6'>
-                                             Você não possui{'\n'}
-                                             fichas de treino
-                                        </Text>
-                                        <Text className='font-text text-base text-center'>
-                                             Converse com seu professor,{'\n'}
-                                             para ele criar a ideal para você
+                                             Você ainda não possui{'\n'}
+                                             uma ficha de treino
                                         </Text>
                                    </View>
                          }
-                         <Text className='mt-8 text-2xl font-title'>
-                              Seus treinos
-                         </Text>
+                         <View className='mt-8 flex-row justify-between items-center'>
+                              <Text className='text-2xl font-title'>
+                                   Seus treinos
+                              </Text>
+                              <TouchableOpacity activeOpacity={0.7}>
+                                   <Text className='text-sm text-black font-title'>
+                                        Ver todas
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
                          {
                               sheet ?
                                    sheet?.workouts?.map((workout: WorkoutsProps) => {
@@ -174,22 +191,23 @@ export function Home() {
                                              Você ainda não{'\n'}
                                              possui exercícios
                                         </Text>
-                                        <Text className='font-text text-base text-center'>
-                                             Converse com seu personal{'\n'}
-                                             para que ele possa criar os exercícios{'\n'}
-                                             de acordo com o seu objetivo.
-                                        </Text>
-                                        <Text className='text-center text-base font-text'>
-                                             (Puxe a tela para atualizar os dados{'\n'}
-                                             quando seu professor tiver adicionado{'\n'}
-                                             seus exercícios.)
-                                        </Text>
                                    </View>
                          }
                          <Text className='text-2xl font-title mt-8'>
                               Outras funcionalidades
                          </Text>
                          <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
+                                   <View className='w-64'>
+                                        <Image source={measures} className='h-40 w-64 rounded' />
+                                        <View className='mt-3 px-4'>
+                                             <View className='flex-row items-center space-x-1'>
+                                                  <Text className='font-title text-lg'>Ficha de anamnese</Text>
+                                             </View>
+                                             <Text className='font-text text-base'>Preencha a ficha para </Text>
+                                        </View>
+                                   </View>
+                              </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
                                    <View className='w-64'>
                                         <Image source={measures} className='h-40 w-64 rounded' />
@@ -213,18 +231,6 @@ export function Home() {
                                    </View>
                               </TouchableOpacity>
                          </ScrollView>
-                         <Text className='text-2xl font-title mt-8'>
-                              Sua semana
-                         </Text>
-                         <Image source={constructionImg} className='mt-8 w-full h-52 rounded' />
-                         <Text className='mt-4 font-title text-xl text-center'>
-                              Esta sessão está em{'\n'}
-                              construção...
-                         </Text>
-                         <Text className='mt-4 font-text text-base text-center'>
-                              Mas é rápido! Em breve ela{'\n'}
-                              estará disponível para o seu uso!
-                         </Text>
                     </View>
                     <StatusBar style='dark' backgroundColor='#FFFFFF' />
                </ScrollView>

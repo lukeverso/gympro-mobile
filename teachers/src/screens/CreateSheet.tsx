@@ -1,8 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
-import { AuthContext } from '../contexts/auth';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { MaskedTextInput } from 'react-native-mask-text';
 import { api } from '../lib/api';
 
@@ -10,7 +9,7 @@ interface CreateSheetProps {
      id: string;
 };
 
-export default function CreateSheet() {
+export function CreateSheet() {
      const { goBack, navigate } = useNavigation();
 
      const route = useRoute();

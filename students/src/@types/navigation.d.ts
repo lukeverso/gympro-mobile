@@ -6,11 +6,15 @@ export declare global {
                create: {
                     email: string;
                };
+               checkCode: {
+                    email: string;
+               };
                checkEmail: undefined;
                noPersonal: undefined;
                noWorkout: undefined;
                home: undefined;
                menu: undefined;
+               changePicture: undefined;
                notifications: undefined;
                trainDetails: {
                     id: string;

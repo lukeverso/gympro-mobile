@@ -81,4 +81,4 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      );
 }
 
-export default AuthContextProvider;
+export AuthContextProvider;

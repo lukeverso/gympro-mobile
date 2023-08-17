@@ -1,10 +1,9 @@
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
-import * as ImagePicker from 'expo-image-picker';
 
 export function Menu() {
      const { goBack, navigate } = useNavigation();
@@ -12,10 +11,6 @@ export function Menu() {
      const { user, logout } = useContext(AuthContext);
 
      const [success, setSuccess] = useState<boolean>(false);
-     const [successPicture, setSuccessPicture] = useState<boolean>(false);
-     const [pictureModal, setPictureModal] = useState<boolean>(false);
-     const [loading, setLoading] = useState<boolean>(false);
-     const [image, setImage] = useState<ImagePicker.ImagePickerResult | null>(null);
 
      const [name, setName] = useState<string>('');
      const [email, setEmail] = useState<string>('');
@@ -68,14 +63,14 @@ export function Menu() {
                     </View>
                     <View className='items-center mt-8 mb-8'>
                          <View>
-                              <TouchableOpacity onPress={() => { setImage(null); navigate('changePicture'); }} activeOpacity={0.7} className='w-32 h-32 rounded-full items-center justify-center bg-gray-100'>
+                              <TouchableOpacity onPress={() => { navigate('changePicture'); }} activeOpacity={0.7} className='w-32 h-32 rounded-full items-center justify-center bg-gray-100'>
                                    {
                                         picture ?
                                              <Image source={{ uri: picture }} className='w-32 h-32 rounded-full' /> :
                                              <Octicons name='person' size={32} color='black' />
                                    }
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => { setImage(null); navigate('changePicture'); }} activeOpacity={0.7} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
+                              <TouchableOpacity onPress={() => { navigate('changePicture'); }} activeOpacity={0.7} className='w-10 h-10 rounded-full items-center justify-center bg-white absolute bottom-0 right-0'>
                                    <Feather name='camera' size={20} color='black' />
                               </TouchableOpacity>
                          </View>

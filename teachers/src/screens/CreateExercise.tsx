@@ -8,7 +8,7 @@ interface CreateExerciseProps {
      id: string | undefined;
 };
 
-export default function CreateExercise() {
+export function CreateExercise() {
      const { goBack, navigate } = useNavigation();
 
      const route = useRoute();

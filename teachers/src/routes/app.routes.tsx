@@ -22,11 +22,11 @@ import { StudentDetails } from '../screens/StudentDetails';
 import { StudentList } from '../screens/StudentList';
 import { FindByEmail } from '../screens/FindByEmail';
 import { WorkoutDetails } from '../screens/WorkoutDetails';
-import CreateSheet from '../screens/CreateSheet';
-import ChangePicture from '../screens/ChangePicture';
-import CreateWorkout from '../screens/CreateWorkout';
+import { CreateSheet } from '../screens/CreateSheet';
+import { ChangePicture } from '../screens/ChangePicture';
+import { CreateWorkout } from '../screens/CreateWorkout';
 import { ExerciseDetails } from '../screens/ExerciseDetails';
-import CreateExercise from '../screens/CreateExercise';
+import { CreateExercise } from '../screens/CreateExercise';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 

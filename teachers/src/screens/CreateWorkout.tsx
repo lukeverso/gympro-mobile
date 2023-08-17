@@ -8,7 +8,7 @@ interface CreateWorkoutProps {
      id: string;
 };
 
-export default function CreateWorkout() {
+export function CreateWorkout() {
      const { goBack, navigate } = useNavigation();
 
      const route = useRoute();

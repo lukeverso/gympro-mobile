@@ -21,6 +21,8 @@ import { EditEmail } from '../screens/EditEmail';
 import { EditTelephone } from '../screens/EditTelephone';
 import { EditAddress } from '../screens/EditAddress';
 import { Evolution } from '../screens/Evolution';
+import { CheckCode } from '../screens/CheckCode';
+import { ChangePicture } from '../screens/ChangePicture';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -47,11 +49,13 @@ export function AppRoutes() {
                               <Screen name='editAddress' component={EditAddress} />
                               <Screen name='measures' component={Measures} />
                               <Screen name='evolution' component={Evolution} />
+                              <Screen name='changePicture' component={ChangePicture} />
                          </> :
                          <>
                               <Screen name='main' component={Main} />
                               <Screen name='login' component={Login} />
                               <Screen name='checkEmail' component={CheckEmail} />
+                              <Screen name='checkCode' component={CheckCode} />
                               <Screen name='create' component={Create} />
                          </>
                }

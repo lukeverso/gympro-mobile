@@ -14,12 +14,11 @@ export function Create() {
      const { goBack, navigate } = useNavigation();
 
      const route = useRoute();
-
+     const { email } = route.params as CreateProps;
+     
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
-
-     const { email } = route.params as CreateProps;
 
      const [name, setName] = useState('');
      const [surname, setSurname] = useState('');
@@ -216,7 +215,7 @@ export function Create() {
                }
                <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-32 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                     <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
-                         <TouchableOpacity onPress={() => goBack()}>
+                         <TouchableOpacity onPress={() => navigate('checkEmail')}>
                               <Ionicons name='ios-chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <Text className='mt-8 text-2xl font-title'>

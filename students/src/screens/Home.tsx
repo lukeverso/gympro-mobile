@@ -9,7 +9,6 @@ import { StatusBar } from 'expo-status-bar';
 import home from '../assets/images/teacher.jpg';
 import measures from '../assets/images/measures.png';
 import evolution from '../assets/images/evolution.png';
-import constructionImg from '../assets/images/construction.png';
 import QRCode from 'react-native-qrcode-svg';
 
 interface WorkoutsProps {

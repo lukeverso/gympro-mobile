@@ -24,7 +24,7 @@ export function EditTelephone() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}/telephone`);
 
-               setTelephone(request.data.student.telephone);
+               setTelephone(request.data.telephone);
           } catch (error) {
                console.log(error);
 

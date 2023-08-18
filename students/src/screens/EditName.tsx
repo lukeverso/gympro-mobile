@@ -24,8 +24,10 @@ export function EditName() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}/name`);
 
-               setName(request.data.student.name.split(' ')[0]);
-               setSurname(request.data.student.name.split(' ')[1]);
+               console.log(request.data);
+
+               setName(request.data.name.split(' ')[0]);
+               setSurname(request.data.name.split(' ')[1]);
           } catch (error) {
                console.log(error);
 

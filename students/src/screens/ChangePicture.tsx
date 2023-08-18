@@ -52,7 +52,7 @@ export function ChangePicture() {
                     type: `image/${extension}`
                })));
 
-               const request = await api.post(`/api/post/teachers/${user?.id}/upload`,
+               const request = await api.post(`/api/post/students/${user?.id}/upload`,
                     formData,
                     {
                          headers: {

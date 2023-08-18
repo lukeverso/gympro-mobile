@@ -67,9 +67,9 @@ export function EditAddress() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}/address`);
 
-               setCode(request.data.student.code);
-               setNumber(request.data.student.number);
-               setComplement(request.data.student.complement);
+               setCode(request.data.code);
+               setNumber(request.data.number);
+               setComplement(request.data.complement);
           } catch (error) {
                console.log(error);
 
@@ -123,16 +123,7 @@ export function EditAddress() {
           };
 
           try {
-               const address = {
-                    code,
-                    street,
-                    number,
-                    district,
-                    city,
-                    state
-               };
-
-               const request = await api.patch(`/api/put/students/${user?.id}/address`, { address });
+               const request = await api.patch(`/api/put/students/${user?.id}/address`, { code, street, complement, number, district, city, state });
 
                if (request.data.status === 'success') {
                     setSuccess(true);
@@ -224,19 +215,17 @@ export function EditAddress() {
                                    />
                               </View>
                          </View>
+                         <Text className='mt-8 font-title px-3'>
+                              Bairro
+                         </Text>
+                         <TextInput
+                              keyboardType='default'
+                              placeholder='Bairro'
+                              className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                              onChangeText={setDistrict}
+                              value={district}
+                         />
                          <View className='flex-row mt-2 space-x-3'>
-                              <View className='flex-1'>
-                                   <Text className='mt-8 font-title px-3'>
-                                        Bairro
-                                   </Text>
-                                   <TextInput
-                                        keyboardType='default'
-                                        placeholder='Bairro'
-                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setDistrict}
-                                        value={district}
-                                   />
-                              </View>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Cidade

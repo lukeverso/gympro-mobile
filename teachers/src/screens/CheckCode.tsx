@@ -2,16 +2,25 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { api } from '../lib/api';
 
-export function CheckEmail() {
-     const [email, setEmail] = useState('');
+interface CheckCodeProps {
+     email: string;
+};
+
+export function CheckCode() {
+     const route = useRoute();
+     const { email } = route.params as CheckCodeProps;
+
      const [errorMessage, setErrorMessage] = useState('');
      const [error, setError] = useState(false);
 
+     const [code, setCode] = useState('');
+
      const { goBack, navigate } = useNavigation();
 
-     async function handleEmailCheck() {
+     async function handleCodeCheck() {
           setError(false);
           setErrorMessage('');
 
@@ -22,14 +31,13 @@ export function CheckEmail() {
           };
 
           try {
-               const request = await api.post('/api/post/students/verify-email', { email });
+               const request = await api.post('/api/post/verify-code', { email, code });
 
                if (request.data.status === 'success') {
-                    navigate('checkCode', { email });
+                    navigate('create', { email });
                } else {
                     setError(true);
-                    setErrorMessage(request.data.message);
-                    return;
+                    setErrorMessage('Código incorreto.');
                };
           } catch (error) {
                console.log(error);
@@ -42,26 +50,25 @@ export function CheckEmail() {
      return (
           <View className='flex-1 bg-white px-8 items-center'>
                <View className='mt-20 mb-10 w-full'>
-                    <View className='flex-row justify-between items-center'>
-                         <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
-                         </TouchableOpacity>
-                         <View className='items-center justify-center p-3'></View>
-                    </View>
+                    <TouchableOpacity onPress={() => goBack()}>
+                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                    </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
-                         Digite seu e-mail para{'\n'}
-                         iniciar o processo
+                         Digite o código{'\n'}
+                         enviado para o e-mail{'\n'}
+                         {email}
                     </Text>
                     <Text className='mt-8 font-title px-3'>
-                         E-mail
+                         Código de verificação
                     </Text>
                     <TextInput
                          autoCapitalize='none'
-                         keyboardType='email-address'
-                         placeholder='E-mail'
+                         keyboardType='number-pad'
+                         maxLength={6}
+                         placeholder='Código de verificação'
                          className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                         onChangeText={setEmail}
-                         value={email}
+                         onChangeText={setCode}
+                         value={code}
                     />
                </View>
                <View className='absolute bottom-8 w-full space-y-5'>
@@ -74,8 +81,13 @@ export function CheckEmail() {
                               </Text>
                          </View>
                     }
-                    <TouchableOpacity onPress={handleEmailCheck} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                         <Text className='text-white text-base font-title'>Avançar</Text>
+                    <TouchableOpacity
+                         disabled={code.length !== 6}
+                         activeOpacity={0.7}
+                         onPress={handleCodeCheck}
+                         className={`rounded py-3 justify-center items-center ${code.length !== 6 ? 'bg-gray-500' : 'bg-black'} flex-row space-x-3`}
+                    >
+                         <Text className='text-white text-base font-title'>Conferir código</Text>
                     </TouchableOpacity>
                </View>
           </View>

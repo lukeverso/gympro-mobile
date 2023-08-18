@@ -203,7 +203,7 @@ export function Home() {
                                              <View className='flex-row items-center space-x-1'>
                                                   <Text className='font-title text-lg'>Ficha de anamnese</Text>
                                              </View>
-                                             <Text className='font-text text-base'>Preencha a ficha para </Text>
+                                             <Text className='font-text text-base'>Obtenha informações relevantes sobre seu treino</Text>
                                         </View>
                                    </View>
                               </TouchableOpacity>

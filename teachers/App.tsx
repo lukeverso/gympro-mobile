@@ -3,7 +3,7 @@ import AuthProvider from './src/contexts/auth';
 
 import { useFonts } from 'expo-font';
 
-export function App() {
+export default function App() {
      const [fontsLoaded] = useFonts({
           'RoobertMedium': require('./src/assets/fonts/Roobert-Medium.otf'),
           'RoobertBold': require('./src/assets/fonts/Roobert-Bold.otf'),

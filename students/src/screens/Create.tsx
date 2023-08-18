@@ -15,7 +15,7 @@ export function Create() {
 
      const route = useRoute();
      const { email } = route.params as CreateProps;
-     
+
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
@@ -69,7 +69,7 @@ export function Create() {
                };
           };
      };
-     
+
      useEffect(() => {
           fetchData();
      }, [code]);
@@ -379,19 +379,18 @@ export function Create() {
                                    />
                               </View>
                          </View>
+                         <Text className='mt-8 font-title px-3'>
+                              Bairro
+                         </Text>
+                         <TextInput
+                              autoCapitalize='none'
+                              keyboardType='default'
+                              placeholder='Bairro'
+                              className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
+                              onChangeText={setDistrict}
+                              value={district}
+                         />
                          <View className='flex-row mt-2 space-x-3'>
-                              <View className='flex-1'>
-                                   <Text className='mt-8 font-title px-3'>
-                                        Bairro
-                                   </Text>
-                                   <TextInput
-                                        keyboardType='default'
-                                        placeholder='Bairro'
-                                        className='mt-2 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
-                                        onChangeText={setDistrict}
-                                        value={district}
-                                   />
-                              </View>
                               <View className='flex-1'>
                                    <Text className='mt-8 font-title px-3'>
                                         Cidade

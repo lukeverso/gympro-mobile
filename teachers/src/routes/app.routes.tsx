@@ -27,6 +27,7 @@ import { ChangePicture } from '../screens/ChangePicture';
 import { CreateWorkout } from '../screens/CreateWorkout';
 import { ExerciseDetails } from '../screens/ExerciseDetails';
 import { CreateExercise } from '../screens/CreateExercise';
+import { CheckCode } from '../screens/CheckCode';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -64,6 +65,7 @@ export function AppRoutes() {
                               <Screen name='main' component={Main} />
                               <Screen name='login' component={Login} />
                               <Screen name='checkEmail' component={CheckEmail} />
+                              <Screen name='checkCode' component={CheckCode} />
                               <Screen name='create' component={Create} />
                          </>
                }

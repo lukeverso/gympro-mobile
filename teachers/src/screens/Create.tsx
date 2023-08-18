@@ -183,11 +183,15 @@ export function Create() {
                     setErrorMessage(request.data.message);
                     return;
                };
-          } catch (error) {
-               console.log(error);
-
-               setError(true);
-               setErrorMessage('Ocorreu um erro...');
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
           };
      };
 

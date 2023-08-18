@@ -7,6 +7,9 @@ export declare global {
                     email: string;
                };
                checkEmail: undefined;
+               checkCode: {
+                    email: string;
+               };
                home: undefined;
                studentList: undefined;
                findByEmail: undefined;

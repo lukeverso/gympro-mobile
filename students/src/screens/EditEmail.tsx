@@ -23,7 +23,7 @@ export function EditEmail() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}/email`);
 
-               setEmail(request.data.student.email);
+               setEmail(request.data.email);
           } catch (error) {
                console.log(error);
 

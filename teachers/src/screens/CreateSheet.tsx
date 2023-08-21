@@ -39,8 +39,22 @@ export function CreateSheet() {
      }, []);
 
      async function handleSheetCreation() {
+          setError(false);
+          setErrorMessage('');
+
+          const startParts = startDate.split('/');
+          const endParts = endDate.split('/');
+          const startDateObject = new Date(`${startParts[2]}-${startParts[1]}-${startParts[0]}`);
+          const endDateObject = new Date(`${endParts[2]}-${endParts[1]}-${endParts[0]}`);
+
+          if (endDateObject < startDateObject) {
+               setError(true);
+               setErrorMessage('A data de término não pode ser anterior à data de início.');
+               return;
+          };
+
           try {
-               const request = await api.post(`/api/post/sheets/${id}`, {
+               const request = await api.post(`/api/post/sheets/${id}/create`, {
                     objective, startDate, endDate, annotations
                });
 
@@ -146,7 +160,7 @@ export function CreateSheet() {
                     <View className='absolute bottom-8 w-full space-y-5'>
                          {
                               error &&
-                              <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
                                    <AntDesign name='warning' size={24} color='white' />
                                    <Text className='font-text text-white text-base'>
                                         {errorMessage}

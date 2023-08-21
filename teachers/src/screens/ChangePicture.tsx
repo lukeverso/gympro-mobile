@@ -10,7 +10,7 @@ export function ChangePicture() {
      const { goBack, navigate } = useNavigation();
 
      const { user } = useContext(AuthContext);
-     
+
      const [error] = useState(false);
      const [errorMessage] = useState('');
 
@@ -138,7 +138,7 @@ export function ChangePicture() {
                     <View className='absolute px-8 bottom-8 w-full space-y-5'>
                          {
                               error &&
-                              <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
                                    <AntDesign name='warning' size={24} color='white' />
                                    <Text className='font-text text-white text-base'>
                                         {errorMessage}

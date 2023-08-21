@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 
 interface TrainDetailsProps {
@@ -35,34 +34,24 @@ export function TrainDetails() {
 
      const [exercises, setExercises] = useState<ExercisesProps | null>(null);
 
-     useEffect(() => {
-          async function getExercises() {
-               try {
-                    const response = await api.get(`/api/get/exercises/${id}`);
+     async function getExercises() {
+          try {
+               const response = await api.get(`/api/get/exercises/${id}`);
 
-                    setExercises(response.data.exercises);
-               } catch (error) {
-                    console.log(error);
-               };
+               setExercises(response.data);
+          } catch (error) {
+               console.log(error);
           };
+     };
 
+     useFocusEffect(useCallback(() => {
           getExercises();
-     }, []);
+     }, []));
 
      const [refreshing, setRefreshing] = useState(false);
 
      const onRefresh = useCallback(() => {
           setRefreshing(true);
-
-          async function getExercises() {
-               try {
-                    const response = await api.get(`/api/get/exercises/${id}`);
-
-                    setExercises(response.data.exercises);
-               } catch (error) {
-                    console.log(error);
-               };
-          };
 
           getExercises();
 

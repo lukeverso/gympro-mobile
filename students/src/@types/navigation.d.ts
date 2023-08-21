@@ -10,6 +10,7 @@ export declare global {
                     email: string;
                };
                checkEmail: undefined;
+               medicalHistory: undefined;
                noPersonal: undefined;
                noWorkout: undefined;
                home: undefined;

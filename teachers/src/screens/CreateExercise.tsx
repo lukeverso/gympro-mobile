@@ -5,7 +5,8 @@ import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
 
 interface CreateExerciseProps {
-     id: string | undefined;
+     studentId: string;
+     workoutId: string;
 };
 
 export function CreateExercise() {
@@ -13,7 +14,7 @@ export function CreateExercise() {
 
      const route = useRoute();
 
-     const { id } = route.params as CreateExerciseProps;
+     const { studentId, workoutId } = route.params as CreateExerciseProps;
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
@@ -55,7 +56,7 @@ export function CreateExercise() {
           };
 
           try {
-               const request = await api.post(`/api/post/exercises/${id}`, {
+               const request = await api.post(`/api/post/exercises/${workoutId}/create`, {
                     name, series, repetitions, restTime, weight, annotations
                });
 
@@ -81,7 +82,7 @@ export function CreateExercise() {
                               <Text className='font-title text-lg text-center'>
                                    Exercício criado com sucesso!
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('workoutDetails')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                              <TouchableOpacity onPress={() => navigate('workoutDetails', { studentId: studentId, workoutId: workoutId })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>
@@ -181,7 +182,7 @@ export function CreateExercise() {
                     <View className='absolute bottom-8 w-full space-y-5'>
                          {
                               error &&
-                              <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
                                    <AntDesign name='warning' size={24} color='white' />
                                    <Text className='font-text text-white text-base'>
                                         {errorMessage}

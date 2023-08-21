@@ -145,7 +145,7 @@ export function WorkoutDetails() {
                                    <Text className='text-2xl font-title'>
                                         Exercícios
                                    </Text>
-                                   <TouchableOpacity onPress={() => navigate('createExercise', { id: workout?.id })} activeOpacity={0.7}>
+                                   <TouchableOpacity onPress={() => navigate('createExercise', { studentId: studentId, workoutId: workoutId })} activeOpacity={0.7}>
                                         <Text className='text-sm text-black font-title'>
                                              Criar novo
                                         </Text>

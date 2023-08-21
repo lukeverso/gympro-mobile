@@ -24,7 +24,7 @@ export function CreateWorkout() {
 
      async function handleWorkoutCreation() {
           try {
-               const request = await api.post(`/api/post/workouts/${id}`, {
+               const request = await api.post(`/api/post/workouts/${id}/create`, {
                     type, focus
                });
 
@@ -99,7 +99,7 @@ export function CreateWorkout() {
                     <View className='absolute bottom-8 w-full space-y-5'>
                          {
                               error &&
-                              <View className='flex-row justify-center items-center space-x-3 py-3 bg-red-400 rounded-full'>
+                              <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
                                    <AntDesign name='warning' size={24} color='white' />
                                    <Text className='font-text text-white text-base'>
                                         {errorMessage}

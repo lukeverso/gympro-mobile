@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground, Linking, Platform } from 'react-native';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useContext, useState, useCallback } from 'react';
@@ -29,7 +29,7 @@ interface SheetProps {
 };
 
 interface TeacherProps {
-     birthdate: string;
+     picture: string;
      email: string;
      name: string;
      telephone: string;
@@ -101,14 +101,30 @@ export function Home() {
                          </Text>
                          {
                               teacher ?
-                                   <View className='mt-5 bg-gray-100 rounded flex-col justify-between px-5 py-5 space-y-3'>
-                                        <Text className='font-title text-xl text-black'>
-                                             {teacher.name}
-                                        </Text>
-                                        <Text className='font-text text-base text-black'>
-                                             Telefone: {teacher.telephone}{'\n'}
-                                             E-mail: {teacher.email}
-                                        </Text>
+                                   <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg space-x-3 flex-row items-center'>
+                                        {
+                                             teacher?.picture !== null ?
+                                                  <Image source={{ uri: teacher?.picture }} className='w-20 h-20 rounded-full' /> :
+                                                  <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
+                                                       <Octicons name='person' size={32} color='black' />
+                                                  </View>
+                                        }
+                                        <View className='flex-1 space-y-1'>
+                                             <Text className='font-title text-xl'>{teacher?.name}</Text>
+                                             <TouchableOpacity onPress={() => Linking.openURL(`mailto:${teacher?.email}`)} className='font-text text-xs'>
+                                                  <Text>
+                                                       {teacher?.email}
+                                                  </Text>
+                                             </TouchableOpacity>
+                                             <TouchableOpacity onPress={() => {
+                                                  const phoneNumber = Platform.OS === 'ios' ? `telprompt:${teacher?.telephone}` : `tel:${teacher?.telephone}`;
+                                                  Linking.openURL(phoneNumber);
+                                             }} className='font-text text-xs'>
+                                                  <Text>
+                                                       {teacher?.telephone}
+                                                  </Text>
+                                             </TouchableOpacity>
+                                        </View>
                                    </View> :
                                    <View className='w-full flex-col items-center mt-8 space-y-5'>
                                         <View className='w-full flex-col items-center space-y-3'>
@@ -175,7 +191,6 @@ export function Home() {
                                         return (
                                              <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
                                                   <View className='flex-row gap-3 items-center'>
-                                                       <Octicons name="dot-fill" size={24} color="black" />
                                                        <Text className='font-title text-base mb-1'>
                                                             {workout.focus} ({workout.type})
                                                        </Text>
@@ -196,14 +211,14 @@ export function Home() {
                               Outras funcionalidades
                          </Text>
                          <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
-                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('measures')}>
+                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('medicalHistory')}>
                                    <View className='w-64'>
                                         <Image source={measures} className='h-40 w-64 rounded' />
                                         <View className='mt-3 px-4'>
                                              <View className='flex-row items-center space-x-1'>
                                                   <Text className='font-title text-lg'>Ficha de anamnese</Text>
                                              </View>
-                                             <Text className='font-text text-base'>Obtenha informações relevantes sobre seu treino</Text>
+                                             <Text className='font-text text-base'>Preencha a ficha e obtenha, junto a seu professor, informações relevantes sobre seu treino</Text>
                                         </View>
                                    </View>
                               </TouchableOpacity>

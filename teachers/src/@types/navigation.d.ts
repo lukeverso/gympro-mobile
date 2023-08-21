@@ -32,8 +32,9 @@ export declare global {
                     id: string | undefined;
                }
                createExercise: {
-                    id: string | undefined;
-               }
+                    studentId: string | undefined;
+                    workoutId: string | undefined;
+               };
                menu: undefined;
                changePicture: undefined;
                notifications: undefined;

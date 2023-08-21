@@ -180,11 +180,11 @@ export function StudentDetails() {
                                              <Octicons name='person' size={32} color='black' />
                                         </View>
                               }
-                              <View className='flex-1'>
+                              <View className='flex-1 space-y-1'>
                                    <Text className='font-title text-xl'>{student?.name}</Text>
-                                   <Text className='font-text text-sm'>{student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}</Text>
-                                   <Text className='font-text text-sm'>{student?.email}</Text>
-                                   <Text className='font-text text-sm'>{student?.telephone}</Text>
+                                   <Text className='font-text text-xs'>{student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}</Text>
+                                   <Text className='font-text text-xs'>{student?.email}</Text>
+                                   <Text className='font-text text-xs'>{student?.telephone}</Text>
                               </View>
                          </View>
                          <View className='mt-8 flex-row justify-between items-center'>

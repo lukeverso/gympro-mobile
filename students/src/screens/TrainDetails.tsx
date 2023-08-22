@@ -84,17 +84,17 @@ export function TrainDetails() {
                               exercises?.exercises.length !== 0 ?
                                    exercises?.exercises.map((exercise: ExerciseItemProps) => {
                                         return (
-                                             <View key={exercise.id} className='mt-8 px-5 py-5 bg-gray-100 rounded space-y-5'>
+                                             <View key={exercise.id} className='mt-8 space-y-5'>
                                                   <Text className='font-title text-xl'>
                                                        {exercise.name}
                                                   </Text>
                                                   <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row space-x-3'>
-                                                       <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                       <View className='min-w-[100px] bg-gray-100 flex-1 rounded-lg px-5 py-5 justify-center items-center'>
                                                             <Feather name='x' size={24} color='black' />
                                                             <Text className='font-title text-2xl mt-2'>{exercise.series}</Text>
                                                             <Text className='font-text text-xs'>séries</Text>
                                                        </View>
-                                                       <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                       <View className='min-w-[100px] bg-gray-100 flex-1 rounded-lg px-5 py-5 justify-center items-center'>
                                                             <Feather name='repeat' size={24} color='black' />
                                                             <Text className='font-title text-2xl mt-2'>{exercise.repetitions}</Text>
                                                             <Text className='font-text text-xs'>repetições</Text>
@@ -102,14 +102,14 @@ export function TrainDetails() {
                                                        {
                                                             exercise.weight &&
                                                             (
-                                                                 <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                                 <View className='min-w-[100px] bg-gray-100 flex-1 rounded-lg px-5 py-5 justify-center items-center'>
                                                                       <MaterialCommunityIcons name='weight' size={24} color='black' />
                                                                       <Text className='font-title text-2xl mt-2'>{exercise.weight} kg</Text>
                                                                       <Text className='font-text text-xs'>de carga</Text>
                                                                  </View>
                                                             )
                                                        }
-                                                       <View className='min-w-[100px] bg-white flex-1 rounded px-3 py-5 justify-center items-center'>
+                                                       <View className='min-w-[100px] bg-gray-100 flex-1 rounded-lg px-5 py-5 justify-center items-center'>
                                                             <Feather name='clock' size={24} color='black' />
                                                             <Text className='font-title text-2xl mt-2'>{exercise.restTime}s</Text>
                                                             <Text className='font-text text-xs'>de descanso</Text>

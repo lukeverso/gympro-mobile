@@ -7,6 +7,7 @@ import { api } from '../lib/api';
 import { StatusBar } from 'expo-status-bar';
 
 import home from '../assets/images/teacher.jpg';
+import anamnesis from '../assets/images/anamnesis.png';
 import measures from '../assets/images/measures.png';
 import evolution from '../assets/images/evolution.png';
 import QRCode from 'react-native-qrcode-svg';
@@ -213,12 +214,12 @@ export function Home() {
                          <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
                               <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('medicalHistory')}>
                                    <View className='w-64'>
-                                        <Image source={measures} className='h-40 w-64 rounded' />
+                                        <Image source={anamnesis} className='h-40 w-64 rounded' />
                                         <View className='mt-3 px-4'>
                                              <View className='flex-row items-center space-x-1'>
                                                   <Text className='font-title text-lg'>Ficha de anamnese</Text>
                                              </View>
-                                             <Text className='font-text text-base'>Preencha a ficha e obtenha, junto a seu professor, informações relevantes sobre seu treino</Text>
+                                             <Text className='font-text text-base'>Preencha sua ficha junto a seu professor</Text>
                                         </View>
                                    </View>
                               </TouchableOpacity>

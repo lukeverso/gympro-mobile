@@ -1,7 +1,7 @@
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { useEffect, useState, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useState, useContext, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
 
@@ -30,14 +30,16 @@ export function Notifications() {
      async function getNotifications() {
           try {
                const response = await api.get(`/api/get/notifications/${user?.id}`);
+
+               setNotifications(response.data);
           } catch (error) {
                console.log(error);
-          }
+          };
      };
 
-     useEffect(() => {
+     useFocusEffect(useCallback(() => {
           getNotifications();
-     }, []);
+     }, []));
 
      return (
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>

@@ -37,7 +37,9 @@ export declare global {
                };
                menu: undefined;
                changePicture: undefined;
-               notifications: undefined;
+               notifications: {
+                    id?: string | undefined;
+               };
                profile: undefined;
                edit: undefined;
                editName: undefined;

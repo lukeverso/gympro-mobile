@@ -1,10 +1,12 @@
-import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Button } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Button, Image } from 'react-native';
 import { Entypo, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
 import { StatusBar } from 'expo-status-bar';
+
+import notifications from '../assets/images/notifications.png';
 
 interface StudentsProps {
      id: string;
@@ -60,9 +62,7 @@ export function Home() {
                               <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center py-3'>
                                    <Feather name='menu' size={24} color='black' />
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center py-3'>
-                                   <Feather name='bell' size={24} color='black' />
-                              </TouchableOpacity>
+                              <View className='items-center justify-center p-3'></View>
                          </View>
                          <Text className='text-3xl font-title text-black mt-8'>
                               Bem-vindo,{'\n'}
@@ -140,6 +140,22 @@ export function Home() {
                                    <MaterialCommunityIcons name='qrcode-scan' size={24} color='white' />
                               </TouchableOpacity>
                          </View>
+                         <Text className='text-2xl font-title mt-8'>
+                              Outras funcionalidades
+                         </Text>
+                         <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('notifications', {})}>
+                                   <View className='w-64'>
+                                        <Image source={notifications} className='h-40 w-64 rounded' />
+                                        <View className='mt-3 px-4'>
+                                             <View className='flex-row items-center space-x-1'>
+                                                  <Text className='font-title text-lg'>Notificações</Text>
+                                             </View>
+                                             <Text className='font-text text-base'>Envie notificações a todos os seus alunos</Text>
+                                        </View>
+                                   </View>
+                              </TouchableOpacity>
+                         </ScrollView>
                     </View>
                     <StatusBar style='dark' backgroundColor='#FFFFFF' />
                </ScrollView>

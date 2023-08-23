@@ -61,7 +61,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
                await AsyncStorage.setItem('user', JSON.stringify(userToStore));
                setUser(userToStore);
           } catch (error) {
-               console.log('Erro ao realizar o login:', error);
+               throw error;
           }
      }
 

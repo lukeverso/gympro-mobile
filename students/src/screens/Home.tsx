@@ -111,17 +111,19 @@ export function Home() {
                                                   </View>
                                         }
                                         <View className='flex-1 space-y-1'>
-                                             <Text className='font-title text-xl'>{teacher?.name}</Text>
-                                             <TouchableOpacity onPress={() => Linking.openURL(`mailto:${teacher?.email}`)} className='font-text text-xs'>
-                                                  <Text>
+                                             <Text className='font-title text-xl'>
+                                                  {teacher?.name}
+                                             </Text>
+                                             <TouchableOpacity onPress={() => Linking.openURL(`mailto:${teacher?.email}`)}>
+                                                  <Text className='font-text text-xs'>
                                                        {teacher?.email}
                                                   </Text>
                                              </TouchableOpacity>
                                              <TouchableOpacity onPress={() => {
                                                   const phoneNumber = Platform.OS === 'ios' ? `telprompt:${teacher?.telephone}` : `tel:${teacher?.telephone}`;
                                                   Linking.openURL(phoneNumber);
-                                             }} className='font-text text-xs'>
-                                                  <Text>
+                                             }}>
+                                                  <Text className='font-text text-xs'>
                                                        {teacher?.telephone}
                                                   </Text>
                                              </TouchableOpacity>

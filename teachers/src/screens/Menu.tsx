@@ -75,7 +75,7 @@ export function Menu() {
                               </TouchableOpacity>
                          </View>
                          <View className='items-center mt-4 space-y-1'>
-                              <Text className='font-title text-lg text-black'>
+                              <Text className='font-title text-2xl text-black'>
                                    {name}
                               </Text>
                               <Text className='font-text text-sm text-black'>

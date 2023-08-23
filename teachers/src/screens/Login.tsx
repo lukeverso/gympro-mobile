@@ -32,9 +32,16 @@ export function Login() {
                return;
           };
 
-          await login({ email, password });
+          try {
+               await login({ email, password });
 
-          navigate('home');
+               navigate('home');
+          } catch (error) {
+               console.log(error);
+               
+               setError(true);
+               setErrorMessage('Confira os dados inseridos.');
+          };
      };
 
      return (
@@ -47,7 +54,7 @@ export function Login() {
                          <View className='items-center justify-center p-3'></View>
                     </View>
                     <Text className='mt-8 text-2xl font-title'>
-                         Bem-vindo!{'\n'}
+                         Bem-vindo, professor!{'\n'}
                          Digite seu e-mail e senha{'\n'}
                          para acessar o aplicativo
                     </Text>

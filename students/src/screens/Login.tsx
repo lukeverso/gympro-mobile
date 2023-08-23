@@ -32,9 +32,16 @@ export function Login() {
                return;
           };
 
-          await login({ email, password });
+          try {
+               await login({ email, password });
 
-          navigate('home');
+               navigate('home');
+          } catch (error) {
+               console.log(error);
+
+               setError(true);
+               setErrorMessage('Confira os dados inseridos.');
+          };
      };
 
      return (
@@ -44,7 +51,7 @@ export function Login() {
                          <Ionicons name='ios-chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
-                         Bem-vindo!{'\n'}
+                         Bem-vindo, aluno!{'\n'}
                          Digite seu e-mail e senha{'\n'}
                          para acessar o aplicativo
                     </Text>

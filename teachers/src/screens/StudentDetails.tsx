@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image, Linking, Platform } from 'react-native';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { useContext, useState, useCallback } from 'react';
-import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
 import home from '../assets/images/home.jpg';
@@ -172,19 +172,34 @@ export function StudentDetails() {
                          <Text className='mt-8 text-2xl font-title'>
                               Seu aluno
                          </Text>
-                         <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg space-x-3 flex-row items-center'>
+                         <View className='mt-8 space-y-3 flex-col items-center'>
                               {
                                    student?.picture !== null ?
-                                        <Image source={{ uri: student?.picture }} className='w-20 h-20 rounded-full' /> :
-                                        <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
+                                        <Image source={{ uri: student?.picture }} className='w-32 h-32 rounded-full' /> :
+                                        <View className='w-32 h-32 rounded-full items-center justify-center bg-white'>
                                              <Octicons name='person' size={32} color='black' />
                                         </View>
                               }
-                              <View className='flex-1 space-y-1'>
-                                   <Text className='font-title text-xl'>{student?.name}</Text>
-                                   <Text className='font-text text-xs'>{student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}</Text>
-                                   <Text className='font-text text-xs'>{student?.email}</Text>
-                                   <Text className='font-text text-xs'>{student?.telephone}</Text>
+                              <View className='items-center mt-4 space-y-1'>
+                                   <Text className='font-title text-2xl text-black'>
+                                        {student?.name}
+                                   </Text>
+                                   <Text className='font-text text-base text-black'>
+                                        {student?.age} anos • Aluno {student?.status === true ? 'ativo' : 'inativo'}
+                                   </Text>
+                                   <TouchableOpacity onPress={() => Linking.openURL(`mailto:${student?.email}`)}>
+                                        <Text className='font-text text-base text-black'>
+                                             {student?.email}
+                                        </Text>
+                                   </TouchableOpacity>
+                                   <TouchableOpacity onPress={() => {
+                                        const phoneNumber = Platform.OS === 'ios' ? `telprompt:${student?.telephone}` : `tel:${student?.telephone}`;
+                                        Linking.openURL(phoneNumber);
+                                   }}>
+                                        <Text className='font-text text-base text-black'>
+                                             {student?.telephone}
+                                        </Text>
+                                   </TouchableOpacity>
                               </View>
                          </View>
                          <View className='mt-8 flex-row justify-between items-center'>
@@ -265,6 +280,15 @@ export function StudentDetails() {
                                    <Feather name='edit-3' size={24} color='black' />
                                    <Text className='font-title text-base mb-1'>
                                         Editar medidas
+                                   </Text>
+                              </View>
+                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         </TouchableOpacity>
+                         <TouchableOpacity onPress={() => navigate('notifications', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                              <View className='flex-row gap-3 items-center'>
+                                   <MaterialCommunityIcons name="bell-plus-outline" size={24} color="black" />
+                                   <Text className='font-title text-base mb-1'>
+                                        Criar notificação
                                    </Text>
                               </View>
                               <Ionicons name='ios-chevron-forward' size={24} color='black' />

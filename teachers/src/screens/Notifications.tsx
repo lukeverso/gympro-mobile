@@ -1,7 +1,7 @@
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { useEffect, useState, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useState, useContext, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
 
@@ -35,9 +35,9 @@ export function Notifications() {
           }
      };
 
-     useEffect(() => {
-          getNotifications();
-     }, []);
+     useFocusEffect(useCallback(() => {
+          
+     }, []));
 
      return (
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>
@@ -49,10 +49,7 @@ export function Notifications() {
                          <View className='items-center justify-center p-3'></View>
                     </View>
                     <Text className='mt-8 text-2xl font-title'>
-                         Avisos e notificações
-                    </Text>
-                    <Text className='mt-1 font-text text-base'>
-                         Sua lista de informes da academia
+                         Criar notificações
                     </Text>
                </View>
                {

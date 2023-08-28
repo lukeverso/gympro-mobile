@@ -148,7 +148,7 @@ export function TrainDetails() {
                          {
                               exercises && exercises?.exercises.length > 0 &&
                               <View className='flex mt-8'>
-                                   <TouchableOpacity onPress={() => navigate('currentExercise')} activeOpacity={0.7} className='rounded py-3 bg-black flex-row items-center justify-center flex'>
+                                   <TouchableOpacity onPress={() => navigate('beginTrain')} activeOpacity={0.7} className='rounded py-3 bg-black flex-row items-center justify-center flex'>
                                         <Text className='text-white text-base font-title mr-3'>Começar treino</Text>
                                    </TouchableOpacity>
                               </View>

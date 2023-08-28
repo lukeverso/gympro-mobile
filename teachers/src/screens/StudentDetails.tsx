@@ -176,7 +176,7 @@ export function StudentDetails() {
                               {
                                    student?.picture !== null ?
                                         <Image source={{ uri: student?.picture }} className='w-32 h-32 rounded-full' /> :
-                                        <View className='w-32 h-32 rounded-full items-center justify-center bg-white'>
+                                        <View className='w-32 h-32 rounded-full items-center justify-center bg-gray-100'>
                                              <Octicons name='person' size={32} color='black' />
                                         </View>
                               }
@@ -284,7 +284,7 @@ export function StudentDetails() {
                               </View>
                               <Ionicons name='ios-chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
-                         <TouchableOpacity onPress={() => navigate('notifications', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                         <TouchableOpacity onPress={() => navigate('singleNotification', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
                                    <MaterialCommunityIcons name="bell-plus-outline" size={24} color="black" />
                                    <Text className='font-title text-base mb-1'>

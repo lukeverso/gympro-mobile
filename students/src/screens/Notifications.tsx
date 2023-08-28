@@ -29,9 +29,9 @@ export function Notifications() {
 
      async function getNotifications() {
           try {
-               const response = await api.get(`/api/get/notifications/${user?.id}`);
+               const response = await api.get(`/api/get/notifications/students/${user?.id}/all`);
 
-               setNotifications(response.data);
+               setNotifications(response.data.notifications);
           } catch (error) {
                console.log(error);
           };

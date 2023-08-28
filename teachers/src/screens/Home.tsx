@@ -144,7 +144,7 @@ export function Home() {
                               Outras funcionalidades
                          </Text>
                          <ScrollView horizontal showsHorizontalScrollIndicator={false} className='flex-row mt-4 space-x-4'>
-                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('notifications', {})}>
+                              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('multipleNotifications')}>
                                    <View className='w-64'>
                                         <Image source={notifications} className='h-40 w-64 rounded' />
                                         <View className='mt-3 px-4'>

@@ -10,7 +10,7 @@ import { Home } from '../screens/Home';
 import { Profile } from '../screens/Profile';
 import { Edit } from '../screens/Edit';
 import { Measures } from '../screens/Measures';
-import { Notifications } from '../screens/Notifications';
+import { MultipleNotifications } from '../screens/MultipleNotifications';
 import { Menu } from '../screens/Menu';
 import { EditName } from '../screens/EditName';
 import { EditEmail } from '../screens/EditEmail';
@@ -28,6 +28,7 @@ import { CreateWorkout } from '../screens/CreateWorkout';
 import { ExerciseDetails } from '../screens/ExerciseDetails';
 import { CreateExercise } from '../screens/CreateExercise';
 import { CheckCode } from '../screens/CheckCode';
+import { SingleNotification } from '../screens/SingleNotification';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -52,7 +53,8 @@ export function AppRoutes() {
                               <Screen name='profile' component={Profile} />
                               <Screen name='menu' component={Menu} />
                               <Screen name='changePicture' component={ChangePicture} />
-                              <Screen name='notifications' component={Notifications} />
+                              <Screen name='singleNotification' component={SingleNotification} />
+                              <Screen name='multipleNotifications' component={MultipleNotifications} />
                               <Screen name='edit' component={Edit} />
                               <Screen name='editName' component={EditName} />
                               <Screen name='editEmail' component={EditEmail} />

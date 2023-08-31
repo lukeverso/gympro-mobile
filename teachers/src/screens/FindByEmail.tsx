@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity, TextInput, SafeAreaView, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Entypo, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
@@ -18,6 +18,8 @@ export function FindByEmail() {
      const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
 
      const [success, setSuccess] = useState(false);
+     const [failureSame, setFailureSame] = useState(false);
+     const [failureDifferent, setFailureDifferent] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
@@ -41,6 +43,8 @@ export function FindByEmail() {
           };
      };
 
+     const [studentId, setStudentId] = useState<string>('');
+
      async function handleAddStudent() {
           try {
                const request = await api.post(`/api/post/teachers/${user?.id}/add/${student?.id}`);
@@ -53,6 +57,14 @@ export function FindByEmail() {
                if (error.response) {
                     console.log('Status de erro:', error.response.status);
                     console.log('Dados do erro:', error.response.data);
+
+                    if (error.response.data.code === 'sameTeacher') {
+                         setFailureSame(true);
+
+                         setStudentId(error.response.data.student);
+                    } else if (error.response.data.code === 'differentTeacher') {
+                         setFailureDifferent(true);
+                    };
                } else if (error.request) {
                     console.log('Erro de solicitação:', error.request);
                } else {
@@ -93,6 +105,38 @@ export function FindByEmail() {
                                    Aluno adicionado com sucesso!
                               </Text>
                               <TouchableOpacity onPress={() => navigate('home')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Okay
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
+               {
+                    failureSame &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='alert-circle' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Este aluno já pertence a você.
+                              </Text>
+                              <TouchableOpacity onPress={() => { setOpenAddStudentModal(false); setFailureSame(false); navigate('studentDetails', { id: studentId }) }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Okay
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
+               {
+                    failureDifferent &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='alert-circle' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Este aluno já possui outro professor associado.
+                              </Text>
+                              <TouchableOpacity onPress={() => { setOpenAddStudentModal(false); setFailureDifferent(false); navigate('home') }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>

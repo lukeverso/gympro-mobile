@@ -87,17 +87,21 @@ export function StudentDetails() {
 
      async function handleStudentRemoval() {
           try {
-               const request = await api.post(`/api/post/teachers/${user?.id}/delete/${id}`);
+               const request = await api.patch(`/api/put/teachers/${user?.id}/delete/${id}`);
 
                if (request.data.status === 'success') {
                     setOpenRemoveModal(false);
                     setSuccess(true);
                };
-          } catch (error) {
-               console.log(error);
-
-               setError(true);
-               setErrorMessage('Ocorreu um erro. Tente novamente.');
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
           };
      };
 

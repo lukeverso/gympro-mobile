@@ -23,7 +23,8 @@ export function SingleNotification() {
 
      const { id } = route.params as StudentDetailsProps;
 
-     const [success, setSuccess] = useState(false);
+     const [successCreation, setSuccessCreation] = useState(false);
+     const [successDeletion, setSuccessDeletion] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
@@ -68,7 +69,36 @@ export function SingleNotification() {
                const request = await api.post(`/api/post/notifications/${user?.id}/student/${id}`, { title, content });
 
                if (request.data.status === 'success') {
-                    setSuccess(true);
+                    setSuccessCreation(true);
+               } else {
+                    setError(true);
+                    setErrorMessage(request.data.message);
+                    return;
+               };
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
+          };
+     };
+
+     const [notificationId, setNotificationId] = useState<string>('');
+     const [deleteNotificationModal, setDeleteNotificationModal] = useState<boolean>(false);
+
+     async function handleNotificationDelete() {
+          setError(false);
+          setErrorMessage('');
+
+          try {
+               const request = await api.delete(`/api/delete/notifications/${notificationId}/delete`);
+
+               if (request.data.status === 'success') {
+                    setSuccessDeletion(true);
                } else {
                     setError(true);
                     setErrorMessage(request.data.message);
@@ -89,7 +119,7 @@ export function SingleNotification() {
      return (
           <>
                {
-                    success &&
+                    successCreation &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
                          <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
                               <Feather name='check' size={24} color='black' />
@@ -97,6 +127,43 @@ export function SingleNotification() {
                                    Notificação criada com sucesso.
                               </Text>
                               <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Okay
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
+               {
+                    deleteNotificationModal &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='power' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Deseja excluir esta notificação?
+                              </Text>
+                              <TouchableOpacity onPress={() => handleNotificationDelete()} activeOpacity={0.7} className='w-full -mb-5 h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Sim
+                                   </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity onPress={() => setDeleteNotificationModal(false)} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Não
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
+               {
+                    successDeletion &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='check' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Notificação apagada com sucesso.
+                              </Text>
+                              <TouchableOpacity onPress={() => {  setNotificationId(''); navigate('studentDetails', { id }) }} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>
@@ -159,7 +226,7 @@ export function SingleNotification() {
                          {
                               notifications.length > 0 ?
                                    notifications?.map((notification: NotificationProps, index: number) => (
-                                        <TouchableOpacity key={index} onPress={() => console.log('OK')} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                        <TouchableOpacity key={index} onPress={() => { setDeleteNotificationModal(true); setNotificationId(notification.id) }} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                                              <Text className='font-title text-base mb-1'>
                                                   {notification.title}
                                              </Text>

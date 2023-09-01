@@ -30,7 +30,10 @@ export declare global {
                };
                createWorkout: {
                     id: string | undefined;
-               }
+               };
+               medicalHistory: {
+                    id: string | undefined;
+               };
                createExercise: {
                     studentId: string | undefined;
                     workoutId: string | undefined;

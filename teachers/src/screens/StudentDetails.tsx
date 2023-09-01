@@ -279,6 +279,15 @@ export function StudentDetails() {
                          <Text className='mt-8 text-2xl font-title'>
                               Opções gerais
                          </Text>
+                         <TouchableOpacity onPress={() => navigate('medicalHistory', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                              <View className='flex-row gap-3 items-center'>
+                                   <Feather name='edit-3' size={24} color='black' />
+                                   <Text className='font-title text-base mb-1'>
+                                        Ver ficha de anamnese
+                                   </Text>
+                              </View>
+                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         </TouchableOpacity>
                          <TouchableOpacity onPress={() => navigate('measures', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
                                    <Feather name='edit-3' size={24} color='black' />

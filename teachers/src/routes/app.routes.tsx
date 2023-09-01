@@ -29,6 +29,7 @@ import { ExerciseDetails } from '../screens/ExerciseDetails';
 import { CreateExercise } from '../screens/CreateExercise';
 import { CheckCode } from '../screens/CheckCode';
 import { SingleNotification } from '../screens/SingleNotification';
+import { MedicalHistory } from '../screens/MedicalHistory';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -62,6 +63,7 @@ export function AppRoutes() {
                               <Screen name='editAddress' component={EditAddress} />
                               <Screen name='measures' component={Measures} />
                               <Screen name='evolution' component={Evolution} />
+                              <Screen name='medicalHistory' component={MedicalHistory} />
                          </> :
                          <>
                               <Screen name='main' component={Main} />

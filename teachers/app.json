@@ -15,13 +15,22 @@
                "**/*"
           ],
           "ios": {
-               "supportsTablet": true
+               "supportsTablet": true,
+               "infoPlist": {
+                    "NSCameraUsageDescription": "Permita que o app use sua câmera para escanear o código do aluno.",
+                    "NSMicrophoneUsageDescription": "Permita que o app use seu microfone."
+               }
           },
           "android": {
                "adaptiveIcon": {
                     "foregroundImage": "./assets/adaptive-icon.png",
                     "backgroundColor": "#000000"
-               }
+               },
+               "permissions": [
+                    "android.permission.CAMERA",
+                    "android.permission.RECORD_AUDIO"
+               ],
+               "package": "com.gympro.teachers"
           },
           "web": {
                "favicon": "./assets/favicon.png"
@@ -39,6 +48,11 @@
                          "photosPermission": "Permita que o app obtenha acesso à sua galeria para a escolha da foto de perfil."
                     }
                ]
-          ]
+          ],
+          "extra": {
+               "eas": {
+                    "projectId": "c4e4106e-e08a-4dd3-b0f9-e0992048f889"
+               }
+          }
      }
 }

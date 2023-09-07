@@ -38,7 +38,7 @@ export function Login() {
                navigate('home');
           } catch (error) {
                console.log(error);
-               
+
                setError(true);
                setErrorMessage('Confira os dados inseridos.');
           };
@@ -90,6 +90,12 @@ export function Login() {
                               }
                          </TouchableOpacity>
                     </View>
+                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center space-x-1'>
+                         <Text className='text-base font-text mb-1'>
+                              Não possui conta? Clique aqui
+                         </Text>
+                         <AntDesign name='arrowright' size={24} color='black' />
+                    </TouchableOpacity>
                </ScrollView>
                <View className='absolute bottom-8 w-full space-y-5'>
                     {
@@ -103,12 +109,6 @@ export function Login() {
                     }
                     <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
                          <Text className='text-white text-base font-title'>Entrar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center justify-center space-x-1'>
-                         <Text className='text-base font-text mb-1'>
-                              Não possui conta? Clique aqui
-                         </Text>
-                         <AntDesign name='arrowright' size={24} color='black' />
                     </TouchableOpacity>
                </View>
           </KeyboardAvoidingView>

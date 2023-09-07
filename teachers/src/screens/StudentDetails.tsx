@@ -281,7 +281,7 @@ export function StudentDetails() {
                          </Text>
                          <TouchableOpacity onPress={() => navigate('medicalHistory', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
-                                   <Feather name='edit-3' size={24} color='black' />
+                                   <Feather name='file-text' size={24} color='black' />
                                    <Text className='font-title text-base mb-1'>
                                         Ver ficha de anamnese
                                    </Text>
@@ -299,7 +299,7 @@ export function StudentDetails() {
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => navigate('singleNotification', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
-                                   <MaterialCommunityIcons name="bell-plus-outline" size={24} color="black" />
+                                   <MaterialCommunityIcons name='bell-plus-outline' size={24} color='black' />
                                    <Text className='font-title text-base mb-1'>
                                         Criar notificação
                                    </Text>

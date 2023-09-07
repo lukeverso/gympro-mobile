@@ -51,6 +51,7 @@ export function MedicalHistory() {
      const { user } = useContext(AuthContext);
 
      const [success, setSuccess] = useState(false);
+     const [openAllowEditingModal, setOpenAllowEditingModal] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
@@ -59,6 +60,8 @@ export function MedicalHistory() {
      async function getData() {
           try {
                const request = await api.get(`/api/get/students/${id}/medical-history`);
+
+               console.log(request.data);
 
                if (request.data.medicalHistory.length > 0) setMedicalHistory(request.data.medicalHistory[0]);
           } catch (error) {
@@ -70,17 +73,50 @@ export function MedicalHistory() {
           getData();
      }, []));
 
+     async function handleAllowEditing() {
+          try {
+               const request = await api.post(`/api/post/students/${id}/medical-history/update`);
+
+               if (request.data.status === 'success') setSuccess(true);
+
+               return;
+          } catch (error) {
+               console.log(error);
+          };
+     };
+
      return (
           <>
+               {
+                    openAllowEditingModal &&
+                    <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
+                         <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
+                              <Feather name='file-plus' size={24} color='black' />
+                              <Text className='font-title text-lg text-center'>
+                                   Deseja permitir que o aluno preencha a ficha novamente?
+                              </Text>
+                              <TouchableOpacity onPress={handleAllowEditing} activeOpacity={0.7} className='w-full -mb-5 h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Sim
+                                   </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity onPress={() => setOpenAllowEditingModal(false)} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                                   <Text className='text-black font-text text-base'>
+                                        Não
+                                   </Text>
+                              </TouchableOpacity>
+                         </View>
+                    </View>
+               }
                {
                     success &&
                     <View className='flex-1 w-full h-full bg-gray-100/80 justify-center items-center absolute z-10'>
                          <View className='bg-white justify-center items-center w-[80%] space-y-5 px-5 pt-5 rounded-lg'>
                               <Feather name='check' size={24} color='black' />
                               <Text className='font-title text-lg text-center'>
-                                   Ficha preenchida com sucesso.
+                                   A ficha pode ser editada novamente.
                               </Text>
-                              <TouchableOpacity onPress={() => navigate('home')} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
+                              <TouchableOpacity onPress={() => navigate('studentDetails', { id })} activeOpacity={0.7} className='w-full h-20 border-t-[1px] border-t-gray-200 justify-center items-center'>
                                    <Text className='text-black font-text text-base'>
                                         Okay
                                    </Text>
@@ -90,9 +126,18 @@ export function MedicalHistory() {
                }
                <ScrollView className='flex-1 bg-white'>
                     <View className='mt-20 mb-8 px-8'>
-                         <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
-                         </TouchableOpacity>
+                         <View className='flex-row justify-between items-center'>
+                              <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
+                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              </TouchableOpacity>
+                              {
+                                   medicalHistory?.filled ?
+                                        <TouchableOpacity activeOpacity={0.7} onPress={() => setOpenAllowEditingModal(true)} className='items-center justify-center py-3'>
+                                             <Feather name='edit-3' size={24} color='black' />
+                                        </TouchableOpacity> :
+                                        <View className='items-center justify-center p-3'></View>
+                              }
+                         </View>
                          <Text className='text-3xl font-title text-black mt-8'>
                               Ficha de anamnese
                          </Text>
@@ -114,97 +159,123 @@ export function MedicalHistory() {
                                              Histórico patológico
                                         </Text>
                                         <View className='mt-4 space-y-3'>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno já fez alguma cirurgia? {medicalHistory.surgicalHistory ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno já fez alguma cirurgia?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.surgicalHistory ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno já teve algum antecedente oncológico? {medicalHistory.oncologicalHistory ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno já teve algum antecedente oncológico?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.oncologicalHistory ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno tem hipertensão? {medicalHistory.hypertension ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno tem hipertensão?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.hypertension ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno tem hipotensão? {medicalHistory.hypotension ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno tem hipotensão?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.hypotension ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno tem diabetes? {medicalHistory.diabetes ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno tem diabetes?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.diabetes ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno tem epilepsia? {medicalHistory.epilepsy ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno tem epilepsia?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.epilepsy ? 'Sim.' : 'Não.'}</Text>
                                              </View>
                                         </View>
                                         <Text className='text-xl font-title text-black mt-4'>
                                              Hábitos sociais
                                         </Text>
                                         <View className='mt-4 space-y-3'>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno fuma? {medicalHistory.smoker ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno fuma?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.smoker ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno bebe bebidas alcóolicas? {medicalHistory.drinker ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno bebe bebidas alcóolicas?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.drinker ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>O aluno fez algum teste de esforço, ergométrico ou ergoespirométrico recentemente? {medicalHistory.stressTest ? 'Sim.' : 'Não.'}</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>O aluno fez algum teste de esforço, ergométrico ou ergoespirométrico recentemente?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.stressTest ? 'Sim.' : 'Não.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>Quantas horas de sono o aluno dorme por dia? {medicalHistory.sleepHours} horas.</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>Quantas horas de sono o aluno dorme por dia?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.sleepHours} horas.</Text>
                                              </View>
                                              <View className='flex-col justify-between pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black'>Qual estilo de vida do aluno? {medicalHistory.lifeStyle ? 'Ativo.' : 'Sedentário.'}</Text>
+                                                  <Text className='text-lg font-text text-black'>Qual estilo de vida do aluno?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.lifeStyle ? 'Ativo.' : 'Sedentário.'}</Text>
                                              </View>
-                                             <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                  <Text className='text-lg font-text text-black flex-1'>Há quantos meses o aluno está sem fazer academia? {medicalHistory.timeWithoutTraining} meses.</Text>
+                                             <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                  <Text className='text-lg font-text text-black'>Há quantos meses o aluno está sem fazer academia?</Text>
+                                                  <Text className='text-lg font-title text-black'>{medicalHistory.timeWithoutTraining} meses.</Text>
                                              </View>
                                              <Text className='text-xl font-title text-black mt-4'>
                                                   Dores articulares
                                              </Text>
                                              <View className='mt-4 space-y-3'>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores no pescoço? {medicalHistory.neckPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores no pescoço?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.neckPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores nos ombros? {medicalHistory.shoulderPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores nos ombros?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.shoulderPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores nas costas? {medicalHistory.backPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores nas costas?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.backPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores nos punhos? {medicalHistory.wristPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores nos punhos?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.wristPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores nos dedos das mãos? {medicalHistory.fingerPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores nos dedos das mãos?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.fingerPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores no quadril? {medicalHistory.hipPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores no quadril?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.hipPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores nos joelhoes? {medicalHistory.kneePain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores nos joelhoes?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.kneePain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
                                              </View>
                                              <Text className='text-xl font-title text-black mt-4'>
                                                   Questionário de Prontidão para Atividade Física (PAR-Q)
                                              </Text>
                                              <View className='mt-4 space-y-3'>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>Algum médico já disse que o aluno possui algum problema de coração e que só deveria realizar atividades físicas supervisionado por profissionais de saúde? {medicalHistory.heartProblem ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>Algum médico já disse que o aluno possui algum problema de coração e que só deveria realizar atividades físicas supervisionado por profissionais de saúde?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.heartProblem ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno sente dores no peito quando pratica atividade física? {medicalHistory.chestPain ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno sente dores no peito quando pratica atividade física?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.chestPain ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>E no último mês, estas dores ocorreram? {medicalHistory.chestPainLastMonth ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>E no último mês, estas dores ocorreram?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.chestPainLastMonth ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno apresenta desequilíbrio devido à tontura e/ou perda de consciência? {medicalHistory.imbalance ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno apresenta desequilíbrio devido à tontura e/ou perda de consciência?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.imbalance ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>O aluno possui algum problema ósseo ou articular que poderia ser piorado pela atividade física? {medicalHistory.boneJointIssue ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>O aluno possui algum problema ósseo ou articular que poderia ser piorado pela atividade física?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.boneJointIssue ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
-                                                  <View className='flex-row justify-between items-center pb-4 border-b-[1px] border-b-gray-100'>
-                                                       <Text className='text-lg font-text text-black flex-1'>Atualmente, o aluno toma algum medicamento para pressão arterial e/ou problema de coração? {medicalHistory.medication ? 'Sim.' : 'Não.'}</Text>
+                                                  <View className='flex-col pb-4 border-b-[1px] border-b-gray-100'>
+                                                       <Text className='text-lg font-text text-black'>Atualmente, o aluno toma algum medicamento para pressão arterial e/ou problema de coração?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.medication ? 'Sim.' : 'Não.'}</Text>
                                                   </View>
                                                   <View className='flex-col justify-between pb-4'>
-                                                       <Text className='text-lg font-text text-black flex-1'>Sabe de alguma outra razão pela qual o aluno não deve praticar atividade física? {medicalHistory.reasonForNotExercising}</Text>
+                                                       <Text className='text-lg font-text text-black'>Sabe de alguma outra razão pela qual o aluno não deve praticar atividade física?</Text>
+                                                       <Text className='text-lg font-title text-black'>{medicalHistory.reasonForNotExercising || 'Não preenchido.'}</Text>
                                                   </View>
                                              </View>
                                         </View>

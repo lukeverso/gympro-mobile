@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { useNavigation } from '@react-navigation/native';
 
 import { Main } from '../screens/Main';
 import { Login } from '../screens/Login';
@@ -29,6 +30,23 @@ const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
      const { user } = useContext(AuthContext);
+
+     const navigation = useNavigation(); // Obtenha a instância de navegação
+
+     // Função para lidar com o evento de foco da tela
+     const handleScreenFocus = (event: any) => {
+          console.log(`Navigated to screen: ${event.target}`);
+     };
+
+     useEffect(() => {
+          // Adicione um ouvinte de eventos de foco quando o componente é montado
+          navigation.addListener('focus', handleScreenFocus);
+
+          // Limpe o ouvinte de eventos quando o componente é desmontado
+          return () => {
+               navigation.removeListener('focus', handleScreenFocus);
+          };
+     }, [navigation]);
 
      return (
           <Navigator screenOptions={{ headerShown: false }}>

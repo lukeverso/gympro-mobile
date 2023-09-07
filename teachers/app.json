@@ -1,7 +1,7 @@
 {
      "expo": {
-          "name": "teachers",
-          "slug": "teachers",
+          "name": "GymPro Instructors",
+          "slug": "gymproinstructors",
           "version": "1.0.0",
           "orientation": "portrait",
           "icon": "./assets/icon.png",

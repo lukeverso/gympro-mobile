@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
@@ -34,7 +34,7 @@ export function Measures() {
      };
 
      useEffect(() => {
-          if (weight.length >= 4 && height.length === 3) {
+          if (weight.length >= 2 && height.length === 3) {
                bmiCalculator(weight, height);
           } else {
                setBmi('');
@@ -61,6 +61,7 @@ export function Measures() {
                });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);
@@ -148,7 +149,8 @@ export function Measures() {
                               <View className='flex-1 space-y-4'>
                                    <View className='flex-row items-center space-x-5'>
                                         <View className='flex-1 flex-row space-x-3 items-center'>
-                                             <TextInput
+                                             <MaskedTextInput
+                                                  mask='999'
                                                   placeholder='Peso'
                                                   keyboardType='number-pad'
                                                   className='flex-1 border-b-[1px] border-b-zinc-200 focus:border-b-black px-3 py-3 text-base font-text'
@@ -292,15 +294,15 @@ export function Measures() {
                     <View className='absolute bottom-8 w-full space-y-5'>
                          {
                               error &&
-                              <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
+                              <View className='flex-row justify-center items-center space-x-3 py-3 px-8 bg-red-300 rounded-full'>
                                    <AntDesign name='warning' size={24} color='white' />
                                    <Text className='font-text text-white text-base'>
                                         {errorMessage}
                                    </Text>
                               </View>
                          }
-                         <TouchableOpacity onPress={handleMeasuresInsert} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                              <Text className='text-white text-base font-title'>Atualizar</Text>
+                         <TouchableOpacity onPress={handleMeasuresInsert} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row'>
+                              <Text className='text-white text-base font-title'>Salvar</Text>
                          </TouchableOpacity>
                     </View>
                </KeyboardAvoidingView>

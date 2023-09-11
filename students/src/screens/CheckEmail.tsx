@@ -18,6 +18,12 @@ export function CheckEmail() {
           if (email === '') {
                setError(true);
                setErrorMessage('Insira um e-mail válido.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
@@ -26,12 +32,27 @@ export function CheckEmail() {
 
                if (request.data.status === 'success') {
                     navigate('checkCode', { email });
+               } else {
+                    setError(true);
+                    setErrorMessage(request.data.message);
+
+                    setTimeout(() => {
+                         setError(false);
+                         setErrorMessage('');
+                    }, 3000);
+
+                    return;
                };
           } catch (error) {
                console.log(error);
 
                setError(true);
                setErrorMessage('Ocorreu um erro...');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
           };
      };
 
@@ -60,7 +81,7 @@ export function CheckEmail() {
                <View className='absolute bottom-8 w-full space-y-5'>
                     {
                          error &&
-                         <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
+                         <View className='flex-row justify-center items-center space-x-3 py-3 px-4 bg-red-400 rounded-full'>
                               <AntDesign name='warning' size={24} color='white' />
                               <Text className='font-text text-white text-base'>
                                    {errorMessage}

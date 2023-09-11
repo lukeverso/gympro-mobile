@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useState } from 'react';
@@ -63,6 +63,7 @@ export function ChangePicture() {
 
                if (request.data) {
                     setLoading(false);
+                    Keyboard.dismiss();
                     setSuccessPicture(true);
                };
           } catch (error: any) {

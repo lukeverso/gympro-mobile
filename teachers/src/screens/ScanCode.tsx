@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, Keyboard } from 'react-native'
 import { useEffect, useState, useContext } from 'react'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
@@ -34,6 +34,7 @@ export function ScanCode() {
                const request = await api.post(`/api/post/teachers/${user?.id}/add/${data}`);
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                };
           } catch (error) {

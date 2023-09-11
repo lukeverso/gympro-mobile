@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image, Linking, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ImageBackground, Image, Linking, Platform, Keyboard } from 'react-native';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { useContext, useState, useCallback } from 'react';
 import { AntDesign, Feather, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
@@ -91,6 +91,7 @@ export function StudentDetails() {
 
                if (request.data.status === 'success') {
                     setOpenRemoveModal(false);
+                    Keyboard.dismiss();
                     setSuccess(true);
                };
           } catch (error: any) {

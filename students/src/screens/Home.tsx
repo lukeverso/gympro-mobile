@@ -91,10 +91,10 @@ export function Home() {
                     }>
                     <View className='mt-20 px-8'>
                          <View className='flex-row justify-between items-center'>
-                              <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center'>
+                              <TouchableOpacity onPress={() => navigate('menu')} activeOpacity={0.7} className='items-center justify-center px-2 py-2'>
                                    <Feather name='menu' size={24} color='black' />
                               </TouchableOpacity>
-                              <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center'>
+                              <TouchableOpacity onPress={() => navigate('notifications')} activeOpacity={0.7} className='items-center justify-center px-2 py-2'>
                                    <Feather name='bell' size={24} color='black' />
                               </TouchableOpacity>
                          </View>
@@ -159,11 +159,6 @@ export function Home() {
                               <Text className='text-2xl font-title'>
                                    Sua ficha
                               </Text>
-                              <TouchableOpacity activeOpacity={0.7}>
-                                   <Text className='text-sm text-black font-title'>
-                                        Ver todas
-                                   </Text>
-                              </TouchableOpacity>
                          </View>
                          {
                               sheet ?
@@ -189,11 +184,6 @@ export function Home() {
                               <Text className='text-2xl font-title'>
                                    Seus treinos
                               </Text>
-                              <TouchableOpacity activeOpacity={0.7}>
-                                   <Text className='text-sm text-black font-title'>
-                                        Ver todas
-                                   </Text>
-                              </TouchableOpacity>
                          </View>
                          {
                               sheet ?

@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image } from 'react-native';
+import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image, Keyboard } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
 import { useCallback, useContext, useState } from 'react';
@@ -77,7 +77,10 @@ export function MedicalHistory() {
           try {
                const request = await api.post(`/api/post/students/${id}/medical-history/update`);
 
-               if (request.data.status === 'success') setSuccess(true);
+               if (request.data.status === 'success') {
+                    Keyboard.dismiss();
+                    setSuccess(true);
+               };
 
                return;
           } catch (error) {

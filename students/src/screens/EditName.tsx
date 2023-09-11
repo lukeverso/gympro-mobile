@@ -1,4 +1,4 @@
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
@@ -58,6 +58,7 @@ export function EditName() {
                const request = await api.patch(`/api/put/students/${user?.id}/name`, { name, surname });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);

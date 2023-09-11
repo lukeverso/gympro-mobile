@@ -30,7 +30,6 @@ export function CreateWorkout() {
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
-
                     setSuccess(true);
                } else {
                     setError(true);

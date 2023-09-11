@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
@@ -70,6 +70,7 @@ export function Measures() {
                });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);

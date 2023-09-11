@@ -18,8 +18,8 @@ export function Main() {
                          praticidade{'\n'}
                          e eficiência
                     </Text>
-                    <TouchableOpacity onPress={() => navigate('login')} activeOpacity={0.7} className='py-3 bg-white flex-row items-center justify-center rounded'>
-                         <Text className='text-base font-title mr-3'>
+                    <TouchableOpacity onPress={() => navigate('login')} activeOpacity={0.7} className='py-3 bg-white flex-row items-center justify-center rounded space-x-2'>
+                         <Text className='text-base font-title mb-1'>
                               Entrar no app
                          </Text>
                          <AntDesign name='arrowright' size={24} color='black' />

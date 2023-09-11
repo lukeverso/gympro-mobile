@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
@@ -175,7 +175,10 @@ export function Create() {
 
                const request = await api.post('/api/post/students', data);
 
+               console.log(request.data);
+
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);

@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
 import { useState, useContext, useCallback } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -76,6 +76,7 @@ export function MultipleNotifications() {
                const request = await api.post(`/api/post/notifications/${user?.id}/multiple`, { title, content });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccessCreation(true);
                } else {
                     setError(true);
@@ -105,6 +106,7 @@ export function MultipleNotifications() {
                const request = await api.delete(`/api/delete/notifications/${notificationId}/delete`);
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccessDeletion(true);
                } else {
                     setError(true);

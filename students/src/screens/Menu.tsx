@@ -94,14 +94,15 @@ export function Menu() {
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <View className='absolute bottom-8 w-full px-8'>
-                    <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-center items-center space-x-3 py-3 bg-gray-100 rounded-full'>
-                         <Feather name='log-out' size={24} color='black' />
-                         <Text className='font-title text-base mb-1 text-black'>
+               <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8'>
+                    <View className='flex-row space-x-3 items-center'>
+                         <Feather name='log-out' size={24} color='#DC2626' />
+                         <Text className='font-title text-red-300 text-base mb-1'>
                               Sair do aplicativo
                          </Text>
-                    </TouchableOpacity>
-               </View>
+                    </View>
+                    <Ionicons name='ios-chevron-forward' size={24} color='#DC2626' />
+               </TouchableOpacity>
           </View>
      );
 };

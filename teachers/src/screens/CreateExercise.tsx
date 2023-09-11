@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
@@ -61,6 +61,7 @@ export function CreateExercise() {
                });
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);

@@ -51,6 +51,7 @@ export function FindByEmail() {
 
                if (request.data.status === 'success') {
                     setOpenAddStudentModal(false);
+                    Keyboard.dismiss();
                     setSuccess(true);
                };
           } catch (error: any) {

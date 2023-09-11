@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image } from 'react-native';
+import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image, Keyboard } from 'react-native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useCallback, useContext, useState } from 'react';
@@ -21,9 +21,16 @@ export function MedicalHistory() {
           try {
                const request = await api.get(`/api/get/students/${user?.id}/medical-history`);
 
-               if (request.data.medicalHistory.length > 0) setFilled(request.data.medicalHistory[0].filled);
-          } catch (error) {
-               console.log(error);
+               if (request.data.medicalHistory.length > 0) setFilled(true);
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
           };
      };
 
@@ -120,6 +127,7 @@ export function MedicalHistory() {
                );
 
                if (request.data.status === 'success') {
+                    Keyboard.dismiss();
                     setSuccess(true);
                } else {
                     setError(true);
@@ -471,8 +479,8 @@ export function MedicalHistory() {
                                                   </Text>
                                              </View>
                                         }
-                                        <TouchableOpacity onPress={handleMedicalHistorySaving} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                                             <Text className='text-white text-base font-title'>Criar conta</Text>
+                                        <TouchableOpacity onPress={handleMedicalHistorySaving} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row'>
+                                             <Text className='text-white text-base font-title'>Salvar</Text>
                                         </TouchableOpacity>
                                    </View>
                               </>

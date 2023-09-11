@@ -23,12 +23,24 @@ export function Login() {
           if (email === '') {
                setError(true);
                setErrorMessage('Insira seu e-mail.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           if (password === '') {
                setError(true);
                setErrorMessage('Insira sua senha.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
@@ -41,6 +53,11 @@ export function Login() {
 
                setError(true);
                setErrorMessage('Confira os dados inseridos.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
           };
      };
 
@@ -87,7 +104,11 @@ export function Login() {
                               }
                          </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => navigate('checkEmail')} className='mt-8 flex-row items-center space-x-1'>
+                    <TouchableOpacity
+                         onPress={() => navigate('checkEmail')}
+                         activeOpacity={0.7}
+                         className='mt-8 rounded py-3 justify-center items-center flex-row space-x-2'
+                    >
                          <Text className='text-base font-text mb-1'>
                               Não possui conta? Clique aqui
                          </Text>
@@ -97,15 +118,21 @@ export function Login() {
                <View className='absolute bottom-8 w-full space-y-5'>
                     {
                          error &&
-                         <View className='flex-row justify-center items-center space-x-5 py-3 px-4 bg-red-400 rounded'>
+                         <View className='flex-row justify-center items-center space-x-3 py-3 px-4 bg-red-400 rounded'>
                               <AntDesign name='warning' size={24} color='white' />
                               <Text className='font-text text-white text-base'>
                                    {errorMessage}
                               </Text>
                          </View>
                     }
-                    <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                         <Text className='text-white text-base font-title'>Entrar</Text>
+                    <TouchableOpacity
+                         onPress={handleLogin}
+                         activeOpacity={0.7}
+                         className='mt-8 rounded py-3 justify-center items-center bg-black flex-row'
+                    >
+                         <Text className='text-white text-base font-title mb-1'>
+                              Entrar
+                         </Text>
                     </TouchableOpacity>
                </View>
           </KeyboardAvoidingView>

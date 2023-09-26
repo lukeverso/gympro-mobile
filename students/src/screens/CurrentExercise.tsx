@@ -1,15 +1,20 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 
 export function CurrentExercise() {
+     const { goBack, navigate } = useNavigation();
+
+     const route = useRoute();
+
      return (
           <View className='flex-1 bg-white'>
-               <View className='py-20 px-8 flex-1 justify-between'>
-                    <TouchableOpacity>
+               <View className='mt-20 px-8 pb-10'>
+                    <TouchableOpacity activeOpacity={0.7}>
                          <Feather name='x' size={24} color='black' />
                     </TouchableOpacity>
-                    <Text className='font-title text-3xl'>
-                         Rosca direta com barra
+                    <Text className='mt-8 text-3xl font-title'>
+                         Informações do treino
                     </Text>
                     <View className='flex-row gap-3'>
                          <View className='bg-white flex-1 rounded items-center justify-center py-3'>
@@ -37,7 +42,7 @@ export function CurrentExercise() {
                               pra cima e 7 repetições completas.
                          </Text>
                     </View>
-                    <View className='flex-row mt-5 gap-3'>
+                    <View className='flex-col mt-5 gap-3'>
                          <TouchableOpacity activeOpacity={0.7} className='py-3 bg-black flex-row items-center justify-center flex-1'>
                               <Text className='text-white text-base font-title mr-3'>Iniciar treino</Text>
                               <Feather name='check' size={20} color='white' />

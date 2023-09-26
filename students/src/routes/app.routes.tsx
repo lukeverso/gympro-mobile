@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,23 +26,29 @@ import { CheckCode } from '../screens/CheckCode';
 import { ChangePicture } from '../screens/ChangePicture';
 import { MedicalHistory } from '../screens/MedicalHistory';
 
+import * as SecureStore from 'expo-secure-store';
+
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
-     const { user } = useContext(AuthContext);
+     const [isUserAuthenticated, setIsUserAuthenticated] = useState<null | boolean>(null);
 
-     const navigation = useNavigation(); // Obtenha a instância de navegação
+     const navigation = useNavigation();
 
-     // Função para lidar com o evento de foco da tela
+     useEffect(() => {
+          SecureStore.getItemAsync('token').then((token) => {
+               console.log(!!token);
+               setIsUserAuthenticated(!!token);
+          });
+     }, [navigation]);
+
      const handleScreenFocus = (event: any) => {
           console.log(`Navigated to screen: ${event.target}`);
      };
 
      useEffect(() => {
-          // Adicione um ouvinte de eventos de foco quando o componente é montado
           navigation.addListener('focus', handleScreenFocus);
 
-          // Limpe o ouvinte de eventos quando o componente é desmontado
           return () => {
                navigation.removeListener('focus', handleScreenFocus);
           };
@@ -51,7 +57,7 @@ export function AppRoutes() {
      return (
           <Navigator screenOptions={{ headerShown: false }}>
                {
-                    user ?
+                    isUserAuthenticated ?
                          <>
                               <Screen name='home' component={Home} />
                               <Screen name='profile' component={Profile} />

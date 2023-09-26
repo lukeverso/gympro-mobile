@@ -63,7 +63,7 @@ export function TrainDetails() {
      return (
           <SafeAreaView className='flex-1 bg-white'>
                <ScrollView
-               showsVerticalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     refreshControl={
                          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }>
@@ -145,16 +145,22 @@ export function TrainDetails() {
                                         </Text>
                                    </View>
                          }
-                         {
-                              exercises && exercises?.exercises.length > 0 &&
-                              <View className='flex mt-8'>
-                                   <TouchableOpacity onPress={() => navigate('beginTrain')} activeOpacity={0.7} className='rounded py-3 bg-black flex-row items-center justify-center flex'>
-                                        <Text className='text-white text-base font-title mr-3'>Começar treino</Text>
-                                   </TouchableOpacity>
-                              </View>
-                         }
                     </View>
                </ScrollView>
+               {/* {
+                    exercises && exercises?.exercises.length > 0 &&
+                    <View className='absolute bottom-8 w-full space-y-5 px-8'>
+                         <TouchableOpacity
+                              onPress={() => navigate('beginTrain')}
+                              activeOpacity={0.7}
+                              className='mt-8 rounded py-3 justify-center items-center bg-black flex-row'
+                         >
+                              <Text className='text-white text-base font-title mb-1'>
+                                   Começar treino
+                              </Text>
+                         </TouchableOpacity>
+                    </View>
+               } */}
           </SafeAreaView>
      );
 };

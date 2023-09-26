@@ -1,18 +1,23 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 
 import start from '../assets/images/start.png';
 
 export function BeginTrain() {
      const { goBack, navigate } = useNavigation();
 
+     const route = useRoute();
+
      return (
           <View className='flex-1 bg-white'>
                <View className='py-20 px-8 flex-1 justify-between'>
-                    <TouchableOpacity onPress={goBack}>
-                         <Feather name='x' size={24} color='black' />
-                    </TouchableOpacity>
+                    <View className='flex-row justify-between items-center'>
+                         <TouchableOpacity onPress={goBack} activeOpacity={0.7} className='items-center justify-center px-2 py-2'>
+                              <Feather name='x' size={24} color='black' />
+                         </TouchableOpacity>
+                         <View className='items-center justify-center p-3'></View>
+                    </View>
                     <View className='gap-10 items-center'>
                          <Text className='font-title text-3xl text-center'>
                               Bora{'\n'}

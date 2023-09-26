@@ -45,7 +45,7 @@ export function Login() {
           };
 
           try {
-               await login({ email, password });
+               const request = login({ email, password });
 
                navigate('home');
           } catch (error) {

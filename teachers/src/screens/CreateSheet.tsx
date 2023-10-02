@@ -1,23 +1,22 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { MaskedTextInput } from 'react-native-mask-text';
 import { api } from '../lib/api';
+import { useEffect, useState } from 'react';
+import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 
 interface CreateSheetProps {
      id: string;
 };
 
 export function CreateSheet() {
+     const route = useRoute();
+     
+     const { id } = route.params as CreateSheetProps;
      const { goBack, navigate } = useNavigation();
 
-     const route = useRoute();
-
-     const { id } = route.params as CreateSheetProps;
-
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [objective, setObjective] = useState<string>('');

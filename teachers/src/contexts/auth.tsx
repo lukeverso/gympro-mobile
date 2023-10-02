@@ -1,18 +1,14 @@
-import { ReactNode, createContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../lib/api';
+import { ReactNode, createContext, useState } from 'react';
 
 interface LoginProps {
      email: string;
      password: string;
 }
 
-interface UserProps {
-     id: string;
-}
-
 export interface AuthContextDataProps {
-     user: UserProps | null;
+     teacher: string | null;
+     isTeacherAuthorized: boolean | null;
      login: ({ email, password }: LoginProps) => Promise<void>;
      logout: () => Promise<void>;
 }
@@ -24,27 +20,8 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextDataProps);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-     const [user, setUser] = useState<UserProps | null>(null);
-
-     useEffect(() => {
-          loadUserFromStorage();
-     }, []);
-
-     async function loadUserFromStorage() {
-          try {
-               const storedUser = await AsyncStorage.getItem('user');
-
-               if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-
-                    applyTokenInApiHeaders(parsedUser.token);
-
-                    setUser(parsedUser);
-               };
-          } catch (error) {
-               console.log('Erro ao carregar os dados do usuário:', error);
-          };
-     };
+     const [isTeacherAuthorized, setIsTeacherAuthorized] = useState<boolean | null>(null);
+     const [teacher, setTeacher] = useState<string | null>(null);
 
      function applyTokenInApiHeaders(token: string) {
           api.defaults.headers.authorization = `Bearer ${token}`;
@@ -53,38 +30,37 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      async function login({ email, password }: LoginProps) {
           try {
                const response = await api.post('/api/post/teachers/login', { email, password });
-               
-               const { teacher, token } = response.data;
 
-               applyTokenInApiHeaders(token);
-
-               const userToStore = {
-                    ...teacher,
-                    token,
+               const teacher = {
+                    id: response.data.teacher.id,
+                    token: response.data.token
                };
 
-               await AsyncStorage.setItem('user', JSON.stringify(userToStore));
-               setUser(userToStore);
+               applyTokenInApiHeaders(teacher.token);
+
+               setTeacher(teacher.id);
+               
+               setIsTeacherAuthorized(true);
           } catch (error) {
                throw error;
           };
      };
 
      async function logout() {
-          try {
-               await AsyncStorage.removeItem('user');
+          try {               
+               setTeacher(null);
 
-               setUser(null);
+               setIsTeacherAuthorized(false);
           } catch (error) {
                console.log('Erro ao realizar o logout:', error);
           };
      };
 
      return (
-          <AuthContext.Provider value={{ user, login, logout }}>
+          <AuthContext.Provider value={{ teacher, isTeacherAuthorized, login, logout }}>
                {children}
           </AuthContext.Provider>
      );
-}
+};
 
 export default AuthContextProvider;

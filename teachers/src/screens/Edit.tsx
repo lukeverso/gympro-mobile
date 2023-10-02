@@ -1,7 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 
 export function Edit() {
      const { goBack, navigate } = useNavigation();
@@ -55,7 +54,6 @@ export function Edit() {
                     </View>
                     <Ionicons name='ios-chevron-forward' size={24} color='black' />
                </TouchableOpacity>
-               <StatusBar style='dark' backgroundColor='#FFFFFF' />
           </View>
      );
 };

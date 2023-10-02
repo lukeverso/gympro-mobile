@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../contexts/auth';
-import { useNavigation } from '@react-navigation/native';
 
 import { Main } from '../screens/Main';
 import { Login } from '../screens/Login';
@@ -29,29 +28,12 @@ import { MedicalHistory } from '../screens/MedicalHistory';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
-     const { user } = useContext(AuthContext);
-
-     const navigation = useNavigation(); // Obtenha a instância de navegação
-
-     // Função para lidar com o evento de foco da tela
-     const handleScreenFocus = (event: any) => {
-          console.log(`Navigated to screen: ${event.target}`);
-     };
-
-     useEffect(() => {
-          // Adicione um ouvinte de eventos de foco quando o componente é montado
-          navigation.addListener('focus', handleScreenFocus);
-
-          // Limpe o ouvinte de eventos quando o componente é desmontado
-          return () => {
-               navigation.removeListener('focus', handleScreenFocus);
-          };
-     }, [navigation]);
+     const { isStudentAuthorized } = useContext(AuthContext);
 
      return (
           <Navigator screenOptions={{ headerShown: false }}>
                {
-                    user ?
+                    isStudentAuthorized ?
                          <>
                               <Screen name='home' component={Home} />
                               <Screen name='profile' component={Profile} />

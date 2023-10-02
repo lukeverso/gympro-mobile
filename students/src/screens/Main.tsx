@@ -1,9 +1,9 @@
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 
-import background from '../assets/images/background.jpg';
 import GymPro from '../assets/GymPro.svg';
+import background from '../assets/images/background.jpg';
 
 export function Main() {
      const { navigate } = useNavigation();

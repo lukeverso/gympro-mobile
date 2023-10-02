@@ -1,9 +1,9 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, SafeAreaView, RefreshControl } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { Entypo, Feather, Ionicons } from '@expo/vector-icons';
-import { useContext, useState, useCallback } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useContext, useState, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, SafeAreaView, RefreshControl } from 'react-native';
 
 interface StudentProps {
      id: string;
@@ -14,8 +14,9 @@ interface StudentProps {
 
 export function StudentList() {
      const { goBack, navigate } = useNavigation();
+     const { teacher } = useContext(AuthContext);
 
-     const { user } = useContext(AuthContext);
+     const [refreshing, setRefreshing] = useState(false);
 
      const [searchQuery, setSearchQuery] = useState('');
 
@@ -23,19 +24,13 @@ export function StudentList() {
 
      async function getData() {
           try {
-               const request = await api.get(`/api/get/teachers/${user?.id}/students`);
+               const request = await api.get(`/api/get/teachers/${teacher}/students`);
 
                setStudents(request.data);
           } catch (error) {
                console.log(error);
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
-
-     const [refreshing, setRefreshing] = useState(false);
 
      const onRefresh = useCallback(() => {
           setRefreshing(true);
@@ -46,6 +41,10 @@ export function StudentList() {
                setRefreshing(false);
           }, 1000);
      }, []);
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <SafeAreaView className='flex-1 bg-white'>

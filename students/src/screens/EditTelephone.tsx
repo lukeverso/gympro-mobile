@@ -1,28 +1,27 @@
-import { Keyboard, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, Text, TouchableOpacity, View } from 'react-native';
 
 export function EditTelephone() {
      const { goBack, navigate } = useNavigation();
+     const { student } = useContext(AuthContext);
 
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [telephone, setTelephone] = useState('');
-
-     const { user } = useContext(AuthContext);
 
      async function getTelephone() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/api/get/students/${user?.id}/telephone`);
+               const request = await api.get(`/api/get/students/${student}/telephone`);
 
                setTelephone(request.data.telephone);
           } catch (error) {
@@ -32,10 +31,6 @@ export function EditTelephone() {
                setErrorMessage('Ocorreu um erro...');
           };
      };
-
-     useEffect(() => {
-          getTelephone();
-     }, []);
 
      async function handleTelephoneEditing() {
           setError(false);
@@ -48,7 +43,7 @@ export function EditTelephone() {
           };
 
           try {
-               const request = await api.patch(`/api/put/students/${user?.id}/telephone`, { telephone });
+               const request = await api.patch(`/api/put/students/${student}/telephone`, { telephone });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -64,6 +59,10 @@ export function EditTelephone() {
                return;
           };
      };
+
+     useEffect(() => {
+          getTelephone();
+     }, []);
 
      return (
           <>

@@ -1,28 +1,27 @@
-import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function EditName() {
      const { goBack, navigate } = useNavigation();
+     const { teacher } = useContext(AuthContext);
 
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [name, setName] = useState('');
      const [surname, setSurname] = useState('');
-
-     const { user } = useContext(AuthContext);
 
      async function getName() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/api/get/students/${user?.id}/name`);
+               const request = await api.get(`/api/get/teachers/${teacher}/name`);
 
                setName(request.data.student.name.split(' ')[0]);
                setSurname(request.data.student.name.split(' ')[1]);
@@ -33,10 +32,6 @@ export function EditName() {
                setErrorMessage('Ocorreu um erro...');
           };
      };
-
-     useEffect(() => {
-          getName();
-     }, []);
 
      async function handleNameEditing() {
           setError(false);
@@ -55,7 +50,7 @@ export function EditName() {
           };
 
           try {
-               const request = await api.patch(`/api/put/students/${user?.id}/name`, { name, surname });
+               const request = await api.patch(`/api/put/teachers/${teacher}/name`, { name, surname });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -71,6 +66,10 @@ export function EditName() {
                return;
           };
      };
+
+     useEffect(() => {
+          getName();
+     }, []);
 
      return (
           <>

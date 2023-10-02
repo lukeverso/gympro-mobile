@@ -1,25 +1,26 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { api } from '../lib/api';
 import { useEffect, useState } from 'react';
 import { MaskedTextInput } from 'react-native-mask-text';
-import { useRoute } from '@react-navigation/native';
-import { api } from '../lib/api';
+import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface CreateProps {
      email: string;
 };
 
 export function Create() {
-     const { goBack, navigate } = useNavigation();
-
      const route = useRoute();
 
-     const [success, setSuccess] = useState(false);
+     const { email } = route.params as CreateProps;
+     const { goBack, navigate } = useNavigation();
+
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
-     const { email } = route.params as CreateProps;
+     const [seePassword, setSeePassword] = useState(false);
+     const [seePasswordRepeat, setSeePasswordRepeat] = useState(false);
 
      const [name, setName] = useState('');
      const [surname, setSurname] = useState('');
@@ -195,9 +196,6 @@ export function Create() {
                }
           };
      };
-
-     const [seePassword, setSeePassword] = useState(false);
-     const [seePasswordRepeat, setSeePasswordRepeat] = useState(false);
 
      return (
           <>

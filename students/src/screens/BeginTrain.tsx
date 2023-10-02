@@ -1,6 +1,6 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import start from '../assets/images/start.png';
 

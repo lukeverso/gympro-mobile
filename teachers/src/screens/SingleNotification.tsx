@@ -1,9 +1,9 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
-import { useState, useContext, useCallback } from 'react';
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
+import { useState, useContext, useCallback } from 'react';
+import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface StudentDetailsProps {
      id: string;
@@ -17,19 +17,19 @@ interface NotificationProps {
 };
 
 export function SingleNotification() {
-     const { user } = useContext(AuthContext);
-
      const route = useRoute();
 
+     const { goBack, navigate } = useNavigation();
+     const { teacher } = useContext(AuthContext);
      const { id } = route.params as StudentDetailsProps;
 
-     const [successCreation, setSuccessCreation] = useState(false);
-     const [successDeletion, setSuccessDeletion] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [successCreation, setSuccessCreation] = useState(false);
+     const [successDeletion, setSuccessDeletion] = useState(false);
 
-     const { goBack, navigate } = useNavigation();
-
+     const [notificationId, setNotificationId] = useState<string>('');
+     const [deleteNotificationModal, setDeleteNotificationModal] = useState<boolean>(false);
      const [notifications, setNotifications] = useState<NotificationProps[]>([]);
 
      const [title, setTitle] = useState('');
@@ -44,10 +44,6 @@ export function SingleNotification() {
                console.log(error);
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getNotifications();
-     }, []));
 
      async function handleSingleNotification() {
           setError(false);
@@ -66,7 +62,7 @@ export function SingleNotification() {
           };
 
           try {
-               const request = await api.post(`/api/post/notifications/${user?.id}/student/${id}`, { title, content });
+               const request = await api.post(`/api/post/notifications/${teacher}/student/${id}`, { title, content });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -87,9 +83,6 @@ export function SingleNotification() {
                }
           };
      };
-
-     const [notificationId, setNotificationId] = useState<string>('');
-     const [deleteNotificationModal, setDeleteNotificationModal] = useState<boolean>(false);
 
      async function handleNotificationDelete() {
           setError(false);
@@ -117,6 +110,10 @@ export function SingleNotification() {
                }
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getNotifications();
+     }, []));
 
      return (
           <>

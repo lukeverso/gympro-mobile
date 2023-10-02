@@ -1,9 +1,9 @@
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { api } from '../lib/api';
 import { useState } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { api } from '../lib/api';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface CheckCodeProps {
      email: string;
@@ -11,14 +11,13 @@ interface CheckCodeProps {
 
 export function CheckCode() {
      const route = useRoute();
-     const { email } = route.params as CheckCodeProps;
 
-     const [errorMessage, setErrorMessage] = useState('');
-     const [error, setError] = useState(false);
+     const { email } = route.params as CheckCodeProps;
+     const { goBack, navigate } = useNavigation();
 
      const [code, setCode] = useState('');
-
-     const { goBack, navigate } = useNavigation();
+     const [error, setError] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
 
      async function handleCodeCheck() {
           setError(false);

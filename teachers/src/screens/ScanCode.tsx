@@ -1,37 +1,32 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Keyboard } from 'react-native'
-import { useEffect, useState, useContext } from 'react'
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
-import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../contexts/auth';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useEffect, useState, useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { View, Text, SafeAreaView, TouchableOpacity, Keyboard } from 'react-native'
 
 export function ScanCode() {
      const { goBack, navigate } = useNavigation();
+     const { teacher } = useContext(AuthContext);
 
-     const { user } = useContext(AuthContext);
-
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
-     const [hasPermission, setHasPermission] = useState<boolean>(false);
      const [scanned, setScanned] = useState<boolean>(false);
+     const [hasPermission, setHasPermission] = useState<boolean>(false);
 
-     const getBarCodeScannerPermissions = async () => {
+     async function getBarCodeScannerPermissions() {
           const { status } = await BarCodeScanner.requestPermissionsAsync();
           setHasPermission(status === 'granted');
      };
-
-     useEffect(() => {
-          getBarCodeScannerPermissions();
-     }, []);
 
      async function handleBarCodeScanned({ type, data }: any) {
           setScanned(true);
 
           try {
-               const request = await api.post(`/api/post/teachers/${user?.id}/add/${data}`);
+               const request = await api.post(`/api/post/teachers/${teacher}/add/${data}`);
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -45,9 +40,13 @@ export function ScanCode() {
           };
      };
 
-     if (hasPermission === null) return <Text>Requesting for camera permission</Text>;
+     useEffect(() => {
+          getBarCodeScannerPermissions();
+     }, []);
 
-     if (hasPermission === false) return <Text>No access to camera</Text>;
+     if (hasPermission === null) return <Text>É preciso permitir o uso da câmera.</Text>;
+
+     if (hasPermission === false) return <Text>Não foi possível obter o acesso à câmera.</Text>;
 
      return (
           <>

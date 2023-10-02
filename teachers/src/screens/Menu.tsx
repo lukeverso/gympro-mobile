@@ -7,8 +7,7 @@ import { api } from '../lib/api';
 
 export function Menu() {
      const { goBack, navigate } = useNavigation();
-
-     const { user, logout } = useContext(AuthContext);
+     const { teacher, logout } = useContext(AuthContext);
 
      const [success, setSuccess] = useState<boolean>(false);
 
@@ -19,7 +18,7 @@ export function Menu() {
 
      async function getData() {
           try {
-               const request = await api.get(`/api/get/teachers/${user?.id}`);
+               const request = await api.get(`/api/get/teachers/${teacher}`);
 
                setName(request.data.name);
                setEmail(request.data.email);

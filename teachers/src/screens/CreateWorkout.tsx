@@ -1,22 +1,21 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { api } from '../lib/api';
+import { useState } from 'react';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 
 interface CreateWorkoutProps {
      id: string;
 };
 
 export function CreateWorkout() {
+     const route = useRoute();
+     
+     const { id } = route.params as CreateWorkoutProps;
      const { goBack, navigate } = useNavigation();
 
-     const route = useRoute();
-
-     const { id } = route.params as CreateWorkoutProps;
-
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [type, setType] = useState<string>('');

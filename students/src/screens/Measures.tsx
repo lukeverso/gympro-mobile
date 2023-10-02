@@ -1,16 +1,17 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function Measures() {
      const { goBack, navigate } = useNavigation();
+     const { student } = useContext(AuthContext);
 
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [weight, setWeight] = useState('');
@@ -33,20 +34,12 @@ export function Measures() {
           setBmi(bmi.toString());
      };
 
-     useEffect(() => {
-          if (weight.length >= 2 && height.length === 3) {
-               bmiCalculator(weight, height);
-          } else {
-               setBmi('');
-          };
-     }, [weight, height]);
-
      async function handleMeasuresInsert() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.post(`/api/post/students/${user?.id}/measures`, {
+               const request = await api.post(`/api/post/students/${student}/measures`, {
                     weight,
                     height,
                     bmi,
@@ -73,15 +66,13 @@ export function Measures() {
           }
      };
 
-     const { user } = useContext(AuthContext);
-
      useEffect(() => {
           async function getMeasures() {
                setError(false);
                setErrorMessage('');
 
                try {
-                    const request = await api.get(`/api/get/students/${user?.id}/measures`);
+                    const request = await api.get(`/api/get/students/${student}/measures`);
 
                     if (request.data.measures) {
                          setWeight(request.data.measures.weight);
@@ -118,6 +109,14 @@ export function Measures() {
 
           getMeasures();
      }, []);
+
+     useEffect(() => {
+          if (weight.length >= 2 && height.length === 3) {
+               bmiCalculator(weight, height);
+          } else {
+               setBmi('');
+          };
+     }, [weight, height]);
 
      return (
           <>

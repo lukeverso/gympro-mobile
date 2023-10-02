@@ -1,9 +1,9 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
-import { useState, useContext, useCallback } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
+import { useState, useContext, useCallback } from 'react';
+import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface NotificationProps {
      id: string;
@@ -13,31 +13,24 @@ interface NotificationProps {
 };
 
 export function MultipleNotifications() {
-     const { user } = useContext(AuthContext);
-
+     const { teacher } = useContext(AuthContext);
      const { goBack, navigate } = useNavigation();
 
-     const toggleItem = (index: number) => {
-          setNotifications((prevState) => {
-               const updatedItems = [...prevState];
-               updatedItems[index].expanded = !updatedItems[index].expanded;
-               return updatedItems;
-          });
-     };
-
-     const [successCreation, setSuccessCreation] = useState(false);
-     const [successDeletion, setSuccessDeletion] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [successCreation, setSuccessCreation] = useState(false);
+     const [successDeletion, setSuccessDeletion] = useState(false);
 
      const [notifications, setNotifications] = useState<NotificationProps[]>([]);
+     const [notificationId, setNotificationId] = useState<string>('');
+     const [deleteNotificationModal, setDeleteNotificationModal] = useState<boolean>(false);
 
      const [title, setTitle] = useState('');
      const [content, setContent] = useState('');
 
      async function getNotifications() {
           try {
-               const response = await api.get(`/api/get/notifications/teachers/${user?.id}/all`);
+               const response = await api.get(`/api/get/notifications/teachers/${teacher}/all`);
 
                setNotifications(response.data.notifications);
           } catch (error: any) {
@@ -51,10 +44,6 @@ export function MultipleNotifications() {
                }
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getNotifications();
-     }, []));
 
      async function handleMultipleNotifications() {
           setError(false);
@@ -73,7 +62,7 @@ export function MultipleNotifications() {
           };
 
           try {
-               const request = await api.post(`/api/post/notifications/${user?.id}/multiple`, { title, content });
+               const request = await api.post(`/api/post/notifications/${teacher}/multiple`, { title, content });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -94,9 +83,6 @@ export function MultipleNotifications() {
                }
           };
      };
-
-     const [notificationId, setNotificationId] = useState<string>('');
-     const [deleteNotificationModal, setDeleteNotificationModal] = useState<boolean>(false);
 
      async function handleNotificationDelete() {
           setError(false);
@@ -124,6 +110,10 @@ export function MultipleNotifications() {
                }
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getNotifications();
+     }, []));
 
      return (
           <>

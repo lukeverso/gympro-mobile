@@ -1,42 +1,21 @@
-import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image, Keyboard } from 'react-native';
+import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useCallback, useContext, useState } from 'react';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useCallback, useContext, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
-import { api } from '../lib/api';
+import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image, Keyboard } from 'react-native';
+
 import anamnesis from '../assets/images/anamnesis.png';
 
 export function MedicalHistory() {
      const { goBack, navigate } = useNavigation();
-
-     const { user } = useContext(AuthContext);
+     const { student } = useContext(AuthContext);
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [filled, setFilled] = useState<boolean>(false);
-
-     async function getData() {
-          try {
-               const request = await api.get(`/api/get/students/${user?.id}/medical-history`);
-
-               if (request.data.medicalHistory.length > 0) setFilled(true);
-          } catch (error: any) {
-               if (error.response) {
-                    console.log('Status de erro:', error.response.status);
-                    console.log('Dados do erro:', error.response.data);
-               } else if (error.request) {
-                    console.log('Erro de solicitação:', error.request);
-               } else {
-                    console.log('Erro de configuração:', error.message);
-               }
-          };
-     };
-
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
 
      const [surgicalHistory, setSurgicalHistory] = useState<boolean>(false);
      const [oncologicalHistory, setOncologicalHistory] = useState<boolean>(false);
@@ -71,6 +50,23 @@ export function MedicalHistory() {
 
      const [responsibilityTerm, setResponsibilityTerm] = useState<boolean>(false);
 
+     async function getData() {
+          try {
+               const request = await api.get(`/api/get/students/${student}/medical-history`);
+
+               if (request.data.medicalHistory.length > 0) setFilled(true);
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
+          };
+     };
+
      async function handleMedicalHistorySaving() {
           setError(false);
           setErrorMessage('');
@@ -95,7 +91,7 @@ export function MedicalHistory() {
 
           try {
                const request = await api.post(
-                    `api/post/students/${user?.id}/medical-history`,
+                    `api/post/students/${student}/medical-history`,
                     {
                          backPain,
                          boneJointIssue,
@@ -145,6 +141,10 @@ export function MedicalHistory() {
                }
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <>

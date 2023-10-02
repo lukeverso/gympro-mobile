@@ -1,23 +1,23 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useCallback, useContext, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useCallback, useContext, useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { AntDesign, Feather, FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons';
 
 export function Menu() {
      const { goBack, navigate } = useNavigation();
 
-     const { user, logout } = useContext(AuthContext);
+     const { student, logout } = useContext(AuthContext);
 
      const [name, setName] = useState<string>('');
      const [email, setEmail] = useState<string>('');
-     const [telephone, setTelephone] = useState<string>('');
      const [picture, setPicture] = useState<string>('');
+     const [telephone, setTelephone] = useState<string>('');
 
      async function getData() {
           try {
-               const request = await api.get(`/api/get/students/${user?.id}`);
+               const request = await api.get(`/api/get/students/${student}`);
 
                setName(request.data.name);
                setEmail(request.data.email);

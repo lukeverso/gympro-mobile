@@ -1,13 +1,14 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function EditAddress() {
      const { goBack, navigate } = useNavigation();
+     const { student } = useContext(AuthContext);
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
@@ -54,18 +55,12 @@ export function EditAddress() {
           };
      };
 
-     useEffect(() => {
-          fetchData();
-     }, [code]);
-
-     const { user } = useContext(AuthContext);
-
      async function getAddress() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/api/get/students/${user?.id}/address`);
+               const request = await api.get(`/api/get/students/${student}/address`);
 
                setCode(request.data.code);
                setNumber(request.data.number);
@@ -77,10 +72,6 @@ export function EditAddress() {
                setErrorMessage('Ocorreu um erro...');
           };
      };
-
-     useEffect(() => {
-          getAddress();
-     }, []);
 
      async function handleAddressEditing() {
           setError(false);
@@ -123,7 +114,7 @@ export function EditAddress() {
           };
 
           try {
-               const request = await api.patch(`/api/put/students/${user?.id}/address`, { code, street, complement, number, district, city, state });
+               const request = await api.patch(`/api/put/students/${student}/address`, { code, street, complement, number, district, city, state });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -139,6 +130,14 @@ export function EditAddress() {
                return;
           };
      };
+
+     useEffect(() => {
+          fetchData();
+     }, [code]);
+
+     useEffect(() => {
+          getAddress();
+     }, []);
 
      return (
           <>

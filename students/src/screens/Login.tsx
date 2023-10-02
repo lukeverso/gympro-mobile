@@ -1,26 +1,30 @@
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform, ActivityIndicator } from 'react-native';
 
 export function Login() {
      const { goBack, navigate } = useNavigation();
+     const { login } = useContext(AuthContext);
 
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [seePassword, setSeePassword] = useState(false);
+     const [loading, setLoading] = useState<boolean>(false);
 
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
-     const [seePassword, setSeePassword] = useState(false);
-
-     const { login } = useContext(AuthContext);
 
      async function handleLogin() {
+          setLoading(true);
+
           setError(false);
           setErrorMessage('');
 
           if (email === '') {
+               setLoading(false);
+
                setError(true);
                setErrorMessage('Insira seu e-mail.');
 
@@ -33,6 +37,8 @@ export function Login() {
           };
 
           if (password === '') {
+               setLoading(false);
+
                setError(true);
                setErrorMessage('Insira sua senha.');
 
@@ -47,9 +53,11 @@ export function Login() {
           try {
                await login({ email, password });
 
+               setLoading(false);
+
                navigate('home');
           } catch (error) {
-               console.log(error);
+               setLoading(false);
 
                setError(true);
                setErrorMessage('Confira os dados inseridos.');
@@ -125,14 +133,14 @@ export function Login() {
                               </Text>
                          </View>
                     }
-                    <TouchableOpacity
-                         onPress={handleLogin}
-                         activeOpacity={0.7}
-                         className='mt-8 rounded py-3 justify-center items-center bg-black flex-row'
-                    >
-                         <Text className='text-white text-base font-title mb-1'>
-                              Entrar
-                         </Text>
+                    <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='mt-8 rounded py-3 justify-center items-center bg-black flex-row'>
+                         {
+                              loading ?
+                                   <ActivityIndicator size='small' color='#FFFFFF' /> :
+                                   <Text className='font-text text-base text-white'>
+                                        Entrar
+                                   </Text>
+                         }
                     </TouchableOpacity>
                </View>
           </KeyboardAvoidingView>

@@ -1,15 +1,15 @@
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 import { api } from '../lib/api';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function CheckEmail() {
+     const { goBack, navigate } = useNavigation();
+
      const [email, setEmail] = useState('');
      const [errorMessage, setErrorMessage] = useState('');
      const [error, setError] = useState(false);
-
-     const { goBack, navigate } = useNavigation();
 
      async function handleEmailCheck() {
           setError(false);

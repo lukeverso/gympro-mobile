@@ -1,13 +1,15 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function EditAddress() {
      const { goBack, navigate } = useNavigation();
+
+     const { teacher } = useContext(AuthContext);
 
      const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
@@ -21,51 +23,12 @@ export function EditAddress() {
      const [state, setState] = useState('');
      const [district, setDistrict] = useState('');
 
-     useEffect(() => {
-          async function fetchData() {
-               setError(false);
-               setErrorMessage('');
-
-               if (code.length === 9) {
-                    try {
-                         const request = await api.get(`https://viacep.com.br/ws/${code}/json`);
-
-                         if (request.data.erro === true) {
-                              setError(true);
-                              setErrorMessage('CEP inválido.');
-
-                              setStreet('');
-                              setDistrict('');
-                              setCity('');
-                              setState('');
-
-                              return;
-                         };
-
-                         setStreet(request.data.logradouro);
-                         setDistrict(request.data.bairro);
-                         setCity(request.data.localidade);
-                         setState(request.data.uf);
-                    } catch (error) {
-                         console.log(error);
-
-                         setError(true);
-                         setErrorMessage('Ocorreu um erro...');
-                    };
-               };
-          };
-
-          fetchData();
-     }, [code]);
-
-     const { user } = useContext(AuthContext);
-
      async function getAddress() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/api/get/students/${user?.id}/address`);
+               const request = await api.get(`/api/get/teachers/${teacher}/address`);
 
                setCode(request.data.student.code);
                setNumber(request.data.student.number);
@@ -77,10 +40,6 @@ export function EditAddress() {
                setErrorMessage('Ocorreu um erro...');
           };
      };
-
-     useEffect(() => {
-          getAddress();
-     }, []);
 
      async function handleAddressEditing() {
           setError(false);
@@ -132,7 +91,7 @@ export function EditAddress() {
                     state
                };
 
-               const request = await api.patch(`/api/put/students/${user?.id}/address`, { address });
+               const request = await api.patch(`/api/put/teachers/${teacher}/address`, { address });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -148,6 +107,47 @@ export function EditAddress() {
                return;
           };
      };
+
+     useEffect(() => {
+          getAddress();
+     }, []);
+
+     useEffect(() => {
+          async function fetchData() {
+               setError(false);
+               setErrorMessage('');
+
+               if (code.length === 9) {
+                    try {
+                         const request = await api.get(`https://viacep.com.br/ws/${code}/json`);
+
+                         if (request.data.erro === true) {
+                              setError(true);
+                              setErrorMessage('CEP inválido.');
+
+                              setStreet('');
+                              setDistrict('');
+                              setCity('');
+                              setState('');
+
+                              return;
+                         };
+
+                         setStreet(request.data.logradouro);
+                         setDistrict(request.data.bairro);
+                         setCity(request.data.localidade);
+                         setState(request.data.uf);
+                    } catch (error) {
+                         console.log(error);
+
+                         setError(true);
+                         setErrorMessage('Ocorreu um erro...');
+                    };
+               };
+          };
+
+          fetchData();
+     }, [code]);
 
      return (
           <>

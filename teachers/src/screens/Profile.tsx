@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 export function Profile() {

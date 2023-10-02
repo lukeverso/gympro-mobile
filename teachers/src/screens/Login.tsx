@@ -1,46 +1,73 @@
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform, ActivityIndicator } from 'react-native';
 
 export function Login() {
+     const { login } = useContext(AuthContext);
      const { goBack, navigate } = useNavigation();
 
      const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [seePassword, setSeePassword] = useState(false);
+     const [loading, setLoading] = useState<boolean>(false);
 
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
-     const [seePassword, setSeePassword] = useState(false);
-
-     const { login } = useContext(AuthContext);
 
      async function handleLogin() {
+          setLoading(true);
+
           setError(false);
           setErrorMessage('');
 
           if (email === '') {
+               setLoading(false);
+
                setError(true);
                setErrorMessage('Insira seu e-mail.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           if (password === '') {
+               setLoading(false);
+
                setError(true);
                setErrorMessage('Insira sua senha.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           try {
                await login({ email, password });
 
+               setLoading(false);
+
                navigate('home');
           } catch (error) {
+               setLoading(false);
+
                console.log(error);
 
                setError(true);
                setErrorMessage('Confira os dados inseridos.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
           };
      };
 
@@ -108,7 +135,13 @@ export function Login() {
                          </View>
                     }
                     <TouchableOpacity onPress={handleLogin} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
-                         <Text className='text-white text-base font-title'>Entrar</Text>
+                         {
+                              loading ?
+                                   <ActivityIndicator size='small' color='#FFFFFF' /> :
+                                   <Text className='font-text text-base text-white'>
+                                        Entrar
+                                   </Text>
+                         }
                     </TouchableOpacity>
                </View>
           </KeyboardAvoidingView>

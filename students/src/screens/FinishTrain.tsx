@@ -1,5 +1,5 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import finish from '../assets/images/finish.png';
 

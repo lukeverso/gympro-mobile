@@ -1,9 +1,9 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
-import { useState, useContext, useCallback } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { api } from '../lib/api';
 import { AuthContext } from '../contexts/auth';
+import { Ionicons, Feather } from '@expo/vector-icons';
+import { useState, useContext, useCallback } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 interface NotificationProps {
      content: string;
@@ -13,13 +13,12 @@ interface NotificationProps {
 };
 
 export function Notifications() {
-     const { user } = useContext(AuthContext);
-
      const { goBack } = useNavigation();
+     const { student } = useContext(AuthContext);
 
      const [notifications, setNotifications] = useState<NotificationProps[]>([]);
 
-     const toggleItem = (index: number) => {
+     function toggleItem(index: number) {
           setNotifications((prevState) => {
                const updatedItems = [...prevState];
                updatedItems[index].expanded = !updatedItems[index].expanded;
@@ -29,7 +28,7 @@ export function Notifications() {
 
      async function getNotifications() {
           try {
-               const response = await api.get(`/api/get/notifications/students/${user?.id}/all`);
+               const response = await api.get(`/api/get/notifications/students/${student}/all`);
 
                setNotifications(response.data.notifications);
           } catch (error) {

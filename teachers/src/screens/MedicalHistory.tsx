@@ -1,9 +1,9 @@
-import { Text, TouchableOpacity, View, Switch, ScrollView, TextInput, Image, Keyboard } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
-import { useCallback, useContext, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { useCallback, useState } from 'react';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
+import { Text, TouchableOpacity, View, ScrollView, Image, Keyboard } from 'react-native';
+
 import anamnesis from '../assets/images/anamnesis.png';
 
 interface MedicalHistoryProps {
@@ -42,18 +42,13 @@ interface StudentDetailsProps {
 };
 
 export function MedicalHistory() {
-     const { goBack, navigate } = useNavigation();
-
      const route = useRoute();
 
+     const { goBack, navigate } = useNavigation();
      const { id } = route.params as StudentDetailsProps;
-
-     const { user } = useContext(AuthContext);
 
      const [success, setSuccess] = useState(false);
      const [openAllowEditingModal, setOpenAllowEditingModal] = useState(false);
-     const [error, setError] = useState(false);
-     const [errorMessage, setErrorMessage] = useState('');
 
      const [medicalHistory, setMedicalHistory] = useState<MedicalHistoryProps | null>(null);
 
@@ -69,10 +64,6 @@ export function MedicalHistory() {
           };
      };
 
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
-
      async function handleAllowEditing() {
           try {
                const request = await api.post(`/api/post/students/${id}/medical-history/update`);
@@ -87,6 +78,10 @@ export function MedicalHistory() {
                console.log(error);
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <>

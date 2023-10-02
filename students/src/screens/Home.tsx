@@ -1,23 +1,16 @@
-import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground, Linking, Platform } from 'react-native';
+import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useState, useCallback } from 'react';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useContext, useState, useCallback } from 'react';
-import { AuthContext } from '../contexts/auth';
-import { api } from '../lib/api';
-import { StatusBar } from 'expo-status-bar';
+import { Image, ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, ImageBackground, Linking, Platform, ActivityIndicator } from 'react-native';
 
-import home from '../assets/images/teacher.jpg';
-import anamnesis from '../assets/images/anamnesis.png';
-import measures from '../assets/images/measures.png';
-import evolution from '../assets/images/evolution.png';
 import QRCode from 'react-native-qrcode-svg';
 
-interface WorkoutsProps {
-     active: boolean;
-     focus: string;
-     id: string;
-     type: string;
-};
+import home from '../assets/images/teacher.jpg';
+import measures from '../assets/images/measures.png';
+import anamnesis from '../assets/images/anamnesis.png';
+import evolution from '../assets/images/evolution.png';
 
 interface SheetProps {
      active: boolean;
@@ -36,24 +29,37 @@ interface TeacherProps {
      telephone: string;
 };
 
+interface WorkoutsProps {
+     active: boolean;
+     focus: string;
+     id: string;
+     type: string;
+};
+
 export function Home() {
+     const { student } = useContext(AuthContext);
      const { navigate } = useNavigation();
 
-     const { user } = useContext(AuthContext);
+     const [refreshing, setRefreshing] = useState(false);
+     const [loading, setLoading] = useState<boolean>(false);
 
      const [name, setName] = useState<string>('');
      const [sheet, setSheet] = useState<SheetProps | null>(null);
      const [teacher, setTeacher] = useState<TeacherProps | null>(null);
 
      async function getHomeData() {
+          setLoading(true);
+
           try {
-               const request = await api.get(`/api/get/students/${user?.id}`);
+               const request = await api.get(`/api/get/students/${student}`);
 
                const activeSheet = request.data.sheets.find((sheet: SheetProps) => sheet.active === true);
 
                setName(request.data.name);
                setSheet(activeSheet);
                setTeacher(request.data.teacher);
+
+               setLoading(false);
           } catch (error: any) {
                if (error.response) {
                     console.log('Status de erro:', error.response.status);
@@ -62,15 +68,9 @@ export function Home() {
                     console.log('Erro de solicitação:', error.request);
                } else {
                     console.log('Erro de configuração:', error.message);
-               }
+               };
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getHomeData();
-     }, []));
-
-     const [refreshing, setRefreshing] = useState(false);
 
      const onRefresh = useCallback(() => {
           setRefreshing(true);
@@ -81,6 +81,10 @@ export function Home() {
                setRefreshing(false);
           }, 1000);
      }, []);
+
+     useFocusEffect(useCallback(() => {
+          getHomeData();
+     }, []));
 
      return (
           <SafeAreaView className='flex-1 bg-white'>
@@ -108,52 +112,54 @@ export function Home() {
                               Seu professor
                          </Text>
                          {
-                              teacher ?
-                                   <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg space-x-3 flex-row items-center'>
-                                        {
-                                             teacher?.picture !== null ?
-                                                  <Image source={{ uri: teacher?.picture }} className='w-20 h-20 rounded-full' /> :
-                                                  <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
-                                                       <Octicons name='person' size={32} color='black' />
-                                                  </View>
-                                        }
-                                        <View className='flex-1 space-y-1'>
-                                             <Text className='font-title text-xl'>
-                                                  {teacher?.name}
-                                             </Text>
-                                             <TouchableOpacity onPress={() => Linking.openURL(`mailto:${teacher?.email}`)}>
-                                                  <Text className='font-text text-xs'>
-                                                       {teacher?.email}
+                              loading ?
+                                   <ActivityIndicator className='mt-8' size='large' color='#000000' /> :
+                                   teacher ?
+                                        <View className='space-y-1 mt-4 bg-gray-100 p-5 rounded-lg space-x-3 flex-row items-center'>
+                                             {
+                                                  teacher?.picture !== null ?
+                                                       <Image source={{ uri: teacher?.picture }} className='w-20 h-20 rounded-full' /> :
+                                                       <View className='w-20 h-20 rounded-full items-center justify-center bg-white'>
+                                                            <Octicons name='person' size={32} color='black' />
+                                                       </View>
+                                             }
+                                             <View className='flex-1 space-y-1'>
+                                                  <Text className='font-title text-xl'>
+                                                       {teacher?.name}
                                                   </Text>
-                                             </TouchableOpacity>
-                                             <TouchableOpacity onPress={() => {
-                                                  const phoneNumber = Platform.OS === 'ios' ? `telprompt:${teacher?.telephone}` : `tel:${teacher?.telephone}`;
-                                                  Linking.openURL(phoneNumber);
-                                             }}>
-                                                  <Text className='font-text text-xs'>
-                                                       {teacher?.telephone}
+                                                  <TouchableOpacity onPress={() => Linking.openURL(`mailto:${teacher?.email}`)}>
+                                                       <Text className='font-text text-xs'>
+                                                            {teacher?.email}
+                                                       </Text>
+                                                  </TouchableOpacity>
+                                                  <TouchableOpacity onPress={() => {
+                                                       const phoneNumber = Platform.OS === 'ios' ? `telprompt:${teacher?.telephone}` : `tel:${teacher?.telephone}`;
+                                                       Linking.openURL(phoneNumber);
+                                                  }}>
+                                                       <Text className='font-text text-xs'>
+                                                            {teacher?.telephone}
+                                                       </Text>
+                                                  </TouchableOpacity>
+                                             </View>
+                                        </View> :
+                                        <View className='w-full flex-col items-center mt-8 space-y-5'>
+                                             <View className='w-full flex-col items-center space-y-3'>
+                                                  <Feather name='alert-circle' size={24} color='black' />
+                                                  <Text className='font-title text-lg text-center leading-6'>
+                                                       Você ainda não{'\n'}
+                                                       possui um professor
                                                   </Text>
-                                             </TouchableOpacity>
-                                        </View>
-                                   </View> :
-                                   <View className='w-full flex-col items-center mt-8 space-y-5'>
-                                        <View className='w-full flex-col items-center space-y-3'>
-                                             <Feather name='alert-circle' size={24} color='black' />
-                                             <Text className='font-title text-lg text-center leading-6'>
-                                                  Você ainda não{'\n'}
-                                                  possui um professor
+                                             </View>
+                                             <View className='mt-8 mx-auto'>
+                                                  <QRCode value={`${student}`} size={150} />
+                                             </View>
+                                             <Text className='text-center mt-10 text-base font-text'>
+                                                  Peça para ele escanear o código{'\n'}
+                                                  acima ou informe seu e-mail{'\n'}
+                                                  para você ser adicionado{'\n'}
+                                                  como aluno.
                                              </Text>
                                         </View>
-                                        <View className='mt-8 mx-auto'>
-                                             <QRCode value={`${user?.id}`} size={150} />
-                                        </View>
-                                        <Text className='text-center mt-10 text-base font-text'>
-                                             Peça para ele escanear o código{'\n'}
-                                             acima ou informe seu e-mail{'\n'}
-                                             para você ser adicionado{'\n'}
-                                             como aluno.
-                                        </Text>
-                                   </View>
                          }
                          <View className='mt-8 flex-row justify-between items-center'>
                               <Text className='text-2xl font-title'>
@@ -161,24 +167,26 @@ export function Home() {
                               </Text>
                          </View>
                          {
-                              sheet ?
-                                   <ImageBackground source={home} className='mt-4 rounded-lg flex-row justify-between items-center overflow-hidden'>
-                                        <View className='bg-black/50 px-5 py-5 flex-1'>
-                                             <Text className='font-text text-base text-white'>
-                                                  Objetivo: {sheet?.objective}{'\n'}
-                                                  {sheet?.annotations ? `Anotações: ${sheet?.annotations}\n` : ''}
-                                                  Início: {sheet?.startDate}{'\n'}
-                                                  Término: {sheet?.endDate}
+                              loading ?
+                                   <ActivityIndicator className='mt-8' size='large' color='#000000' /> :
+                                   sheet ?
+                                        <ImageBackground source={home} className='mt-4 rounded-lg flex-row justify-between items-center overflow-hidden'>
+                                             <View className='bg-black/50 px-5 py-5 flex-1'>
+                                                  <Text className='font-text text-base text-white'>
+                                                       Objetivo: {sheet?.objective}{'\n'}
+                                                       {sheet?.annotations ? `Anotações: ${sheet?.annotations}\n` : ''}
+                                                       Início: {sheet?.startDate}{'\n'}
+                                                       Término: {sheet?.endDate}
+                                                  </Text>
+                                             </View>
+                                        </ImageBackground> :
+                                        <View className='w-full flex-col items-center mt-8 space-y-3'>
+                                             <Feather name='alert-circle' size={24} color='black' />
+                                             <Text className='font-title text-lg text-center leading-6'>
+                                                  Você ainda não possui{'\n'}
+                                                  uma ficha de treino
                                              </Text>
                                         </View>
-                                   </ImageBackground> :
-                                   <View className='w-full flex-col items-center mt-8 space-y-3'>
-                                        <Feather name='alert-circle' size={24} color='black' />
-                                        <Text className='font-title text-lg text-center leading-6'>
-                                             Você ainda não possui{'\n'}
-                                             uma ficha de treino
-                                        </Text>
-                                   </View>
                          }
                          <View className='mt-8 flex-row justify-between items-center'>
                               <Text className='text-2xl font-title'>
@@ -186,26 +194,28 @@ export function Home() {
                               </Text>
                          </View>
                          {
-                              sheet ?
-                                   sheet?.workouts?.map((workout: WorkoutsProps) => {
-                                        return (
-                                             <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
-                                                  <View className='flex-row gap-3 items-center'>
-                                                       <Text className='font-title text-base mb-1'>
-                                                            {workout.focus} ({workout.type})
-                                                       </Text>
-                                                  </View>
-                                                  <Ionicons name='ios-chevron-forward' size={24} color='black' />
-                                             </TouchableOpacity>
-                                        )
-                                   }) :
-                                   <View className='w-full flex-col items-center mt-4 space-y-3'>
-                                        <Feather name="alert-circle" size={24} color="black" />
-                                        <Text className='font-title text-lg text-center leading-6'>
-                                             Você ainda não{'\n'}
-                                             possui exercícios
-                                        </Text>
-                                   </View>
+                              loading ?
+                                   <ActivityIndicator className='mt-8' size='large' color='#000000' /> :
+                                   sheet ?
+                                        sheet?.workouts?.map((workout: WorkoutsProps) => {
+                                             return (
+                                                  <TouchableOpacity key={workout.id} onPress={() => navigate('trainDetails', { id: workout.id })} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded flex-row justify-between items-center px-5 py-5'>
+                                                       <View className='flex-row gap-3 items-center'>
+                                                            <Text className='font-title text-base mb-1'>
+                                                                 {workout.focus} ({workout.type})
+                                                            </Text>
+                                                       </View>
+                                                       <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                                  </TouchableOpacity>
+                                             )
+                                        }) :
+                                        <View className='w-full flex-col items-center mt-4 space-y-3'>
+                                             <Feather name="alert-circle" size={24} color="black" />
+                                             <Text className='font-title text-lg text-center leading-6'>
+                                                  Você ainda não{'\n'}
+                                                  possui exercícios
+                                             </Text>
+                                        </View>
                          }
                          <Text className='text-2xl font-title mt-8'>
                               Outras funcionalidades
@@ -246,7 +256,6 @@ export function Home() {
                               </TouchableOpacity>
                          </ScrollView>
                     </View>
-                    <StatusBar style='dark' backgroundColor='#FFFFFF' />
                </ScrollView>
           </SafeAreaView>
      );

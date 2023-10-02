@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, TextInput, Keyboard } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { api } from '../lib/api';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
-import { api } from '../lib/api';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 
 interface StudentProps {
      id: string;
@@ -11,22 +11,21 @@ interface StudentProps {
 };
 
 export function FindByEmail() {
+     const { teacher } = useContext(AuthContext);
      const { goBack, navigate } = useNavigation();
-
-     const { user } = useContext(AuthContext);
 
      const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
 
+     const [error, setError] = useState(false);
      const [success, setSuccess] = useState(false);
+     const [errorMessage, setErrorMessage] = useState('');
      const [failureSame, setFailureSame] = useState(false);
      const [failureDifferent, setFailureDifferent] = useState(false);
-     const [error, setError] = useState(false);
-     const [errorMessage, setErrorMessage] = useState('');
 
      const [email, setEmail] = useState('');
-
      const [studentView, setStudentView] = useState<boolean>(false);
      const [student, setStudent] = useState<StudentProps | null>(null);
+     const [studentId, setStudentId] = useState<string>('');
 
      async function searchStudent() {
           setError(false);
@@ -43,11 +42,9 @@ export function FindByEmail() {
           };
      };
 
-     const [studentId, setStudentId] = useState<string>('');
-
      async function handleAddStudent() {
           try {
-               const request = await api.post(`/api/post/teachers/${user?.id}/add/${student?.id}`);
+               const request = await api.post(`/api/post/teachers/${teacher}/add/${student?.id}`);
 
                if (request.data.status === 'success') {
                     setOpenAddStudentModal(false);

@@ -1,27 +1,26 @@
-import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export function EditEmail() {
      const { goBack, navigate } = useNavigation();
+     const { student } = useContext(AuthContext);
 
-     const [success, setSuccess] = useState(false);
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
 
      const [email, setEmail] = useState('');
-
-     const { user } = useContext(AuthContext);
 
      async function getEmail() {
           setError(false);
           setErrorMessage('');
 
           try {
-               const request = await api.get(`/api/get/students/${user?.id}/email`);
+               const request = await api.get(`/api/get/students/${student}/email`);
 
                setEmail(request.data.email);
           } catch (error) {
@@ -31,10 +30,6 @@ export function EditEmail() {
                setErrorMessage('Ocorreu um erro...');
           };
      };
-
-     useEffect(() => {
-          getEmail();
-     }, []);
 
      async function handleEmailEditing() {
           setError(false);
@@ -47,7 +42,7 @@ export function EditEmail() {
           };
 
           try {
-               const request = await api.patch(`/api/put/students/${user?.id}/email`, { email });
+               const request = await api.patch(`/api/put/students/${student}/email`, { email });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
@@ -63,6 +58,10 @@ export function EditEmail() {
                return;
           };
      };
+
+     useEffect(() => {
+          getEmail();
+     }, []);
 
      return (
           <>

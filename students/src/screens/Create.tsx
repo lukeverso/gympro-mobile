@@ -1,24 +1,26 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
-import { MaskedTextInput } from 'react-native-mask-text';
-import { useRoute } from '@react-navigation/native';
 import { api } from '../lib/api';
+import { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { MaskedTextInput } from 'react-native-mask-text';
+import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface CreateProps {
      email: string;
 };
 
 export function Create() {
-     const { goBack, navigate } = useNavigation();
-
      const route = useRoute();
-     const { email } = route.params as CreateProps;
 
-     const [success, setSuccess] = useState(false);
+     const { email } = route.params as CreateProps;
+     const { navigate } = useNavigation();
+
      const [error, setError] = useState(false);
+     const [success, setSuccess] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [seePassword, setSeePassword] = useState(false);
+     const [seePasswordRepeat, setSeePasswordRepeat] = useState(false);
 
      const [name, setName] = useState('');
      const [surname, setSurname] = useState('');
@@ -69,10 +71,6 @@ export function Create() {
                };
           };
      };
-
-     useEffect(() => {
-          fetchData();
-     }, [code]);
 
      async function handleUserCreation() {
           setError(false);
@@ -193,8 +191,9 @@ export function Create() {
           };
      };
 
-     const [seePassword, setSeePassword] = useState(false);
-     const [seePasswordRepeat, setSeePasswordRepeat] = useState(false);
+     useEffect(() => {
+          fetchData();
+     }, [code]);     
 
      return (
           <>

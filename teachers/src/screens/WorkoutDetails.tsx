@@ -1,8 +1,8 @@
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { api } from '../lib/api';
+import { useCallback, useState } from 'react';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
-import { api } from '../lib/api';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 
 import home from '../assets/images/home.jpg';
 
@@ -30,15 +30,11 @@ interface ExerciseProps {
 };
 
 export function WorkoutDetails() {
-     const { goBack, navigate } = useNavigation();
-
      const route = useRoute();
 
+     const { goBack, navigate } = useNavigation();
      const { studentId, workoutId } = route.params as WorkoutDetailsProps;
-
-     const [error, setError] = useState(false);
-     const [errorMessage, setErrorMessage] = useState('');
-
+     
      const [deleteSuccess, setDeleteSuccess] = useState(false);
      const [workoutDeleteModal, setWorkoutDeleteModal] = useState(false);
 
@@ -54,14 +50,7 @@ export function WorkoutDetails() {
           };
      };
 
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
-
      async function handleWorkoutDelete() {
-          setError(false);
-          setErrorMessage('');
-
           try {
                const request = await api.delete(`/api/delete/workouts/${workoutId}`);
 
@@ -69,17 +58,15 @@ export function WorkoutDetails() {
                     setWorkoutDeleteModal(false);
 
                     setDeleteSuccess(true);
-               } else {
-                    setError(true);
-                    setErrorMessage('Ocorreu um erro...');
                };
           } catch (error) {
                console.log(error);
-
-               setError(true);
-               setErrorMessage('Ocorreu um erro...');
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <>

@@ -1,60 +1,36 @@
 export declare global {
      namespace ReactNavigation {
           interface RootParamList {
-               main: undefined;
-               login: undefined;
-               create: {
-                    email: string;
-               };
-               checkEmail: undefined;
-               checkCode: {
-                    email: string;
-               };
-               home: undefined;
-               studentList: undefined;
-               findByEmail: undefined;
-               studentDetails: {
-                    id: string | undefined;
-               };
-               workoutDetails: {
-                    studentId: string | undefined;
-                    workoutId: string | undefined;
-               };
-               exerciseDetails: {
-                    exerciseId: string | undefined;
-                    studentId: string | undefined;
-                    workoutId: string | undefined;
-               };
-               createSheet: {
-                    id: string | undefined;
-               };
-               createWorkout: {
-                    id: string | undefined;
-               };
-               medicalHistory: {
-                    id: string | undefined;
-               };
-               createExercise: {
-                    studentId: string | undefined;
-                    workoutId: string | undefined;
-               };
-               menu: undefined;
+               // Screens with no variable as parameter
                changePicture: undefined;
-               multipleNotifications: undefined;
-               singleNotification: {
-                    id?: string | undefined;
-               };
-               profile: undefined;
+               checkEmail: undefined;
                edit: undefined;
-               editName: undefined;
-               editEmail: undefined;
-               editTelephone: undefined;
                editAddress: undefined;
-               scanCode: undefined;
-               measures: {
-                    id: string | undefined;
-               };
+               editEmail: undefined;
+               editName: undefined;
+               editTelephone: undefined;
                evolution: undefined;
+               findByEmail: undefined;
+               home: undefined;
+               login: undefined;
+               main: undefined;
+               studentList: undefined;
+               menu: undefined;
+               multipleNotifications: undefined;
+               profile: undefined;
+               scanCode: undefined;
+               // Screens with variable(s) as parameter(s)
+               create: { email: string; };
+               checkCode: { email: string; };
+               createExercise: { studentId: string | undefined; workoutId: string | undefined; };
+               createSheet: { id: string | undefined; };
+               createWorkout: { id: string | undefined; };
+               exerciseDetails: { exerciseId: string | undefined; studentId: string | undefined; workoutId: string | undefined; };
+               measures: { id: string | undefined; };
+               medicalHistory: { id: string | undefined; };
+               singleNotification: { id?: string | undefined; };
+               studentDetails: { id: string | undefined; };
+               workoutDetails: { studentId: string | undefined; workoutId: string | undefined; };
           }
      }
 }

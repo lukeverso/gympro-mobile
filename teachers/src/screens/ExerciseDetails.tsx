@@ -1,8 +1,8 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { api } from '../lib/api';
+import { useCallback, useState } from 'react';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
-import { api } from '../lib/api';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 
 interface ExerciseDetailsProps {
      exerciseId: string;
@@ -21,16 +21,16 @@ interface ExerciseProps {
 };
 
 export function ExerciseDetails() {
-     const { goBack, navigate } = useNavigation();
-
      const route = useRoute();
 
      const { exerciseId, studentId, workoutId } = route.params as ExerciseDetailsProps;
+     const { goBack, navigate } = useNavigation();
 
+     const [error, setError] = useState(false);
      const [editSuccess, setEditSuccess] = useState(false);
      const [deleteSuccess, setDeleteSuccess] = useState(false);
-     const [error, setError] = useState(false);
      const [errorMessage, setErrorMessage] = useState('');
+     const [exerciseDeleteModal, setExerciseDeleteModal] = useState<boolean>(false);
 
      const [name, setName] = useState<string>('');
      const [series, setSeries] = useState<string>('');
@@ -38,8 +38,6 @@ export function ExerciseDetails() {
      const [restTime, setRestTime] = useState<string>('');
      const [weight, setWeight] = useState<string>('');
      const [annotations, setAnnotations] = useState<string>('');
-
-     const [exerciseDeleteModal, setExerciseDeleteModal] = useState<boolean>(false);
 
      async function getData() {
           try {
@@ -55,10 +53,6 @@ export function ExerciseDetails() {
                console.log(error);
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
 
      async function handleExerciseDelete() {
           setError(false);
@@ -127,6 +121,10 @@ export function ExerciseDetails() {
                console.log(error);
           };
      };
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <>

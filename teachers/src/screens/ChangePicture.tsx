@@ -1,22 +1,21 @@
-import { ActivityIndicator, Image, Keyboard, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { api } from '../lib/api';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth';
-import { api } from '../lib/api';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { ActivityIndicator, Image, Keyboard, Text, TouchableOpacity, View } from 'react-native';
+
 import * as ImagePicker from 'expo-image-picker';
 
 export function ChangePicture() {
      const { goBack, navigate } = useNavigation();
 
-     const { user } = useContext(AuthContext);
+     const { teacher } = useContext(AuthContext);
 
      const [error] = useState(false);
      const [errorMessage] = useState('');
-
-     const [successPicture, setSuccessPicture] = useState<boolean>(false);
      const [loading, setLoading] = useState<boolean>(false);
-
+     const [successPicture, setSuccessPicture] = useState<boolean>(false);
      const [image, setImage] = useState<ImagePicker.ImagePickerResult | null>(null);
 
      async function pickImage() {
@@ -52,7 +51,7 @@ export function ChangePicture() {
                     type: `image/${extension}`
                })));
 
-               const request = await api.post(`/api/post/teachers/${user?.id}/upload`,
+               const request = await api.post(`/api/post/teachers/${teacher}/upload`,
                     formData,
                     {
                          headers: {

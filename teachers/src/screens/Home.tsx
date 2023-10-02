@@ -1,10 +1,9 @@
-import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Button, Image } from 'react-native';
-import { Entypo, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useContext, useEffect, useState, useCallback } from 'react';
-import { AuthContext } from '../contexts/auth';
 import { api } from '../lib/api';
-import { StatusBar } from 'expo-status-bar';
+import { AuthContext } from '../contexts/auth';
+import { useContext, useState, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { ScrollView, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, Image, ActivityIndicator } from 'react-native';
 
 import notifications from '../assets/images/notifications.png';
 
@@ -16,29 +15,29 @@ interface StudentsProps {
 };
 
 export function Home() {
+     const { teacher } = useContext(AuthContext);
      const { navigate } = useNavigation();
 
-     const { user } = useContext(AuthContext);
+     const [refreshing, setRefreshing] = useState(false);
+     const [loading, setLoading] = useState<boolean>(false);
 
      const [name, setName] = useState<string>('');
      const [students, setStudents] = useState<StudentsProps[] | null>(null);
 
      async function getData() {
+          setLoading(true);
+
           try {
-               const request = await api.get(`/api/get/teachers/${user?.id}`);
+               const request = await api.get(`/api/get/teachers/${teacher}`);
 
                setName(request.data.name);
                setStudents(request.data.students);
+
+               setLoading(false);
           } catch (error) {
                console.log(error);
           };
      };
-
-     useFocusEffect(useCallback(() => {
-          getData();
-     }, []));
-
-     const [refreshing, setRefreshing] = useState(false);
 
      const onRefresh = useCallback(() => {
           setRefreshing(true);
@@ -49,6 +48,10 @@ export function Home() {
                setRefreshing(false);
           }, 1000);
      }, []);
+
+     useFocusEffect(useCallback(() => {
+          getData();
+     }, []));
 
      return (
           <SafeAreaView className='flex-1 bg-white'>
@@ -110,21 +113,23 @@ export function Home() {
                                    </View>
                          }
                          {
-                              students?.map((student: StudentsProps) => {
-                                   return (
-                                        <TouchableOpacity onPress={() => navigate('studentDetails', { id: student?.id })} key={student.id} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
-                                             <View className='flex-row space-x-2 items-center'>
-                                                  <Text className='font-title text-base mb-1'>
-                                                       {student.name}
-                                                  </Text>
-                                                  <Text className='font-text text-xs'>
-                                                       {student.age} anos
-                                                  </Text>
-                                             </View>
-                                             <Ionicons name='ios-chevron-forward' size={24} color='black' />
-                                        </TouchableOpacity>
-                                   )
-                              })
+                              loading ?
+                                   <ActivityIndicator className='mt-8' size='large' color='#000000' /> :
+                                   students?.map((student: StudentsProps) => {
+                                        return (
+                                             <TouchableOpacity onPress={() => navigate('studentDetails', { id: student?.id })} key={student.id} activeOpacity={0.7} className='mt-5 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
+                                                  <View className='flex-row space-x-2 items-center'>
+                                                       <Text className='font-title text-base mb-1'>
+                                                            {student.name}
+                                                       </Text>
+                                                       <Text className='font-text text-xs'>
+                                                            {student.age} anos
+                                                       </Text>
+                                                  </View>
+                                                  <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                             </TouchableOpacity>
+                                        )
+                                   })
                          }
                          <Text className='text-2xl font-title mt-8'>
                               Pesquisar aluno
@@ -157,7 +162,6 @@ export function Home() {
                               </TouchableOpacity>
                          </ScrollView>
                     </View>
-                    <StatusBar style='dark' backgroundColor='#FFFFFF' />
                </ScrollView>
           </SafeAreaView>
      );

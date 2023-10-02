@@ -1,7 +1,8 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/auth';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+// Importing of screens
 import { Main } from '../screens/Main';
 import { Login } from '../screens/Login';
 import { CheckEmail } from '../screens/CheckEmail';
@@ -34,12 +35,12 @@ import { MedicalHistory } from '../screens/MedicalHistory';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
-     const { user } = useContext(AuthContext);
+     const { isTeacherAuthorized } = useContext(AuthContext);
 
      return (
           <Navigator screenOptions={{ headerShown: false }}>
                {
-                    user ?
+                    isTeacherAuthorized ?
                          <>
                               <Screen name='home' component={Home} />
                               <Screen name='scanCode' component={ScanCode} />

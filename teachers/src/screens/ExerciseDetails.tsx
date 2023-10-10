@@ -41,7 +41,7 @@ export function ExerciseDetails() {
 
      async function getData() {
           try {
-               const request = await api.get(`/api/get/exercises/${exerciseId}`);
+               const request = await api.get(`/api/get/exercises/exercise/${exerciseId}`);
 
                setName((request.data as ExerciseProps).name);
                setSeries((request.data as ExerciseProps).series);
@@ -59,7 +59,7 @@ export function ExerciseDetails() {
           setErrorMessage('');
 
           try {
-               const request = await api.delete(`/api/delete/exercises/${exerciseId}`);
+               const request = await api.delete(`/api/delete/exercises/${exerciseId}/delete`);
 
                if (request.data.status === 'success') {
                     setExerciseDeleteModal(false);
@@ -68,12 +68,31 @@ export function ExerciseDetails() {
                } else {
                     setError(true);
                     setErrorMessage('Ocorreu um erro...');
+
+                    setTimeout(() => {
+                         setError(false);
+                         setErrorMessage('');
+                    }, 3000);
                };
-          } catch (error) {
-               console.log(error);
+          } catch (error: any) {
+               setExerciseDeleteModal(false);
+
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
 
                setError(true);
                setErrorMessage('Ocorreu um erro...');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
           };
      };
 
@@ -84,41 +103,88 @@ export function ExerciseDetails() {
           if (name === '') {
                setError(true);
                setErrorMessage('O nome é obrigatório.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           if (series === '') {
                setError(true);
                setErrorMessage('As séries são obrigatórias.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           if (repetitions === '') {
                setError(true);
                setErrorMessage('As repetições são obrigatórias.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           if (restTime === '') {
                setError(true);
                setErrorMessage('O tempo de descanso é obrigatório.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
                return;
           };
 
           try {
-               const request = await api.post(`/api/post/exercises/${exerciseId}/edit`, {
+               const request = await api.patch(`/api/post/exercises/${exerciseId}/edit`, {
                     name, series, repetitions, restTime, weight, annotations
                });
+
+               console.log(request.data);
 
                if (request.data.status === 'success') {
                     setEditSuccess(true);
                } else {
                     setError(true);
                     setErrorMessage(request.data.message);
+
+                    setTimeout(() => {
+                         setError(false);
+                         setErrorMessage('');
+                    }, 3000);
+
                     return;
                };
-          } catch (error) {
-               console.log(error);
+          } catch (error: any) {
+               setError(true);
+               setErrorMessage('Ops! Algo aconteceu... Tente novamente.');
+
+               setTimeout(() => {
+                    setError(false);
+                    setErrorMessage('');
+               }, 3000);
+
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
           };
      };
 

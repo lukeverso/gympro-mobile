@@ -46,29 +46,27 @@ export function Measures() {
 
           try {
                const request = await api.post(`/api/post/students/${id}/measures`, {
-                    weight,
-                    height,
-                    bmi,
-                    shoulders,
-                    chest,
-                    waist,
-                    hip,
-                    arm,
-                    thigh,
-                    calf,
-                    wingspan
+                    weight, height, bmi, shoulders, chest, waist, hip, arm, thigh, calf, wingspan
                });
 
                if (request.data.status === 'success') {
                     Keyboard.dismiss();
+                    
                     setSuccess(true);
                } else {
                     setError(true);
                     setErrorMessage(request.data.message || 'Ocorreu um erro');
                     return;
                };
-          } catch (error) {
-               console.log(error);
+          } catch (error: any) {
+               if (error.response) {
+                    console.log('Status de erro:', error.response.status);
+                    console.log('Dados do erro:', error.response.data);
+               } else if (error.request) {
+                    console.log('Erro de solicitação:', error.request);
+               } else {
+                    console.log('Erro de configuração:', error.message);
+               }
           };
      };
 

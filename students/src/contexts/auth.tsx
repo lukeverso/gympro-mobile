@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../lib/api';
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
 interface LoginProps {
      email: string;
@@ -23,9 +24,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      const [isStudentAuthorized, setIsStudentAuthorized] = useState<boolean | null>(null);
      const [student, setStudent] = useState<string | null>(null);
 
-     function applyTokenInApiHeaders(token: string) {
-          api.defaults.headers.authorization = `Bearer ${token}`;
+     async function getUserStored() {
+          const student = await AsyncStorage.getItem('student');
+          const token = await AsyncStorage.getItem('token');
+
+          if (student && token) {
+               setStudent(student);
+               api.defaults.headers.authorization = `Bearer ${token}`;
+               setIsStudentAuthorized(true);
+          };
      };
+
+     useEffect(() => {
+          getUserStored();
+     }, []);
 
      async function login({ email, password }: LoginProps) {
           try {
@@ -36,10 +48,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
                     token: response.data.token
                };
 
-               applyTokenInApiHeaders(student.token);
-               
+               AsyncStorage.setItem('student', student.id);
+               AsyncStorage.setItem('token', student.token);
+
+               api.defaults.headers.authorization = `Bearer ${student.token}`;
+
                setStudent(student.id);
-               
+
                setIsStudentAuthorized(true);
           } catch (error) {
                throw error;
@@ -47,7 +62,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      };
 
      async function logout() {
-          try {               
+          try {
+               AsyncStorage.removeItem('student');
+
                setStudent(null);
 
                setIsStudentAuthorized(false);

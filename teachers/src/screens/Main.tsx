@@ -1,12 +1,17 @@
+import { useContext } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 
 import GymPro from '../assets/GymPro.svg';
 import home from '../assets/images/home.jpg';
+import { AuthContext } from '../contexts/auth';
 
 export function Main() {
      const { navigate } = useNavigation();
+     const { isTeacherAuthorized } = useContext(AuthContext);
+
+     if (isTeacherAuthorized) navigate('home');
 
      return (
           <ImageBackground source={home} className='flex-1'>

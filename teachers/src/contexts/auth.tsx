@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../lib/api';
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
 interface LoginProps {
      email: string;
@@ -23,9 +24,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      const [isTeacherAuthorized, setIsTeacherAuthorized] = useState<boolean | null>(null);
      const [teacher, setTeacher] = useState<string | null>(null);
 
-     function applyTokenInApiHeaders(token: string) {
-          api.defaults.headers.authorization = `Bearer ${token}`;
+     async function getUserStored() {
+          const teacher = await AsyncStorage.getItem('teacher');
+          const token = await AsyncStorage.getItem('token');
+
+          if (teacher && token) {
+               setTeacher(teacher);
+               api.defaults.headers.authorization = `Bearer ${token}`;
+               setIsTeacherAuthorized(true);
+          };
      };
+
+     useEffect(() => {
+          getUserStored();
+     }, []);
 
      async function login({ email, password }: LoginProps) {
           try {
@@ -36,7 +48,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
                     token: response.data.token
                };
 
-               applyTokenInApiHeaders(teacher.token);
+               AsyncStorage.setItem('teacher', teacher.id);
+               AsyncStorage.setItem('token', teacher.token);
+
+               api.defaults.headers.authorization = `Bearer ${teacher.token}`;
 
                setTeacher(teacher.id);
                
@@ -47,7 +62,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
      };
 
      async function logout() {
-          try {               
+          try {
+               AsyncStorage.removeItem('teacher');
+
                setTeacher(null);
 
                setIsTeacherAuthorized(false);

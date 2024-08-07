@@ -169,7 +169,7 @@ export function StudentDetails() {
                     <View className='mt-20 mb-10 w-full'>
                          <View className='flex-row justify-between items-center'>
                               <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
-                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                                   <Ionicons name='chevron-back' size={24} color='black' />
                               </TouchableOpacity>
                               <View className='items-center justify-center p-3'></View>
                          </View>
@@ -255,7 +255,7 @@ export function StudentDetails() {
                                                                       <Text className='font-title text-base mb-1'>
                                                                            {workout.focus} ({workout.type})
                                                                       </Text>
-                                                                      <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                                                      <Ionicons name='chevron-forward' size={24} color='black' />
                                                                  </TouchableOpacity>
                                                             )
                                                        }) :
@@ -294,7 +294,7 @@ export function StudentDetails() {
                                         Ver ficha de anamnese
                                    </Text>
                               </View>
-                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                              <Ionicons name='chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => navigate('measures', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
@@ -303,7 +303,7 @@ export function StudentDetails() {
                                         Editar medidas
                                    </Text>
                               </View>
-                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                              <Ionicons name='chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => navigate('singleNotification', { id: student?.id })} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
@@ -312,7 +312,7 @@ export function StudentDetails() {
                                         Criar notificação
                                    </Text>
                               </View>
-                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                              <Ionicons name='chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => setOpenInactivateModal(true)} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
@@ -321,7 +321,7 @@ export function StudentDetails() {
                                         {student?.status === true ? 'Inativar' : 'Ativar'} aluno
                                    </Text>
                               </View>
-                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                              <Ionicons name='chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
                          <TouchableOpacity onPress={() => setOpenRemoveModal(true)} activeOpacity={0.7} className='mt-4 bg-gray-100 rounded-lg flex-row justify-between items-center px-5 py-5'>
                               <View className='flex-row gap-3 items-center'>
@@ -330,7 +330,7 @@ export function StudentDetails() {
                                         Remover aluno
                                    </Text>
                               </View>
-                              <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                              <Ionicons name='chevron-forward' size={24} color='black' />
                          </TouchableOpacity>
                     </View>
                </ScrollView>

@@ -12,7 +12,7 @@ export function Evolution() {
                <ScrollView showsVerticalScrollIndicator={false} className='px-8 pb-10'>
                     <View className='flex-row justify-between items-center'>
                          <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              <Ionicons name='chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <View className='items-center justify-center p-3'></View>
                     </View>

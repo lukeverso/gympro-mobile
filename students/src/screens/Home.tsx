@@ -37,7 +37,7 @@ interface WorkoutsProps {
 };
 
 export function Home() {
-     const { student } = useContext(AuthContext);
+     const { student, logout } = useContext(AuthContext);
      const { navigate } = useNavigation();
 
      const [refreshing, setRefreshing] = useState(false);
@@ -61,14 +61,7 @@ export function Home() {
 
                setLoading(false);
           } catch (error: any) {
-               if (error.response) {
-                    console.log('Status de erro:', error.response.status);
-                    console.log('Dados do erro:', error.response.data);
-               } else if (error.request) {
-                    console.log('Erro de solicitação:', error.request);
-               } else {
-                    console.log('Erro de configuração:', error.message);
-               };
+               logout();
           };
      };
 
@@ -205,7 +198,7 @@ export function Home() {
                                                                  {workout.focus} ({workout.type})
                                                             </Text>
                                                        </View>
-                                                       <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                                       <Ionicons name='chevron-forward' size={24} color='black' />
                                                   </TouchableOpacity>
                                              )
                                         }) :

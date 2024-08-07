@@ -6,6 +6,7 @@ import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import GymPro from '../assets/GymPro.svg';
 import home from '../assets/images/home.jpg';
 import { AuthContext } from '../contexts/auth';
+import { StatusBar } from 'expo-status-bar';
 
 export function Main() {
      const { navigate } = useNavigation();
@@ -30,6 +31,7 @@ export function Main() {
                          <AntDesign name='arrowright' size={24} color='black' />
                     </TouchableOpacity>
                </View>
+               <StatusBar backgroundColor='transparent' />
           </ImageBackground>
      );
 };

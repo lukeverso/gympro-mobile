@@ -54,7 +54,7 @@ export function Menu() {
                <View className='flex-1 bg-white'>
                     <View className='mt-20 px-8'>
                          <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              <Ionicons name='chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <Text className='text-3xl font-title text-black mt-8'>
                               Menu do aplicativo
@@ -85,23 +85,24 @@ export function Menu() {
                               </Text>
                          </View>
                     </View>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('edit')} className='flex-row justify-between items-center px-8 py-8'>
+                    <TouchableOpacity onPress={() => navigate('edit')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                          <View className='flex-row space-x-3 items-center'>
                               <Feather name='edit-3' size={24} color='black' />
                               <Text className='font-title text-base mb-1'>
                                    Editar dados do perfil
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <Ionicons name='chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
-                    <View className='absolute bottom-8 w-full px-8'>
-                         <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-center items-center space-x-3 py-3 bg-gray-100 rounded-full'>
-                              <Feather name='log-out' size={24} color='black' />
-                              <Text className='font-title text-base mb-1 text-black'>
+                    <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8'>
+                         <View className='flex-row space-x-3 items-center'>
+                              <Feather name='log-out' size={24} color='#DC2626' />
+                              <Text className='font-title text-red-300 text-base mb-1'>
                                    Sair do aplicativo
                               </Text>
-                         </TouchableOpacity>
-                    </View>
+                         </View>
+                         <Ionicons name='chevron-forward' size={24} color='#DC2626' />
+                    </TouchableOpacity>
                </View>
           </>
      );

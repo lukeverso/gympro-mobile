@@ -98,7 +98,7 @@ export function ChangePicture() {
                <View className='flex-1 bg-white'>
                     <View className='mt-20 px-8'>
                          <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              <Ionicons name='chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <Text className='text-3xl font-title text-black mt-8'>
                               Alterar foto de perfil

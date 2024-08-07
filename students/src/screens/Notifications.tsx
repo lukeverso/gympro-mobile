@@ -44,7 +44,7 @@ export function Notifications() {
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1 bg-white'>
                <View className='mt-20 px-8'>
                     <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
                          Avisos e notificações
@@ -69,8 +69,8 @@ export function Notifications() {
                                              </Text>
                                              {
                                                   notification.expanded ?
-                                                       <Ionicons name='ios-chevron-up' size={24} color='black' /> :
-                                                       <Ionicons name='ios-chevron-down' size={24} color='black' />
+                                                       <Ionicons name='chevron-up' size={24} color='black' /> :
+                                                       <Ionicons name='chevron-down' size={24} color='black' />
                                              }
                                         </View>
                                    </TouchableOpacity>

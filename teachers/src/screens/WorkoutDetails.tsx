@@ -119,7 +119,7 @@ export function WorkoutDetails() {
                          <View className='mt-20 px-8'>
                               <View className='flex-row justify-between items-center'>
                                    <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
-                                        <Ionicons name='ios-chevron-back' size={24} color='black' />
+                                        <Ionicons name='chevron-back' size={24} color='black' />
                                    </TouchableOpacity>
                                    <TouchableOpacity activeOpacity={0.7} onPress={() => setWorkoutDeleteModal(true)} className='items-center justify-center py-3'>
                                         <Feather name='trash-2' size={24} color='black' />
@@ -153,7 +153,7 @@ export function WorkoutDetails() {
                                                        <Text className='font-title text-base mb-1'>
                                                             {exercise.name}
                                                        </Text>
-                                                       <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                                       <Ionicons name='chevron-forward' size={24} color='black' />
                                                   </TouchableOpacity>
                                              )
                                         }) :

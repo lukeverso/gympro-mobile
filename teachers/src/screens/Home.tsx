@@ -15,7 +15,7 @@ interface StudentsProps {
 };
 
 export function Home() {
-     const { teacher } = useContext(AuthContext);
+     const { teacher, logout } = useContext(AuthContext);
      const { navigate } = useNavigation();
 
      const [refreshing, setRefreshing] = useState(false);
@@ -36,6 +36,8 @@ export function Home() {
                setLoading(false);
           } catch (error) {
                console.log(error);
+
+               logout();
           };
      };
 
@@ -126,7 +128,7 @@ export function Home() {
                                                             {student.age} anos
                                                        </Text>
                                                   </View>
-                                                  <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                                                  <Ionicons name='chevron-forward' size={24} color='black' />
                                              </TouchableOpacity>
                                         )
                                    })

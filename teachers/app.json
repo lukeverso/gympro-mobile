@@ -47,7 +47,9 @@
                     {
                          "photosPermission": "Permita que o app obtenha acesso à sua galeria para a escolha da foto de perfil."
                     }
-               ]
+               ],
+               "expo-font",
+               "expo-secure-store"
           ],
           "extra": {
                "eas": {

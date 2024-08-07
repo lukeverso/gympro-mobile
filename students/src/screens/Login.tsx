@@ -73,7 +73,7 @@ export function Login() {
           <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-44 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
                     <TouchableOpacity onPress={() => goBack()} activeOpacity={0.7}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
                          Bem-vindo, aluno!{'\n'}

@@ -60,7 +60,7 @@ export function CheckEmail() {
           <View className='flex-1 bg-white px-8 items-center'>
                <View className='mt-20 mb-10 w-full'>
                     <TouchableOpacity onPress={() => goBack()}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
                          Digite seu e-mail para{'\n'}

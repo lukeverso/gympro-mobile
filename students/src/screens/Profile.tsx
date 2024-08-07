@@ -6,7 +6,7 @@ export function Profile() {
           <View className='flex-1 bg-white'>
                <View className='mt-20 px-8'>
                     <TouchableOpacity activeOpacity={0.7}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-3xl font-title'>
                          Menu do aplicativo
@@ -20,7 +20,7 @@ export function Profile() {
                                    Editar dados do perfil
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <Ionicons name='chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-24 border-b-2 border-b-gray-100'>
                          <View className='flex-row gap-3 items-center'>
@@ -29,7 +29,7 @@ export function Profile() {
                                    Editar minhas medidas
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <Ionicons name='chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-24 border-b-2 border-b-gray-100'>
                          <View className='flex-row gap-3 items-center'>
@@ -38,7 +38,7 @@ export function Profile() {
                                    Sair do aplicativo
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} style={{ color: '#c62222' }} />
+                         <Ionicons name='chevron-forward' size={24} style={{ color: '#c62222' }} />
                     </TouchableOpacity>
                </View>
           </View>

@@ -74,7 +74,7 @@ export function TrainDetails() {
           >
                <View className='mt-20 px-8 pb-10'>
                     <TouchableOpacity onPress={() => goBack()} activeOpacity={0.7}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-3xl font-title'>
                          Informações do treino

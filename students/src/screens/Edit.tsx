@@ -9,7 +9,7 @@ export function Edit() {
           <View className='flex-1 bg-white'>
                <View className='mt-20 mb-10 px-8'>
                     <TouchableOpacity onPress={() => goBack()}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='mt-8 text-2xl font-title'>
                          Edite seus dados abaixo
@@ -22,7 +22,7 @@ export function Edit() {
                               Editar nome
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={() => navigate('editEmail')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
@@ -31,7 +31,7 @@ export function Edit() {
                               Editar e-mail
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={() => navigate('editTelephone')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
@@ -40,7 +40,7 @@ export function Edit() {
                               Editar telefone
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={() => navigate('editAddress')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
@@ -49,7 +49,7 @@ export function Edit() {
                               Editar endereço
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
           </View>
      );

@@ -13,7 +13,7 @@ export function Evolution() {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                          <ScrollView className='px-8 pb-10'>
                               <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()} className='mt-20'>
-                                   <Ionicons name='ios-chevron-back' size={24} color='black' />
+                                   <Ionicons name='chevron-back' size={24} color='black' />
                               </TouchableOpacity>
                               <Text className='mt-8 text-2xl font-title'>
                                    Acompanhe sua evolução

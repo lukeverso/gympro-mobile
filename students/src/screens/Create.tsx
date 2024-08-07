@@ -193,7 +193,7 @@ export function Create() {
 
      useEffect(() => {
           fetchData();
-     }, [code]);     
+     }, [code]);
 
      return (
           <>
@@ -218,10 +218,10 @@ export function Create() {
                <KeyboardAvoidingView className={error ? 'flex-1 w-full px-8 pb-32 items-center bg-white' : 'flex-1 w-full px-8 pb-16 items-center bg-white'} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                     <ScrollView showsVerticalScrollIndicator={false} className='mt-20 mb-10 w-full flex-1'>
                          <TouchableOpacity onPress={() => navigate('checkEmail')}>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              <Ionicons name='chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <Text className='mt-8 text-2xl font-title'>
-                              Preencha seus dados abaixo
+                              Preencha seus dados abaixo para criar sua conta GymPro
                          </Text>
                          <View className='flex-row space-x-6'>
                               <View className='flex-1'>
@@ -431,7 +431,10 @@ export function Create() {
                                    </Text>
                               </View>
                          }
-                         <TouchableOpacity onPress={handleUserCreation} activeOpacity={0.7} className='rounded py-3 justify-center items-center bg-black flex-row space-x-3'>
+                         <TouchableOpacity
+                              disabled={!name && !surname && !password && !repeatPassword && !telephone && !birthdate && !code && !street && !number && !city && !state && !district}
+                              onPress={handleUserCreation} activeOpacity={0.7} className={`rounded py-3 justify-center items-center ${(!name && !surname && !password && !repeatPassword && !telephone && !birthdate && !code && !street && !number && !city && !state && !district) ? 'bg-gray-300' : 'bg-black'} flex-row space-x-3`}
+                         >
                               <Text className='text-white text-base font-title'>Criar conta</Text>
                          </TouchableOpacity>
                     </View>

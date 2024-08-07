@@ -36,7 +36,7 @@ export function Menu() {
           <View className='flex-1 bg-white'>
                <View className='mt-20 mb-8 px-8'>
                     <TouchableOpacity activeOpacity={0.7} onPress={() => goBack()}>
-                         <Ionicons name='ios-chevron-back' size={24} color='black' />
+                         <Ionicons name='chevron-back' size={24} color='black' />
                     </TouchableOpacity>
                     <Text className='text-3xl font-title text-black mt-8'>
                          Menu do aplicativo
@@ -74,7 +74,7 @@ export function Menu() {
                               Editar dados do perfil
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={() => navigate('measures')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
@@ -83,7 +83,7 @@ export function Menu() {
                               Editar minhas medidas
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={() => navigate('evolution')} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8 border-b-2 border-b-gray-100'>
                     <View className='flex-row space-x-3 items-center'>
@@ -92,7 +92,7 @@ export function Menu() {
                               Acompanhe sua evolução
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                    <Ionicons name='chevron-forward' size={24} color='black' />
                </TouchableOpacity>
                <TouchableOpacity onPress={logout} activeOpacity={0.7} className='flex-row justify-between items-center px-8 py-8'>
                     <View className='flex-row space-x-3 items-center'>
@@ -101,7 +101,7 @@ export function Menu() {
                               Sair do aplicativo
                          </Text>
                     </View>
-                    <Ionicons name='ios-chevron-forward' size={24} color='#DC2626' />
+                    <Ionicons name='chevron-forward' size={24} color='#DC2626' />
                </TouchableOpacity>
           </View>
      );

@@ -57,6 +57,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
                setIsStudentAuthorized(true);
           } catch (error) {
+               console.log('OCORREU UM ERRO ', error)
                throw error;
           };
      };

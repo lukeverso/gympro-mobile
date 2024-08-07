@@ -10,7 +10,7 @@ export function Profile() {
                <View className='mt-20 px-8'>
                     <View className='flex-row justify-between items-center'>
                          <TouchableOpacity activeOpacity={0.7} onPress={goBack} className='items-center justify-center py-3'>
-                              <Ionicons name='ios-chevron-back' size={24} color='black' />
+                              <Ionicons name='chevron-back' size={24} color='black' />
                          </TouchableOpacity>
                          <View className='items-center justify-center p-3'></View>
                     </View>
@@ -26,7 +26,7 @@ export function Profile() {
                                    Editar dados do perfil
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <Ionicons name='chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-24 border-b-2 border-b-gray-100'>
                          <View className='flex-row gap-3 items-center'>
@@ -35,7 +35,7 @@ export function Profile() {
                                    Editar minhas medidas
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} color='black' />
+                         <Ionicons name='chevron-forward' size={24} color='black' />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} className='flex-row justify-between items-center px-8 h-24 border-b-2 border-b-gray-100'>
                          <View className='flex-row gap-3 items-center'>
@@ -44,7 +44,7 @@ export function Profile() {
                                    Sair do aplicativo
                               </Text>
                          </View>
-                         <Ionicons name='ios-chevron-forward' size={24} style={{ color: '#c62222' }} />
+                         <Ionicons name='chevron-forward' size={24} style={{ color: '#c62222' }} />
                     </TouchableOpacity>
                </View>
           </View>
